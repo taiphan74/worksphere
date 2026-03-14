@@ -1,0 +1,21 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e5]:
+      - link "Về trang chủ" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]:
+          - img "Logo WorkSphere" [ref=e8]
+          - generic [ref=e9]: WorkSphere
+      - generic [ref=e10]:
+        - heading "Tạo tài khoản" [level=1] [ref=e12]
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - paragraph [ref=e45]: Đăng ký thành công.
+            - paragraph [ref=e46]: Đã gửi email xác thực đến ihg18555@laoia.com. Vui lòng kiểm tra hộp thư.
+          - generic [ref=e47]:
+            - button "Gửi lại email xác thực" [ref=e48] [cursor=pointer]
+            - link "Đi tới đăng nhập" [ref=e49] [cursor=pointer]:
+              - /url: /login
+  - button "Open Next.js Dev Tools" [ref=e38] [cursor=pointer]:
+    - img [ref=e39]
+  - alert [ref=e42]

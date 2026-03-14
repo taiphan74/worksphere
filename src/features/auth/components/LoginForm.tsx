@@ -7,13 +7,24 @@ import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/features/auth/components/PasswordInput";
+import { ResendVerificationButton } from "@/features/auth/components/ResendVerificationButton";
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
 
 export function LoginForm() {
   const router = useRouter();
-  const { form, errors, globalError, updateField, isPending, login } =
+  const { form, errors, globalError, errorCode, updateField, isPending, login } =
     useAuth();
+  const {
+    resend,
+    message: resendMessage,
+    error: resendError,
+    isPending: isResending,
+    clearFeedback,
+  } = useResendVerification();
+  const canResendVerification =
+    errorCode === "EMAIL_NOT_VERIFIED" && form.email.trim().length > 0;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,6 +35,10 @@ export function LoginForm() {
     }
   }
 
+  async function handleResendVerification() {
+    await resend(form.email);
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {globalError ? (
@@ -31,7 +46,28 @@ export function LoginForm() {
           role="alert"
           className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
         >
-          {globalError}
+          <p>{globalError}</p>
+          {canResendVerification ? (
+            <ResendVerificationButton
+              onClick={handleResendVerification}
+              disabled={isResending}
+            />
+          ) : null}
+        </div>
+      ) : null}
+
+      {resendMessage ? (
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+          {resendMessage}
+        </div>
+      ) : null}
+
+      {resendError ? (
+        <div
+          role="alert"
+          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+        >
+          {resendError}
         </div>
       ) : null}
 
@@ -49,7 +85,10 @@ export function LoginForm() {
             placeholder="Email"
             className="h-12 rounded-xl bg-background"
             value={form.email}
-            onChange={(event) => updateField("email", event.target.value)}
+            onChange={(event) => {
+              clearFeedback();
+              updateField("email", event.target.value);
+            }}
             aria-invalid={errors.email ? "true" : "false"}
           />
           {errors.email ? (
@@ -71,7 +110,10 @@ export function LoginForm() {
             placeholder="Mật khẩu"
             className="bg-background"
             value={form.password}
-            onChange={(event) => updateField("password", event.target.value)}
+            onChange={(event) => {
+              clearFeedback();
+              updateField("password", event.target.value);
+            }}
             aria-invalid={errors.password ? "true" : "false"}
           />
           {errors.password ? (

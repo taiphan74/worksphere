@@ -2,6 +2,7 @@ import { AxiosError, isAxiosError } from "axios";
 
 export type ErrorResponseData = {
   message?: string;
+  retry_after_seconds?: number;
   error?: {
     code?: string;
     message?: string;

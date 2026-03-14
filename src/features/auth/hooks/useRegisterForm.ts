@@ -29,6 +29,7 @@ export function useRegisterForm() {
   const [form, setForm] = useState<RegisterRequestSchema>(initialForm);
   const [errors, setErrors] = useState<RegisterFormErrors>({});
   const [globalError, setGlobalError] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<string | null>(null);
   const [response, setResponse] = useState<RegisterResponse | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -45,6 +46,7 @@ export function useRegisterForm() {
       [field]: undefined,
     }));
     setGlobalError(null);
+    setErrorCode(null);
   }
 
   function validate(payload: RegisterRequestSchema) {
@@ -63,11 +65,13 @@ export function useRegisterForm() {
     if (nextErrors) {
       setErrors(nextErrors);
       setGlobalError(null);
+      setErrorCode(null);
       return Promise.resolve<RegisterResponse | null>(null);
     }
 
     setErrors({});
     setGlobalError(null);
+    setErrorCode(null);
 
     return new Promise<RegisterResponse | null>((resolve) => {
       startTransition(async () => {
@@ -82,6 +86,7 @@ export function useRegisterForm() {
 
           setErrors(mappedError.fieldErrors);
           setGlobalError(mappedError.globalError);
+          setErrorCode(mappedError.error.code || null);
           resolve(null);
         }
       });
@@ -92,6 +97,7 @@ export function useRegisterForm() {
     form,
     errors,
     globalError,
+    errorCode,
     response,
     isPending,
     updateField,

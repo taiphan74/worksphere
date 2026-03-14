@@ -1,6 +1,9 @@
 export type AuthUser = {
   id: string;
   email: string;
+  isVerified?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type AuthErrorPayload = {
@@ -21,5 +24,25 @@ export type LoginResponse = AuthResponseBase & {
 };
 
 export type RegisterResponse = AuthResponseBase & {
+  accessToken?: string;
+  refreshToken?: string;
   user?: AuthUser;
+  verificationEmailSent?: boolean;
+};
+
+export type VerifyEmailResponse = {
+  verified: boolean;
+};
+
+export type ResendVerificationResponse = {
+  success?: boolean;
+  message?: string;
+};
+
+export type ApiEnvelope<T> = {
+  data: T;
+  message?: string;
+  success?: boolean;
+  error?: AuthErrorPayload;
+  retry_after_seconds?: number;
 };

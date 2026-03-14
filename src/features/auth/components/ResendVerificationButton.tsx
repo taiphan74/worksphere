@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 type ResendVerificationButtonProps = {
   onClick?: () => void;
   disabled?: boolean;
+  children?: string;
 };
 
 export function ResendVerificationButton({
   onClick,
   disabled,
+  children = "Gửi lại email xác thực",
 }: ResendVerificationButtonProps) {
   return (
     <Button
@@ -19,7 +21,7 @@ export function ResendVerificationButton({
       onClick={onClick}
       disabled={disabled}
     >
-      Gửi lại email xác minh
+      {children}
     </Button>
   );
 }

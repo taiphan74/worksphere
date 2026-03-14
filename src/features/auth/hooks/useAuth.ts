@@ -26,6 +26,7 @@ export function useAuth() {
   const [form, setForm] = useState<LoginSchema>(initialForm);
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [globalError, setGlobalError] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<string | null>(null);
   const [response, setResponse] = useState<LoginResponse | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -42,6 +43,7 @@ export function useAuth() {
       [field]: undefined,
     }));
     setGlobalError(null);
+    setErrorCode(null);
   }
 
   function validate(payload: LoginSchema) {
@@ -60,11 +62,13 @@ export function useAuth() {
     if (nextErrors) {
       setErrors(nextErrors);
       setGlobalError(null);
+      setErrorCode(null);
       return Promise.resolve<LoginResponse | null>(null);
     }
 
     setErrors({});
     setGlobalError(null);
+    setErrorCode(null);
 
     return new Promise<LoginResponse | null>((resolve) => {
       startTransition(async () => {
@@ -79,6 +83,7 @@ export function useAuth() {
 
           setErrors(mappedError.fieldErrors);
           setGlobalError(mappedError.globalError);
+          setErrorCode(mappedError.error.code || null);
           resolve(null);
         }
       });
@@ -89,6 +94,7 @@ export function useAuth() {
     form,
     errors,
     globalError,
+    errorCode,
     response,
     isPending,
     updateField,

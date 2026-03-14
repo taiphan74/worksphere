@@ -13,9 +13,12 @@ export type {
 } from "@/features/auth/schemas/register.schema";
 export { useAuth } from "@/features/auth/hooks/useAuth";
 export { useRegisterForm } from "@/features/auth/hooks/useRegisterForm";
+export { useResendVerification } from "@/features/auth/hooks/useResendVerification";
 export { authService } from "@/features/auth/services/auth.service";
 export type {
   AuthUser,
   LoginResponse,
   RegisterResponse,
+  VerifyEmailResponse,
+  ResendVerificationResponse,
 } from "@/features/auth/types/auth.types";

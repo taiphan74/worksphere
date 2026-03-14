@@ -14,6 +14,7 @@ export type AuthErrorState = {
 };
 
 const INVALID_CREDENTIALS_MESSAGE = "Email hoặc mật khẩu không đúng";
+const EMAIL_NOT_VERIFIED_MESSAGE = "Email chưa được xác thực.";
 
 const EMAIL_ERROR_CODES = [
   "EMAIL_REQUIRED",
@@ -40,6 +41,7 @@ const GLOBAL_ERROR_CODES = [
   "USER_INACTIVE",
   "ACCOUNT_DISABLED",
   "USER_DISABLED",
+  "RATE_LIMITED",
 ];
 
 function includesAny(value: string, patterns: string[]) {
@@ -79,10 +81,10 @@ export function createAuthFailureError(options: {
   });
 }
 
-export function logAuthError(context: AuthMode, error: unknown) {
+export function logAuthError(context: string, error: unknown) {
   const appError = normalizeHttpError(error);
 
-  console.error(`[auth:${context}]`, {
+  console.warn(`[auth:${context}]`, {
     message: appError.message,
     code: appError.code,
     status: appError.status,
@@ -105,6 +107,14 @@ export function mapAuthError(error: unknown, mode: AuthMode): AuthErrorState {
     return {
       fieldErrors,
       globalError: null,
+      error: appError,
+    };
+  }
+
+  if (code === "EMAIL_NOT_VERIFIED") {
+    return {
+      fieldErrors,
+      globalError: EMAIL_NOT_VERIFIED_MESSAGE,
       error: appError,
     };
   }
