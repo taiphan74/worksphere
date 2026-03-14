@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 
 import { HeroCta } from "@/components/landing/hero-cta";
 
-const headline = "Bring every team, task, and timeline into one workspace";
+const headline = "Đưa đội ngũ, công việc và tiến độ về cùng một không gian làm việc";
 
 export function HeroHeadline() {
   const [displayedText, setDisplayedText] = useState("");

@@ -8,11 +8,14 @@ export default function ForgotPasswordFeaturePage() {
   return (
     <AuthShell
       title="Quên mật khẩu"
-      subtitle="Nhập số điện thoại để tiếp tục quy trình đặt lại mật khẩu."
+      subtitle="Nhập email để tiếp tục quy trình đặt lại mật khẩu."
     >
       <form className="space-y-4">
         <Input
-          placeholder="Số điện thoại"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          placeholder="Email"
           className="h-12 rounded-xl bg-background"
         />
         <Button type="button" className="h-12 w-full rounded-xl">

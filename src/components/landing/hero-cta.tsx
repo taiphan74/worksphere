@@ -25,7 +25,7 @@ export function HeroCta({ visible }: HeroCtaProps) {
           size="lg"
           className="h-14 rounded-full bg-white px-7 text-[15px] font-semibold text-neutral-900 shadow-[0_16px_40px_rgba(255,255,255,0.18)] transition-all hover:-translate-y-0.5 hover:bg-white/95 sm:px-8"
         >
-          <Link href="/register">Start for Free</Link>
+          <Link href="/register">Bắt đầu miễn phí</Link>
         </Button>
       </motion.div>
 
@@ -41,7 +41,7 @@ export function HeroCta({ visible }: HeroCtaProps) {
         >
           <Link href="/demo">
             <Play className="size-[15px] fill-current" />
-            Watch Demo
+            Xem bản demo
           </Link>
         </Button>
       </motion.div>

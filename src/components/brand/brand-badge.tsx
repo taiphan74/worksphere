@@ -5,7 +5,7 @@ export function BrandBadge() {
     <div className="flex items-center justify-center gap-3">
       <Image
         src="/brand/logo.png"
-        alt="WorkSphere logo"
+        alt="Logo WorkSphere"
         width={28}
         height={28}
         className="h-7 w-7"

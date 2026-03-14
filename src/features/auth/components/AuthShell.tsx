@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { BrandBadge } from "@/components/brand/brand-badge";
@@ -14,7 +15,9 @@ export function AuthShell({ children, title, subtitle }: AuthShellProps) {
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-md items-center justify-center">
         <section className="w-full rounded-[28px] border border-input bg-card px-5 py-8 shadow-sm sm:px-8 sm:py-10">
           <div className="flex flex-col items-center gap-8">
-            <BrandBadge />
+            <Link href="/" aria-label="Về trang chủ">
+              <BrandBadge />
+            </Link>
             <div className="w-full space-y-6">
               {(title || subtitle) && (
                 <header className="space-y-2 text-center">

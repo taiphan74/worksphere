@@ -8,15 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/features/auth/components/PasswordInput";
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
-import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useRegisterForm } from "@/features/auth/hooks/useRegisterForm";
 
-export function LoginForm() {
+export function RegisterForm() {
   const router = useRouter();
-  const { form, errors, updateField, isPending, login } = useAuth();
+  const { form, errors, isPending, updateField, register } = useRegisterForm();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const response = await login();
+    const response = await register();
 
     if (response?.success) {
       router.push("/");
@@ -57,7 +57,7 @@ export function LoginForm() {
           <PasswordInput
             id="password"
             name="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             placeholder="Mật khẩu"
             className="bg-background"
             value={form.password}
@@ -68,32 +68,27 @@ export function LoginForm() {
             <p className="text-sm text-destructive">{errors.password}</p>
           ) : null}
         </div>
-      </div>
 
-      <div className="flex items-center justify-between gap-4 text-sm">
-        <Link
-          href="/forgot-password"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Quên mật khẩu?
-        </Link>
-        <Link
-          href="/register"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Đăng ký
-        </Link>
+        <p className="text-sm text-muted-foreground">
+          Đã có tài khoản?{" "}
+          <Link
+            href="/login"
+            className="font-medium text-foreground transition-colors hover:text-primary"
+          >
+            Đăng nhập
+          </Link>
+        </p>
       </div>
 
       <Button
         type="submit"
-        className="h-12 w-full rounded-xl text-sm"
+        className="h-12 w-full rounded-xl"
         disabled={isPending}
       >
-        Đăng nhập
+        Đăng ký
       </Button>
 
-      <SocialLogin />
+      <SocialLogin label="Đăng ký với Google" />
     </form>
   );
 }

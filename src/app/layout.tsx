@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "WorkSphere",
-  description: "Workspace-first task management UI foundation built with shadcn/ui.",
+  description: "Nền tảng quản lý công việc tập trung cho đội ngũ và không gian làm việc hiện đại.",
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground antialiased`}
       >
