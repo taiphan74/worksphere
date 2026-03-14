@@ -1,4 +1,8 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { ResendVerificationButton } from "@/features/auth/components/ResendVerificationButton";
+import { useGoogleLogin } from "@/features/auth/hooks/useGoogleLogin";
 
 function GoogleIcon() {
   return (
@@ -35,6 +39,20 @@ type SocialLoginProps = {
 export function SocialLogin({
   label = "Đăng nhập với Google",
 }: SocialLoginProps) {
+  const {
+    buttonContainerRef,
+    isReady,
+    loginWithGoogle,
+    resendVerification,
+    error,
+    successMessage,
+    resendMessage,
+    resendError,
+    canResendVerification,
+    isLoading,
+    isResending,
+  } = useGoogleLogin({ label });
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
@@ -45,13 +63,53 @@ export function SocialLogin({
         <div className="h-px flex-1 bg-border" />
       </div>
 
+      {successMessage ? (
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+          {successMessage}
+        </div>
+      ) : null}
+
+      {error ? (
+        <div
+          role="alert"
+          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+        >
+          <p>{error}</p>
+          {canResendVerification ? (
+            <ResendVerificationButton
+              onClick={resendVerification}
+              disabled={isResending}
+            />
+          ) : null}
+        </div>
+      ) : null}
+
+      {resendMessage ? (
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+          {resendMessage}
+        </div>
+      ) : null}
+
+      {resendError ? (
+        <div
+          role="alert"
+          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+        >
+          {resendError}
+        </div>
+      ) : null}
+
+      <div ref={buttonContainerRef} className="hidden" aria-hidden="true" />
+
       <Button
         type="button"
         variant="outline"
         className="h-12 w-full rounded-xl border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+        onClick={loginWithGoogle}
+        disabled={!isReady || isLoading}
       >
         <GoogleIcon />
-        {label}
+        {isLoading ? "Đang đăng nhập..." : label}
       </Button>
     </div>
   );

@@ -21,6 +21,7 @@ export type LoginResponse = AuthResponseBase & {
   accessToken?: string;
   refreshToken?: string;
   user?: AuthUser;
+  isNewUser?: boolean;
 };
 
 export type RegisterResponse = AuthResponseBase & {
@@ -45,4 +46,11 @@ export type ApiEnvelope<T> = {
   success?: boolean;
   error?: AuthErrorPayload;
   retry_after_seconds?: number;
+};
+
+export type GoogleLoginRequest = {
+  email: string;
+  full_name: string;
+  avatar_url: string;
+  id_token: string;
 };

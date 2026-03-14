@@ -6,6 +6,7 @@ import type { RegisterRequestSchema } from "@/features/auth/schemas/register.sch
 import type {
   ApiEnvelope,
   AuthUser,
+  GoogleLoginRequest,
   LoginResponse,
   RegisterResponse,
   ResendVerificationResponse,
@@ -37,6 +38,8 @@ type ApiLoginData = {
   access_token?: string;
   refreshToken?: string;
   refresh_token?: string;
+  isNewUser?: boolean;
+  is_new_user?: boolean;
   user?: ApiUser;
 };
 
@@ -75,6 +78,7 @@ function normalizeLoginResponse(payload: ApiLoginData): LoginResponse {
       : undefined,
     accessToken: payload.accessToken ?? payload.access_token,
     refreshToken: payload.refreshToken ?? payload.refresh_token,
+    isNewUser: payload.isNewUser ?? payload.is_new_user,
     user: normalizeUser(payload.user),
   };
 }
@@ -142,6 +146,21 @@ export const authService = {
     const normalized = normalizeRegisterResponse(
       extractPayload(data).data as ApiRegisterData,
     );
+    const response = assertSuccessfulAuth(normalized);
+
+    if (response.accessToken) {
+      setAccessToken(response.accessToken);
+    }
+
+    return response;
+  },
+
+  async googleLogin(payload: GoogleLoginRequest) {
+    const { data } = await apiClient.post<LoginResponse | ApiEnvelope<ApiLoginData>>(
+      "/auth/google",
+      payload,
+    );
+    const normalized = normalizeLoginResponse(extractPayload(data).data as ApiLoginData);
     const response = assertSuccessfulAuth(normalized);
 
     if (response.accessToken) {

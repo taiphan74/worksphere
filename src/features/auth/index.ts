@@ -12,11 +12,14 @@ export type {
   RegisterSchema,
 } from "@/features/auth/schemas/register.schema";
 export { useAuth } from "@/features/auth/hooks/useAuth";
+export { useGoogleLogin } from "@/features/auth/hooks/useGoogleLogin";
+export { useGoogleLoginReady } from "@/features/auth/hooks/useGoogleLoginReady";
 export { useRegisterForm } from "@/features/auth/hooks/useRegisterForm";
 export { useResendVerification } from "@/features/auth/hooks/useResendVerification";
 export { authService } from "@/features/auth/services/auth.service";
 export type {
   AuthUser,
+  GoogleLoginRequest,
   LoginResponse,
   RegisterResponse,
   VerifyEmailResponse,
