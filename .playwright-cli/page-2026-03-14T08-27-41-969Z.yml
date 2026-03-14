@@ -1,0 +1,45 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e5]:
+      - link "Về trang chủ" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]:
+          - img "Logo WorkSphere" [ref=e8]
+          - generic [ref=e9]: WorkSphere
+      - generic [ref=e10]:
+        - heading "Đăng nhập" [level=1] [ref=e12]
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - generic [ref=e15]:
+              - text: Email
+              - textbox "Email" [ref=e16]: test@example.com
+            - generic [ref=e17]:
+              - text: Mật khẩu
+              - generic [ref=e18]:
+                - textbox "Mật khẩu" [ref=e19]: password123
+                - button "Show password" [ref=e20]:
+                  - img [ref=e21]
+              - paragraph [ref=e44]: Email hoặc mật khẩu không đúng
+          - generic [ref=e24]:
+            - link "Quên mật khẩu?" [ref=e25] [cursor=pointer]:
+              - /url: /forgot-password
+            - link "Đăng ký" [ref=e26] [cursor=pointer]:
+              - /url: /register
+          - button "Đăng nhập" [ref=e27] [cursor=pointer]
+          - generic [ref=e28]:
+            - generic [ref=e31]: Hoặc
+            - button "Đăng nhập với Google" [ref=e33] [cursor=pointer]:
+              - img
+              - text: Đăng nhập với Google
+  - generic [ref=e38] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e39]:
+      - img [ref=e40]
+    - generic [ref=e45]:
+      - button "Open issues overlay" [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]: "0"
+          - generic [ref=e49]: "1"
+        - generic [ref=e50]: Issue
+      - button "Collapse issues badge" [ref=e51]:
+        - img [ref=e52]
+  - alert [ref=e43]

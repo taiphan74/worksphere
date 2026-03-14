@@ -1,7 +1,11 @@
 import { AxiosError, isAxiosError } from "axios";
 
-type ErrorResponseData = {
+export type ErrorResponseData = {
   message?: string;
+  error?: {
+    code?: string;
+    message?: string;
+  };
 };
 
 export type AppHttpError = Error & {
@@ -17,10 +21,10 @@ function isErrorResponseData(value: unknown): value is ErrorResponseData {
     return false;
   }
 
-  return "message" in value;
+  return "message" in value || "error" in value;
 }
 
-function createAppHttpError(
+export function createAppHttpError(
   message: string,
   options?: {
     status?: number;
@@ -43,38 +47,34 @@ export function normalizeHttpError(error: unknown) {
     const responseData = isErrorResponseData(error.response?.data)
       ? error.response?.data
       : undefined;
+    const responseCode = responseData?.error?.code;
+    const responseMessage = responseData?.error?.message || responseData?.message;
 
     return createAppHttpError(
-      responseData?.message || error.message || DEFAULT_ERROR_MESSAGE,
+      responseMessage || error.message || DEFAULT_ERROR_MESSAGE,
       {
         status: error.response?.status,
-        code: error.code,
+        code: responseCode || error.code,
         details: responseData,
       },
     );
   }
 
   if (error instanceof Error) {
-    return createAppHttpError(error.message || DEFAULT_ERROR_MESSAGE);
+    const appError = error as AppHttpError;
+
+    return createAppHttpError(error.message || DEFAULT_ERROR_MESSAGE, {
+      status: appError.status,
+      code: appError.code,
+      details: appError.details,
+    });
   }
 
   return createAppHttpError(DEFAULT_ERROR_MESSAGE);
 }
 
 export function getErrorMessage(error: unknown) {
-  if (isAxiosError(error)) {
-    const responseData = isErrorResponseData(error.response?.data)
-      ? error.response?.data
-      : undefined;
-
-    return responseData?.message || error.message || DEFAULT_ERROR_MESSAGE;
-  }
-
-  if (error instanceof Error && error.message) {
-    return error.message;
-  }
-
-  return DEFAULT_ERROR_MESSAGE;
+  return normalizeHttpError(error).message;
 }
 
 export function isAxiosHttpError(error: unknown): error is AxiosError<ErrorResponseData> {

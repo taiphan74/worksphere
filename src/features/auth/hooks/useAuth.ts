@@ -6,6 +6,7 @@ import type { ZodFormattedError } from "zod";
 import { loginSchema, type LoginSchema } from "@/features/auth/schemas/login.schema";
 import { authService } from "@/features/auth/services/auth.service";
 import type { LoginResponse } from "@/features/auth/types/auth.types";
+import { logAuthError, mapAuthError } from "@/features/auth/utils/auth-error";
 
 const initialForm: LoginSchema = {
   email: "",
@@ -24,6 +25,7 @@ function getFieldErrors(error: ZodFormattedError<LoginSchema>) {
 export function useAuth() {
   const [form, setForm] = useState<LoginSchema>(initialForm);
   const [errors, setErrors] = useState<LoginFormErrors>({});
+  const [globalError, setGlobalError] = useState<string | null>(null);
   const [response, setResponse] = useState<LoginResponse | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -39,6 +41,7 @@ export function useAuth() {
       ...current,
       [field]: undefined,
     }));
+    setGlobalError(null);
   }
 
   function validate(payload: LoginSchema) {
@@ -56,16 +59,28 @@ export function useAuth() {
 
     if (nextErrors) {
       setErrors(nextErrors);
+      setGlobalError(null);
       return Promise.resolve<LoginResponse | null>(null);
     }
 
     setErrors({});
+    setGlobalError(null);
 
-    return new Promise<LoginResponse>((resolve) => {
+    return new Promise<LoginResponse | null>((resolve) => {
       startTransition(async () => {
-        const result = await authService.login(form);
-        setResponse(result);
-        resolve(result);
+        try {
+          const result = await authService.login(form);
+          setResponse(result);
+          resolve(result);
+        } catch (error) {
+          logAuthError("login", error);
+
+          const mappedError = mapAuthError(error, "login");
+
+          setErrors(mappedError.fieldErrors);
+          setGlobalError(mappedError.globalError);
+          resolve(null);
+        }
       });
     });
   }
@@ -73,6 +88,7 @@ export function useAuth() {
   return {
     form,
     errors,
+    globalError,
     response,
     isPending,
     updateField,

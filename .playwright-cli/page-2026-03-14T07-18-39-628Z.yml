@@ -1,0 +1,106 @@
+- generic [ref=e1]:
+  - generic [active]:
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - navigation [ref=e48]:
+            - button "previous" [disabled] [ref=e49]:
+              - img "previous" [ref=e50]
+            - generic [ref=e52]:
+              - generic [ref=e53]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e54]:
+              - img "next" [ref=e55]
+          - img
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - img [ref=e59]
+            - generic "Latest available version is detected (16.1.6)." [ref=e61]: Next.js 16.1.6
+            - generic [ref=e62]: Turbopack
+          - img
+      - dialog "Runtime AppHttpError" [ref=e64]:
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - generic [ref=e71]: Runtime AppHttpError
+              - generic [ref=e72]:
+                - button "Copy Error Info" [ref=e73] [cursor=pointer]:
+                  - img [ref=e74]
+                - button "No related documentation found" [disabled] [ref=e76]:
+                  - img [ref=e77]
+                - button "Attach Node.js inspector" [ref=e79] [cursor=pointer]:
+                  - img [ref=e80]
+            - generic [ref=e89]: Request failed with status code 404
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - paragraph [ref=e93]:
+                - img [ref=e95]
+                - generic [ref=e99]: src/lib/http/errors.ts (31:17) @ createAppHttpError
+                - button "Open in editor" [ref=e100] [cursor=pointer]:
+                  - img [ref=e102]
+              - generic [ref=e105]:
+                - generic [ref=e106]: "29 | },"
+                - generic [ref=e107]: "30 | ) {"
+                - generic [ref=e108]: "> 31 | const error = new Error(message) as AppHttpError;"
+                - generic [ref=e109]: "| ^"
+                - generic [ref=e110]: 32 |
+                - generic [ref=e111]: 33 | error.name = "AppHttpError";
+                - generic [ref=e112]: 34 | error.status = options?.status;
+            - generic [ref=e113]:
+              - generic [ref=e114]:
+                - paragraph [ref=e115]:
+                  - text: Call Stack
+                  - generic [ref=e116]: "7"
+                - button "Show 1 ignore-listed frame(s)" [ref=e117] [cursor=pointer]:
+                  - text: Show 1 ignore-listed frame(s)
+                  - img [ref=e118]
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - text: createAppHttpError
+                  - button "Open createAppHttpError in editor" [ref=e122] [cursor=pointer]:
+                    - img [ref=e123]
+                - text: src/lib/http/errors.ts (31:17)
+              - generic [ref=e125]:
+                - generic [ref=e126]:
+                  - text: normalizeHttpError
+                  - button "Open normalizeHttpError in editor" [ref=e127] [cursor=pointer]:
+                    - img [ref=e128]
+                - text: src/lib/http/errors.ts (47:12)
+              - generic [ref=e130]:
+                - generic [ref=e131]:
+                  - text: <unknown>
+                  - button "Open <unknown> in editor" [ref=e132] [cursor=pointer]:
+                    - img [ref=e133]
+                - text: src/lib/http/api-client.ts (31:47)
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - text: async Object.register
+                  - button "Open async Object.register in editor" [ref=e137] [cursor=pointer]:
+                    - img [ref=e138]
+                - text: src/features/auth/services/auth.service.ts (21:22)
+              - generic [ref=e140]:
+                - generic [ref=e141]:
+                  - text: async
+                  - button "Open async in editor" [ref=e142] [cursor=pointer]:
+                    - img [ref=e143]
+                - text: src/features/auth/hooks/useRegisterForm.ts (69:24)
+              - generic [ref=e145]:
+                - generic [ref=e146]:
+                  - text: RegisterFeaturePage
+                  - button "Open RegisterFeaturePage in editor" [ref=e147] [cursor=pointer]:
+                    - img [ref=e148]
+                - text: src\features\auth\pages\register\page.tsx (7:7)
+        - generic [ref=e150]: "1"
+        - generic [ref=e151]: "2"
+    - generic [ref=e37] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e38]:
+        - img [ref=e39]
+      - generic [ref=e152]:
+        - button "Open issues overlay" [ref=e153]:
+          - generic [ref=e154]:
+            - generic [ref=e155]: "0"
+            - generic [ref=e156]: "1"
+          - generic [ref=e157]: Issue
+        - button "Collapse issues badge" [ref=e158]:
+          - img [ref=e159]
+  - 'heading "Application error: a client-side exception has occurred while loading localhost (see the browser console for more information)." [level=2] [ref=e163]'

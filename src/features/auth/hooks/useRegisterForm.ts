@@ -9,6 +9,7 @@ import {
 } from "@/features/auth/schemas/register.schema";
 import { authService } from "@/features/auth/services/auth.service";
 import type { RegisterResponse } from "@/features/auth/types/auth.types";
+import { logAuthError, mapAuthError } from "@/features/auth/utils/auth-error";
 
 const initialForm: RegisterRequestSchema = {
   email: "",
@@ -27,6 +28,7 @@ function getFieldErrors(error: ZodFormattedError<RegisterRequestSchema>) {
 export function useRegisterForm() {
   const [form, setForm] = useState<RegisterRequestSchema>(initialForm);
   const [errors, setErrors] = useState<RegisterFormErrors>({});
+  const [globalError, setGlobalError] = useState<string | null>(null);
   const [response, setResponse] = useState<RegisterResponse | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -42,6 +44,7 @@ export function useRegisterForm() {
       ...current,
       [field]: undefined,
     }));
+    setGlobalError(null);
   }
 
   function validate(payload: RegisterRequestSchema) {
@@ -59,16 +62,28 @@ export function useRegisterForm() {
 
     if (nextErrors) {
       setErrors(nextErrors);
+      setGlobalError(null);
       return Promise.resolve<RegisterResponse | null>(null);
     }
 
     setErrors({});
+    setGlobalError(null);
 
-    return new Promise<RegisterResponse>((resolve) => {
+    return new Promise<RegisterResponse | null>((resolve) => {
       startTransition(async () => {
-        const result = await authService.register(form);
-        setResponse(result);
-        resolve(result);
+        try {
+          const result = await authService.register(form);
+          setResponse(result);
+          resolve(result);
+        } catch (error) {
+          logAuthError("register", error);
+
+          const mappedError = mapAuthError(error, "register");
+
+          setErrors(mappedError.fieldErrors);
+          setGlobalError(mappedError.globalError);
+          resolve(null);
+        }
       });
     });
   }
@@ -76,6 +91,7 @@ export function useRegisterForm() {
   return {
     form,
     errors,
+    globalError,
     response,
     isPending,
     updateField,

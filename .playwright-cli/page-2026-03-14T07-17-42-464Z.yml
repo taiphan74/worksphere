@@ -1,0 +1,37 @@
+- generic [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e38] [cursor=pointer]:
+    - img [ref=e39]
+  - alert [ref=e42]
+  - main [ref=e45]:
+    - generic [ref=e48]:
+      - link "Về trang chủ" [ref=e49] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e50]:
+          - img "Logo WorkSphere" [ref=e51]
+          - generic [ref=e52]: WorkSphere
+      - generic [ref=e53]:
+        - heading "Đăng nhập" [level=1] [ref=e55]
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - text: Email
+              - textbox "Email" [ref=e59]
+              - paragraph [ref=e77]: Email là bắt buộc
+            - generic [ref=e60]:
+              - text: Mật khẩu
+              - generic [ref=e61]:
+                - textbox "Mật khẩu" [ref=e62]
+                - button "Show password" [ref=e63]:
+                  - img [ref=e64]
+              - paragraph [ref=e78]: Mật khẩu là bắt buộc
+          - generic [ref=e67]:
+            - link "Quên mật khẩu?" [ref=e68] [cursor=pointer]:
+              - /url: /forgot-password
+            - link "Đăng ký" [ref=e69] [cursor=pointer]:
+              - /url: /register
+          - button "Đăng nhập" [active] [ref=e70] [cursor=pointer]
+          - generic [ref=e71]:
+            - generic [ref=e74]: Hoặc
+            - button "Đăng nhập với Google" [ref=e76] [cursor=pointer]:
+              - img
+              - text: Đăng nhập với Google

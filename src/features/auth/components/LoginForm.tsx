@@ -12,19 +12,29 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 
 export function LoginForm() {
   const router = useRouter();
-  const { form, errors, updateField, isPending, login } = useAuth();
+  const { form, errors, globalError, updateField, isPending, login } =
+    useAuth();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const response = await login();
 
-    if (response?.success) {
+    if (response) {
       router.push("/");
     }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {globalError ? (
+        <div
+          role="alert"
+          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+        >
+          {globalError}
+        </div>
+      ) : null}
+
       <div className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-foreground">

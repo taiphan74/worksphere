@@ -3,14 +3,23 @@ export type AuthUser = {
   email: string;
 };
 
-export type LoginResponse = {
-  accessToken: string;
-  refreshToken?: string;
-  user: AuthUser;
-  message?: string;
+export type AuthErrorPayload = {
+  code: string;
+  message: string;
 };
 
-export type RegisterResponse = {
-  user: AuthUser;
+type AuthResponseBase = {
+  success: boolean;
   message?: string;
+  error?: AuthErrorPayload;
+};
+
+export type LoginResponse = AuthResponseBase & {
+  accessToken?: string;
+  refreshToken?: string;
+  user?: AuthUser;
+};
+
+export type RegisterResponse = AuthResponseBase & {
+  user?: AuthUser;
 };

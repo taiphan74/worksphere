@@ -1,5 +1,8 @@
 import { apiClient } from "@/lib/http/api-client";
 import { removeAccessToken, setAccessToken } from "@/lib/http/auth-token";
+import {
+  createAuthFailureError,
+} from "@/features/auth/utils/auth-error";
 import type { LoginSchema } from "@/features/auth/schemas/login.schema";
 import type { RegisterRequestSchema } from "@/features/auth/schemas/register.schema";
 import type {
@@ -8,13 +11,32 @@ import type {
   RegisterResponse,
 } from "@/features/auth/types/auth.types";
 
+function assertSuccessfulAuth<T extends { success: boolean; message?: string; error?: { code: string; message: string } }>(
+  response: T,
+) {
+  if (response.success) {
+    return response;
+  }
+
+  throw createAuthFailureError({
+    code: response.error?.code,
+    message:
+      response.error?.message ||
+      response.message ||
+      "Đã có lỗi xảy ra. Vui lòng thử lại.",
+  });
+}
+
 export const authService = {
   async login(payload: LoginSchema) {
     const { data } = await apiClient.post<LoginResponse>("/auth/login", payload);
+    const response = assertSuccessfulAuth(data);
 
-    setAccessToken(data.accessToken);
+    if (response.accessToken) {
+      setAccessToken(response.accessToken);
+    }
 
-    return data;
+    return response;
   },
 
   async register(payload: RegisterRequestSchema) {
@@ -23,7 +45,7 @@ export const authService = {
       payload,
     );
 
-    return data;
+    return assertSuccessfulAuth(data);
   },
 
   async getMe() {

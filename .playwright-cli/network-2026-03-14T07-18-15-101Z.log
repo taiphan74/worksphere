@@ -1,0 +1,3 @@
+[GET] http://localhost:3000/login?_rsc=82ger => [200] OK
+[POST] http://localhost:3000/auth/login => [404] Not Found
+[POST] http://localhost:3000/__nextjs_original-stack-frames => [200] OK
