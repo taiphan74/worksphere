@@ -315,7 +315,7 @@ export function WorkspaceCommandPalette({
                 setActiveIndex(0);
               }}
               onKeyDown={handleKeyDown}
-              placeholder="Search tasks, projects, actions..."
+              placeholder="Tìm kiếm công việc, dự án, thao tác..."
               className="h-12 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0"
             />
             <Button
