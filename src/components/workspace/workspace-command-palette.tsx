@@ -17,10 +17,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  closeCommandPalette,
+  openCommandPalette,
+} from "@/store/slices/ui-slice";
 
 type WorkspaceCommandPaletteProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   workspaceSlug: string;
 };
 
@@ -46,11 +49,11 @@ type CommandEntry =
     };
 
 export function WorkspaceCommandPalette({
-  open,
-  onOpenChange,
   workspaceSlug,
 }: WorkspaceCommandPaletteProps) {
+  const dispatch = useAppDispatch();
   const router = useRouter();
+  const open = useAppSelector((state) => state.ui.isCommandPaletteOpen);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -66,7 +69,7 @@ export function WorkspaceCommandPalette({
         keywords: ["task", "create", "new"],
         onSelect: () => {
           console.log("Create task");
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -78,7 +81,7 @@ export function WorkspaceCommandPalette({
         keywords: ["project", "create", "new"],
         onSelect: () => {
           console.log("Create project");
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -90,7 +93,7 @@ export function WorkspaceCommandPalette({
         keywords: ["invite", "member", "team"],
         onSelect: () => {
           console.log("Invite member");
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -102,7 +105,7 @@ export function WorkspaceCommandPalette({
         keywords: ["settings", "config"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/settings`);
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -114,7 +117,7 @@ export function WorkspaceCommandPalette({
         keywords: ["home", "dashboard"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/home`);
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -126,7 +129,7 @@ export function WorkspaceCommandPalette({
         keywords: ["projects", "project"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/projects`);
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -138,7 +141,7 @@ export function WorkspaceCommandPalette({
         keywords: ["tasks", "task"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/tasks`);
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -150,7 +153,7 @@ export function WorkspaceCommandPalette({
         keywords: ["members", "member", "team"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/members`);
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
       {
@@ -162,11 +165,11 @@ export function WorkspaceCommandPalette({
         keywords: ["settings"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/settings`);
-          onOpenChange(false);
+          dispatch(closeCommandPalette());
         },
       },
     ],
-    [onOpenChange, router, workspaceSlug],
+    [dispatch, router, workspaceSlug],
   );
 
   const filteredItems = useMemo(() => {
@@ -204,14 +207,14 @@ export function WorkspaceCommandPalette({
   const openPalette = useCallback(() => {
     setQuery("");
     setActiveIndex(0);
-    onOpenChange(true);
-  }, [onOpenChange]);
+    dispatch(openCommandPalette());
+  }, [dispatch]);
 
   const closePalette = useCallback(() => {
     setQuery("");
     setActiveIndex(0);
-    onOpenChange(false);
-  }, [onOpenChange]);
+    dispatch(closeCommandPalette());
+  }, [dispatch]);
 
   function handleSelect(item: CommandItem) {
     item.onSelect();
