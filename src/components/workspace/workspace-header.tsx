@@ -6,7 +6,10 @@ import { BrandBadge } from "@/components/brand/brand-badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useAppDispatch } from "@/store/hooks";
-import { openCommandPalette } from "@/store/slices/ui-slice";
+import {
+  openCommandPalette,
+  openWorkspacePanel,
+} from "@/store/slices/ui-slice";
 
 export function WorkspaceHeader() {
   const dispatch = useAppDispatch();
@@ -65,6 +68,7 @@ export function WorkspaceHeader() {
             size="icon-sm"
             className="rounded-xl"
             aria-label="Quick action"
+            onClick={() => dispatch(openWorkspacePanel())}
           >
             <Plus className="size-4" />
           </Button>

@@ -1,2 +1,0 @@
-[POST] http://localhost:3000/auth/register => [404] Not Found
-[POST] http://localhost:3000/__nextjs_original-stack-frames => [200] OK

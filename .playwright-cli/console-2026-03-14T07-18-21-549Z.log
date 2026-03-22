@@ -1,9 +1,0 @@
-[   16076ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/auth/register:0
-[   16080ms] AppHttpError: Request failed with status code 404
-    at createAppHttpError (http://localhost:3000/_next/static/chunks/src_8dbf4073._.js:402:19)
-    at normalizeHttpError (http://localhost:3000/_next/static/chunks/src_8dbf4073._.js:412:16)
-    at http://localhost:3000/_next/static/chunks/src_8dbf4073._.js:473:183
-    at async Axios.request (http://localhost:3000/_next/static/chunks/node_modules_axios_3c0c0f8e._.js:3351:20)
-    at async Object.register (http://localhost:3000/_next/static/chunks/src_8dbf4073._.js:501:26)
-    at async http://localhost:3000/_next/static/chunks/src_8dbf4073._.js:577:32
-[  201096ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
