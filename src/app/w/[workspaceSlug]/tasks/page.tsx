@@ -1,3 +1,1 @@
-export default function WorkspaceTasksPage() {
-  return null;
-}
+export { default } from "@/features/task/pages/tasks-page";

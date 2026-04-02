@@ -5,11 +5,11 @@ import { Bell, CalendarDays, Plus, Search } from "lucide-react";
 import { BrandBadge } from "@/components/brand/brand-badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useUiStore } from "@/store/use-ui-store";
+import { useWorkspaceUiStore } from "@/features/workspace";
 
 export function WorkspaceHeader() {
-  const openCommandPalette = useUiStore((state) => state.openCommandPalette);
-  const openWorkspacePanel = useUiStore((state) => state.openWorkspacePanel);
+  const openCommandPalette = useWorkspaceUiStore((state) => state.openCommandPalette);
+  const openWorkspacePanel = useWorkspaceUiStore((state) => state.openWorkspacePanel);
 
   return (
     <header className="w-full rounded-[24px] border border-border bg-background/80 px-4 py-3 shadow-xs backdrop-blur-sm sm:px-5 lg:px-6">

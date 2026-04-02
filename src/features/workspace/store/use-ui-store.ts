@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-type UiState = {
+type WorkspaceUiState = {
   isCommandPaletteOpen: boolean;
   isSidebarOpen: boolean;
   isWorkspacePanelOpen: boolean;
 };
 
-type UiActions = {
+type WorkspaceUiActions = {
   openCommandPalette: () => void;
   closeCommandPalette: () => void;
   toggleCommandPalette: () => void;
@@ -18,13 +18,13 @@ type UiActions = {
   toggleWorkspacePanel: () => void;
 };
 
-const initialState: UiState = {
+const initialState: WorkspaceUiState = {
   isCommandPaletteOpen: false,
   isSidebarOpen: false,
   isWorkspacePanelOpen: false,
 };
 
-export const useUiStore = create<UiState & UiActions>()((set) => ({
+export const useWorkspaceUiStore = create<WorkspaceUiState & WorkspaceUiActions>()((set) => ({
   ...initialState,
   openCommandPalette: () => set({ isCommandPaletteOpen: true }),
   closeCommandPalette: () => set({ isCommandPaletteOpen: false }),

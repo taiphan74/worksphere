@@ -17,7 +17,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { useUiStore } from "@/store/use-ui-store";
+import { useWorkspaceUiStore } from "@/features/workspace";
 
 type WorkspaceCommandPaletteProps = {
   workspaceSlug: string;
@@ -47,10 +47,10 @@ type CommandEntry =
 export function WorkspaceCommandPalette({
   workspaceSlug,
 }: WorkspaceCommandPaletteProps) {
-  const open = useUiStore((state) => state.isCommandPaletteOpen);
-  const openCommandPalette = useUiStore((state) => state.openCommandPalette);
-  const closeCommandPalette = useUiStore((state) => state.closeCommandPalette);
-  const openWorkspacePanel = useUiStore((state) => state.openWorkspacePanel);
+  const open = useWorkspaceUiStore((state) => state.isCommandPaletteOpen);
+  const openCommandPalette = useWorkspaceUiStore((state) => state.openCommandPalette);
+  const closeCommandPalette = useWorkspaceUiStore((state) => state.closeCommandPalette);
+  const openWorkspacePanel = useWorkspaceUiStore((state) => state.openWorkspacePanel);
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [query, setQuery] = useState("");

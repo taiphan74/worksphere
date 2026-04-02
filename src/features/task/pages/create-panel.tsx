@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { useUiStore } from "@/store/use-ui-store";
+import { useWorkspaceUiStore } from "@/features/workspace";
 
 type MetaChipProps = {
   icon: React.ComponentType<{ className?: string }>;
@@ -38,9 +38,9 @@ function MetaChip({ icon: Icon, label, className }: MetaChipProps) {
 }
 
 export function TaskCreatePanel() {
-  const isOpen = useUiStore((state) => state.isWorkspacePanelOpen);
-  const closeWorkspacePanel = useUiStore((state) => state.closeWorkspacePanel);
-  const toggleWorkspacePanel = useUiStore((state) => state.toggleWorkspacePanel);
+  const isOpen = useWorkspaceUiStore((state) => state.isWorkspacePanelOpen);
+  const closeWorkspacePanel = useWorkspaceUiStore((state) => state.closeWorkspacePanel);
+  const toggleWorkspacePanel = useWorkspaceUiStore((state) => state.toggleWorkspacePanel);
   const [title, setTitle] = useState("");
 
   useEffect(() => {
