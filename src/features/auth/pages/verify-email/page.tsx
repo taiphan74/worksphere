@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import { normalizeHttpError } from "@/lib/http/errors";
 
 type VerifyState = "loading" | "success" | "error";
 
-export default function VerifyEmailFeaturePage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [status, setStatus] = useState<VerifyState>("loading");
@@ -116,5 +116,19 @@ export default function VerifyEmailFeaturePage() {
         </div>
       </div>
     </AuthShell>
+  );
+}
+
+export default function VerifyEmailFeaturePage() {
+  return (
+    <Suspense fallback={
+      <AuthShell title="Xác thực email" subtitle="Đang tải...">
+        <div className="rounded-2xl border border-border bg-muted/40 px-4 py-4 text-sm text-muted-foreground">
+          Đang xác thực email của bạn...
+        </div>
+      </AuthShell>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

@@ -15,11 +15,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  closeWorkspacePanel,
-  toggleWorkspacePanel,
-} from "@/store/slices/ui-slice";
+import { useUiStore } from "@/store/use-ui-store";
 
 type MetaChipProps = {
   icon: React.ComponentType<{ className?: string }>;
@@ -42,21 +38,22 @@ function MetaChip({ icon: Icon, label, className }: MetaChipProps) {
 }
 
 export function TaskCreatePanel() {
-  const dispatch = useAppDispatch();
-  const isOpen = useAppSelector((state) => state.ui.isWorkspacePanelOpen);
+  const isOpen = useUiStore((state) => state.isWorkspacePanelOpen);
+  const closeWorkspacePanel = useUiStore((state) => state.closeWorkspacePanel);
+  const toggleWorkspacePanel = useUiStore((state) => state.toggleWorkspacePanel);
   const [title, setTitle] = useState("");
 
   useEffect(() => {
     function handleShortcut(event: KeyboardEvent) {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "n") {
+      if (event.altKey && event.key.toLowerCase() === "n") {
         event.preventDefault();
-        dispatch(toggleWorkspacePanel());
+        toggleWorkspacePanel();
       }
     }
 
     window.addEventListener("keydown", handleShortcut);
     return () => window.removeEventListener("keydown", handleShortcut);
-  }, [dispatch]);
+  }, [toggleWorkspacePanel]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -65,7 +62,7 @@ export function TaskCreatePanel() {
 
     function handleEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        dispatch(closeWorkspacePanel());
+        closeWorkspacePanel();
       }
     }
 
@@ -76,7 +73,7 @@ export function TaskCreatePanel() {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [dispatch, isOpen]);
+  }, [closeWorkspacePanel, isOpen]);
 
   function handleCreateTask() {
     console.log({
@@ -85,7 +82,7 @@ export function TaskCreatePanel() {
       title,
       status: "TO DO",
     });
-    dispatch(closeWorkspacePanel());
+    closeWorkspacePanel();
   }
 
   if (!isOpen) {
@@ -97,7 +94,7 @@ export function TaskCreatePanel() {
       className="fixed inset-0 z-40 flex items-center justify-center bg-background/70 px-4 py-6 backdrop-blur-sm sm:px-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
-          dispatch(closeWorkspacePanel());
+          closeWorkspacePanel();
         }
       }}
     >
@@ -131,7 +128,7 @@ export function TaskCreatePanel() {
               size="icon-sm"
               className="rounded-full"
               aria-label="Đóng tạo công việc"
-              onClick={() => dispatch(closeWorkspacePanel())}
+              onClick={closeWorkspacePanel}
             >
               <X className="size-4" />
             </Button>

@@ -5,14 +5,11 @@ import { Bell, CalendarDays, Plus, Search } from "lucide-react";
 import { BrandBadge } from "@/components/brand/brand-badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useAppDispatch } from "@/store/hooks";
-import {
-  openCommandPalette,
-  openWorkspacePanel,
-} from "@/store/slices/ui-slice";
+import { useUiStore } from "@/store/use-ui-store";
 
 export function WorkspaceHeader() {
-  const dispatch = useAppDispatch();
+  const openCommandPalette = useUiStore((state) => state.openCommandPalette);
+  const openWorkspacePanel = useUiStore((state) => state.openWorkspacePanel);
 
   return (
     <header className="w-full rounded-[24px] border border-border bg-background/80 px-4 py-3 shadow-xs backdrop-blur-sm sm:px-5 lg:px-6">
@@ -26,7 +23,7 @@ export function WorkspaceHeader() {
           <button
             type="button"
             className="flex h-10 w-full items-center gap-3 rounded-2xl bg-muted/60 px-4 text-left shadow-none transition-colors lg:h-11"
-            onClick={() => dispatch(openCommandPalette())}
+            onClick={openCommandPalette}
             aria-label="Mo tim kiem nhanh"
           >
             <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
@@ -68,7 +65,7 @@ export function WorkspaceHeader() {
             size="icon-sm"
             className="rounded-xl"
             aria-label="Quick action"
-            onClick={() => dispatch(openWorkspacePanel())}
+            onClick={openWorkspacePanel}
           >
             <Plus className="size-4" />
           </Button>

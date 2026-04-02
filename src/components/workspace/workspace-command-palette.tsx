@@ -17,11 +17,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  closeCommandPalette,
-  openCommandPalette,
-} from "@/store/slices/ui-slice";
+import { useUiStore } from "@/store/use-ui-store";
 
 type WorkspaceCommandPaletteProps = {
   workspaceSlug: string;
@@ -51,9 +47,11 @@ type CommandEntry =
 export function WorkspaceCommandPalette({
   workspaceSlug,
 }: WorkspaceCommandPaletteProps) {
-  const dispatch = useAppDispatch();
+  const open = useUiStore((state) => state.isCommandPaletteOpen);
+  const openCommandPalette = useUiStore((state) => state.openCommandPalette);
+  const closeCommandPalette = useUiStore((state) => state.closeCommandPalette);
+  const openWorkspacePanel = useUiStore((state) => state.openWorkspacePanel);
   const router = useRouter();
-  const open = useAppSelector((state) => state.ui.isCommandPaletteOpen);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -68,8 +66,8 @@ export function WorkspaceCommandPalette({
         icon: Sparkles,
         keywords: ["task", "create", "new"],
         onSelect: () => {
-          console.log("Create task");
-          dispatch(closeCommandPalette());
+          openWorkspacePanel();
+          closeCommandPalette();
         },
       },
       {
@@ -81,7 +79,7 @@ export function WorkspaceCommandPalette({
         keywords: ["project", "create", "new"],
         onSelect: () => {
           console.log("Create project");
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
       {
@@ -93,7 +91,7 @@ export function WorkspaceCommandPalette({
         keywords: ["invite", "member", "team"],
         onSelect: () => {
           console.log("Invite member");
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
       {
@@ -105,7 +103,7 @@ export function WorkspaceCommandPalette({
         keywords: ["settings", "config"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/settings`);
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
       {
@@ -117,7 +115,7 @@ export function WorkspaceCommandPalette({
         keywords: ["home", "dashboard"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/home`);
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
       {
@@ -129,7 +127,7 @@ export function WorkspaceCommandPalette({
         keywords: ["projects", "project"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/projects`);
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
       {
@@ -141,7 +139,7 @@ export function WorkspaceCommandPalette({
         keywords: ["tasks", "task"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/tasks`);
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
       {
@@ -153,7 +151,7 @@ export function WorkspaceCommandPalette({
         keywords: ["members", "member", "team"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/members`);
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
       {
@@ -165,11 +163,11 @@ export function WorkspaceCommandPalette({
         keywords: ["settings"],
         onSelect: () => {
           router.push(`/w/${workspaceSlug}/settings`);
-          dispatch(closeCommandPalette());
+          closeCommandPalette();
         },
       },
     ],
-    [dispatch, router, workspaceSlug],
+    [closeCommandPalette, router, workspaceSlug],
   );
 
   const filteredItems = useMemo(() => {
@@ -207,14 +205,14 @@ export function WorkspaceCommandPalette({
   const openPalette = useCallback(() => {
     setQuery("");
     setActiveIndex(0);
-    dispatch(openCommandPalette());
-  }, [dispatch]);
+    openCommandPalette();
+  }, [openCommandPalette]);
 
   const closePalette = useCallback(() => {
     setQuery("");
     setActiveIndex(0);
-    dispatch(closeCommandPalette());
-  }, [dispatch]);
+    closeCommandPalette();
+  }, [closeCommandPalette]);
 
   function handleSelect(item: CommandItem) {
     item.onSelect();
