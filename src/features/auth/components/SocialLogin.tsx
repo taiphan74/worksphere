@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { ResendVerificationButton } from "@/features/auth/components/ResendVerificationButton";
 import { useGoogleLogin } from "@/features/auth/hooks/useGoogleLogin";
+import { cn } from "@/lib/utils";
+import { glassEffect } from "@/styles/glass";
 
 function GoogleIcon() {
   return (
@@ -64,7 +66,12 @@ export function SocialLogin({
       </div>
 
       {successMessage ? (
-        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+        <div
+          className={cn(
+            "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
+            glassEffect,
+          )}
+        >
           {successMessage}
         </div>
       ) : null}
@@ -72,7 +79,10 @@ export function SocialLogin({
       {error ? (
         <div
           role="alert"
-          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+          className={cn(
+            "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
+            glassEffect,
+          )}
         >
           <p>{error}</p>
           {canResendVerification ? (
@@ -85,7 +95,12 @@ export function SocialLogin({
       ) : null}
 
       {resendMessage ? (
-        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+        <div
+          className={cn(
+            "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
+            glassEffect,
+          )}
+        >
           {resendMessage}
         </div>
       ) : null}
@@ -93,7 +108,10 @@ export function SocialLogin({
       {resendError ? (
         <div
           role="alert"
-          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+          className={cn(
+            "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
+            glassEffect,
+          )}
         >
           {resendError}
         </div>
@@ -103,8 +121,8 @@ export function SocialLogin({
 
       <Button
         type="button"
-        variant="outline"
-        className="h-12 w-full rounded-xl border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+        variant="glass"
+        className="h-12 w-full rounded-xl border-white/30 bg-white/10 px-7 text-[15px] font-semibold text-neutral-900 shadow-[0_20px_48px_rgba(86,110,148,0.18),inset_0_1px_0_rgba(255,255,255,0.6)] before:from-white/70 before:via-white/30 before:to-transparent after:opacity-40 hover:bg-white/26"
         onClick={loginWithGoogle}
         disabled={!isReady || isLoading}
       >

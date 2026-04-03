@@ -1,10 +1,10 @@
-import { AuthShell } from "@/features/auth/components/AuthShell";
 import { LoginForm } from "@/features/auth/components/LoginForm";
+import { AuthPage } from "@/features/auth/components/auth-page";
 
 export default function LoginFeaturePage() {
   return (
-    <AuthShell title="Đăng nhập">
+    <AuthPage title="Đăng nhập">
       <LoginForm />
-    </AuthShell>
+    </AuthPage>
   );
 }

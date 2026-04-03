@@ -1,10 +1,10 @@
-import { AuthShell } from "@/features/auth/components/AuthShell";
 import { RegisterForm } from "@/features/auth/components/RegisterForm";
+import { AuthPage } from "@/features/auth/components/auth-page";
 
 export default function RegisterFeaturePage() {
   return (
-    <AuthShell title="Tạo tài khoản">
+    <AuthPage title="Tạo tài khoản">
       <RegisterForm />
-    </AuthShell>
+    </AuthPage>
   );
 }

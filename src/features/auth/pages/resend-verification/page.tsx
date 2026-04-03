@@ -6,8 +6,10 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AuthShell } from "@/features/auth/components/AuthShell";
+import { AuthPage } from "@/features/auth/components/auth-page";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
+import { cn } from "@/lib/utils";
+import { glassEffect } from "@/styles/glass";
 
 export default function ResendVerificationFeaturePage() {
   const [email, setEmail] = useState("");
@@ -20,13 +22,18 @@ export default function ResendVerificationFeaturePage() {
   }
 
   return (
-    <AuthShell
+    <AuthPage
       title="Gửi lại email xác thực"
       subtitle="Nhập email để nhận lại liên kết xác thực tài khoản."
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         {message ? (
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+          <div
+            className={cn(
+              "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
+              glassEffect,
+            )}
+          >
             {message}
           </div>
         ) : null}
@@ -34,14 +41,17 @@ export default function ResendVerificationFeaturePage() {
         {error ? (
           <div
             role="alert"
-            className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+            className={cn(
+              "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
+              glassEffect,
+            )}
           >
             {error}
           </div>
         ) : null}
 
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-foreground">
+          <label htmlFor="email" className="text-sm font-medium text-neutral-800">
             Email
           </label>
           <Input
@@ -51,7 +61,10 @@ export default function ResendVerificationFeaturePage() {
             inputMode="email"
             autoComplete="email"
             placeholder="Email"
-            className="h-12 rounded-xl bg-background"
+            className={cn(
+              "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
+              glassEffect,
+            )}
             value={email}
             onChange={(event) => {
               clearFeedback();
@@ -60,17 +73,22 @@ export default function ResendVerificationFeaturePage() {
           />
         </div>
 
-        <Button type="submit" className="h-12 w-full rounded-xl" disabled={isPending}>
+        <Button
+          type="submit"
+          variant="glass"
+          className="h-12 w-full rounded-xl border-white/30 bg-black/70 text-sm font-semibold text-white shadow-[0_20px_46px_rgba(42,47,60,0.32),inset_0_1px_0_rgba(255,255,255,0.25)] before:from-white/40 before:via-white/18 before:to-transparent after:opacity-30 hover:bg-black/60"
+          disabled={isPending}
+        >
           Gửi lại email xác thực
         </Button>
 
         <Link
           href="/login"
-          className="block text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="block text-sm text-neutral-600 transition-colors hover:text-neutral-900"
         >
           Quay lại đăng nhập
         </Link>
       </form>
-    </AuthShell>
+    </AuthPage>
   );
 }

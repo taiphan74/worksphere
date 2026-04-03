@@ -11,6 +11,8 @@ import { ResendVerificationButton } from "@/features/auth/components/ResendVerif
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
+import { cn } from "@/lib/utils";
+import { glassEffect } from "@/styles/glass";
 
 export function LoginForm() {
   const router = useRouter();
@@ -44,7 +46,10 @@ export function LoginForm() {
       {globalError ? (
         <div
           role="alert"
-          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+          className={cn(
+            "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
+            glassEffect,
+          )}
         >
           <p>{globalError}</p>
           {canResendVerification ? (
@@ -57,7 +62,12 @@ export function LoginForm() {
       ) : null}
 
       {resendMessage ? (
-        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+        <div
+          className={cn(
+            "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
+            glassEffect,
+          )}
+        >
           {resendMessage}
         </div>
       ) : null}
@@ -65,7 +75,10 @@ export function LoginForm() {
       {resendError ? (
         <div
           role="alert"
-          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+          className={cn(
+            "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
+            glassEffect,
+          )}
         >
           {resendError}
         </div>
@@ -73,7 +86,7 @@ export function LoginForm() {
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-foreground">
+          <label htmlFor="email" className="text-sm font-medium text-neutral-800">
             Email
           </label>
           <Input
@@ -83,7 +96,10 @@ export function LoginForm() {
             inputMode="email"
             autoComplete="email"
             placeholder="Email"
-            className="h-12 rounded-xl bg-background"
+            className={cn(
+              "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
+              glassEffect,
+            )}
             value={form.email}
             onChange={(event) => {
               clearFeedback();
@@ -99,7 +115,7 @@ export function LoginForm() {
         <div className="space-y-2">
           <label
             htmlFor="password"
-            className="text-sm font-medium text-foreground"
+            className="text-sm font-medium text-neutral-800"
           >
             Mật khẩu
           </label>
@@ -108,7 +124,10 @@ export function LoginForm() {
             name="password"
             autoComplete="current-password"
             placeholder="Mật khẩu"
-            className="bg-background"
+            className={cn(
+              "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
+              glassEffect,
+            )}
             value={form.password}
             onChange={(event) => {
               clearFeedback();
@@ -125,13 +144,13 @@ export function LoginForm() {
       <div className="flex items-center justify-between gap-4 text-sm">
         <Link
           href="/forgot-password"
-          className="text-muted-foreground transition-colors hover:text-foreground"
+          className="text-neutral-600 transition-colors hover:text-neutral-900"
         >
           Quên mật khẩu?
         </Link>
         <Link
           href="/register"
-          className="text-muted-foreground transition-colors hover:text-foreground"
+          className="text-neutral-600 transition-colors hover:text-neutral-900"
         >
           Đăng ký
         </Link>
@@ -139,7 +158,8 @@ export function LoginForm() {
 
       <Button
         type="submit"
-        className="h-12 w-full rounded-xl text-sm"
+        variant="glass"
+        className="h-12 w-full rounded-xl border-white/30 bg-black/70 text-sm font-semibold text-white shadow-[0_20px_46px_rgba(42,47,60,0.32),inset_0_1px_0_rgba(255,255,255,0.25)] before:from-white/40 before:via-white/18 before:to-transparent after:opacity-30 hover:bg-black/60"
         disabled={isPending}
       >
         Đăng nhập

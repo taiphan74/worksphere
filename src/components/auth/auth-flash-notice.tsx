@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import { cn } from "@/lib/utils";
+import { glassEffect } from "@/styles/glass";
+
 const AUTH_FLASH_STORAGE_KEY = "worksphere.auth_flash";
 
 export function AuthFlashNotice() {
@@ -26,7 +29,12 @@ export function AuthFlashNotice() {
   }
 
   return (
-    <div className="mx-auto mb-6 max-w-xl rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+    <div
+      className={cn(
+        "mx-auto mb-6 max-w-xl rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
+        glassEffect,
+      )}
+    >
       {message}
     </div>
   );

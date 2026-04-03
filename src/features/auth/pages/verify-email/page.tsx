@@ -5,10 +5,12 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { AuthShell } from "@/features/auth/components/AuthShell";
+import { AuthPage } from "@/features/auth/components/auth-page";
 import { authService } from "@/features/auth/services/auth.service";
 import { logAuthError } from "@/features/auth/utils/auth-error";
 import { normalizeHttpError } from "@/lib/http/errors";
+import { cn } from "@/lib/utils";
+import { glassEffect } from "@/styles/glass";
 
 type VerifyState = "loading" | "success" | "error";
 
@@ -83,19 +85,21 @@ function VerifyEmailContent() {
   const resolvedErrorCode = token ? errorCode : "INVALID_TOKEN";
 
   return (
-    <AuthShell
+    <AuthPage
       title="Xác thực email"
       subtitle="WorkSphere đang kiểm tra liên kết xác thực của bạn."
     >
       <div className="space-y-6">
         <div
-          className={`rounded-2xl border px-4 py-4 text-sm ${
+          className={cn(
+            "rounded-2xl border px-4 py-4 text-sm backdrop-blur-md",
             resolvedStatus === "success"
               ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700"
               : resolvedStatus === "loading"
-                ? "border-border bg-muted/40 text-muted-foreground"
-                : "border-destructive/30 bg-destructive/10 text-destructive"
-          }`}
+                ? "border-white/20 bg-white/10 text-neutral-700"
+                : "border-destructive/30 bg-destructive/10 text-destructive",
+            glassEffect,
+          )}
         >
           {resolvedMessage}
         </div>
@@ -104,29 +108,38 @@ function VerifyEmailContent() {
           {resolvedErrorCode === "INVALID_OR_EXPIRED_TOKEN" ? (
             <Link
               href="/resend-verification"
-              className="text-sm font-medium text-foreground transition-colors hover:text-primary"
+              className="text-sm font-medium text-neutral-900 transition-colors hover:text-primary"
             >
               Đi tới gửi lại email xác thực
             </Link>
           ) : null}
 
-          <Button asChild className="h-11 rounded-xl px-5">
+          <Button
+            asChild
+            variant="glass"
+            className="h-11 rounded-xl border-white/30 bg-black/70 px-5 text-sm font-semibold text-white shadow-[0_20px_46px_rgba(42,47,60,0.32),inset_0_1px_0_rgba(255,255,255,0.25)] before:from-white/40 before:via-white/18 before:to-transparent after:opacity-30 hover:bg-black/60"
+          >
             <Link href="/login">Đăng nhập</Link>
           </Button>
         </div>
       </div>
-    </AuthShell>
+    </AuthPage>
   );
 }
 
 export default function VerifyEmailFeaturePage() {
   return (
     <Suspense fallback={
-      <AuthShell title="Xác thực email" subtitle="Đang tải...">
-        <div className="rounded-2xl border border-border bg-muted/40 px-4 py-4 text-sm text-muted-foreground">
+      <AuthPage title="Xác thực email" subtitle="Đang tải...">
+        <div
+          className={cn(
+            "rounded-2xl border border-white/20 bg-white/10 px-4 py-4 text-sm text-neutral-700 backdrop-blur-md",
+            glassEffect,
+          )}
+        >
           Đang xác thực email của bạn...
         </div>
-      </AuthShell>
+      </AuthPage>
     }>
       <VerifyEmailContent />
     </Suspense>

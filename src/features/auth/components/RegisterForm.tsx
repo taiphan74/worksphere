@@ -10,6 +10,8 @@ import { ResendVerificationButton } from "@/features/auth/components/ResendVerif
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
 import { useRegisterForm } from "@/features/auth/hooks/useRegisterForm";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
+import { cn } from "@/lib/utils";
+import { glassEffect } from "@/styles/glass";
 
 export function RegisterForm() {
   const { form, errors, globalError, isPending, updateField, register, response } =
@@ -36,7 +38,12 @@ export function RegisterForm() {
 
     return (
       <div className="space-y-6">
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-700">
+        <div
+          className={cn(
+            "rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-700 backdrop-blur-md",
+            glassEffect,
+          )}
+        >
           <p className="font-medium">Đăng ký thành công.</p>
           <p className="mt-1">
             {verificationWasSent
@@ -46,7 +53,12 @@ export function RegisterForm() {
         </div>
 
         {resendMessage ? (
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+          <div
+            className={cn(
+              "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
+              glassEffect,
+            )}
+          >
             {resendMessage}
           </div>
         ) : null}
@@ -54,7 +66,10 @@ export function RegisterForm() {
         {resendError ? (
           <div
             role="alert"
-            className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+            className={cn(
+              "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
+              glassEffect,
+            )}
           >
             {resendError}
           </div>
@@ -67,7 +82,7 @@ export function RegisterForm() {
           />
           <Link
             href="/login"
-            className="text-sm font-medium text-foreground transition-colors hover:text-primary"
+            className="text-sm font-medium text-neutral-900 transition-colors hover:text-primary"
           >
             Đi tới đăng nhập
           </Link>
@@ -81,7 +96,10 @@ export function RegisterForm() {
       {globalError ? (
         <div
           role="alert"
-          className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+          className={cn(
+            "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
+            glassEffect,
+          )}
         >
           {globalError}
         </div>
@@ -89,7 +107,7 @@ export function RegisterForm() {
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-foreground">
+          <label htmlFor="email" className="text-sm font-medium text-neutral-800">
             Email
           </label>
           <Input
@@ -99,7 +117,10 @@ export function RegisterForm() {
             inputMode="email"
             autoComplete="email"
             placeholder="Email"
-            className="h-12 rounded-xl bg-background"
+            className={cn(
+              "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
+              glassEffect,
+            )}
             value={form.email}
             onChange={(event) => {
               clearFeedback();
@@ -115,7 +136,7 @@ export function RegisterForm() {
         <div className="space-y-2">
           <label
             htmlFor="password"
-            className="text-sm font-medium text-foreground"
+            className="text-sm font-medium text-neutral-800"
           >
             Mật khẩu
           </label>
@@ -124,7 +145,10 @@ export function RegisterForm() {
             name="password"
             autoComplete="new-password"
             placeholder="Mật khẩu"
-            className="bg-background"
+            className={cn(
+              "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
+              glassEffect,
+            )}
             value={form.password}
             onChange={(event) => {
               clearFeedback();
@@ -137,11 +161,11 @@ export function RegisterForm() {
           ) : null}
         </div>
 
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-neutral-700/80">
           Đã có tài khoản?{" "}
           <Link
             href="/login"
-            className="font-medium text-foreground transition-colors hover:text-primary"
+            className="font-medium text-neutral-900 transition-colors hover:text-primary"
           >
             Đăng nhập
           </Link>
@@ -150,7 +174,8 @@ export function RegisterForm() {
 
       <Button
         type="submit"
-        className="h-12 w-full rounded-xl"
+        variant="glass"
+        className="h-12 w-full rounded-xl border-white/30 bg-black/70 text-sm font-semibold text-white shadow-[0_20px_46px_rgba(42,47,60,0.32),inset_0_1px_0_rgba(255,255,255,0.25)] before:from-white/40 before:via-white/18 before:to-transparent after:opacity-30 hover:bg-black/60"
         disabled={isPending}
       >
         Đăng ký
