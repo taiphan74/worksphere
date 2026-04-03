@@ -34,7 +34,7 @@ export function HeroHeadline() {
   return (
     <div className="mx-auto flex max-w-5xl flex-col items-center gap-8">
       <motion.h1
-        className="max-w-4xl text-center text-5xl font-semibold leading-[0.98] tracking-[-0.04em] sm:text-6xl md:text-7xl md:leading-[0.96] lg:text-[5.25rem]"
+        className="max-w-4xl text-center text-5xl font-semibold leading-[1.2] tracking-[-0.04em] sm:text-6xl md:text-7xl md:leading-[1.15] lg:text-[5.25rem]"
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
