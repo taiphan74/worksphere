@@ -30,7 +30,7 @@ export default function ResetPasswordFeaturePage() {
         <Button
           type="button"
           variant="glass"
-          className="h-12 w-full rounded-xl border-white/30 bg-black/70 text-sm font-semibold text-white shadow-[0_20px_46px_rgba(42,47,60,0.32),inset_0_1px_0_rgba(255,255,255,0.25)] before:from-white/40 before:via-white/18 before:to-transparent after:opacity-30 hover:bg-black/60"
+          className="h-12 w-full rounded-xl"
         >
           Cập nhật mật khẩu
         </Button>

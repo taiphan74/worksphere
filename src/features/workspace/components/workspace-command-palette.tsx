@@ -15,8 +15,15 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { glassEffect } from "@/styles/glass";
 import { useWorkspaceUiStore } from "@/features/workspace";
 
 type WorkspaceCommandPaletteProps = {
@@ -291,17 +298,21 @@ export function WorkspaceCommandPalette({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 px-4 py-4 backdrop-blur-sm sm:px-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 px-4 py-4 backdrop-blur-md sm:px-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
           closePalette();
         }
       }}
     >
-      <div className="flex max-h-[min(720px,calc(100vh-2rem))] w-full max-w-3xl flex-col overflow-hidden rounded-[32px] border border-border bg-background shadow-xl sm:max-h-[min(760px,calc(100vh-3rem))]">
-        <div className="border-b border-border px-4 py-4 sm:px-5">
+      <Card
+        variant="glass"
+        rounded="3xl"
+        className="mx-auto w-full max-w-3xl border-white/40 shadow-[0_32px_64px_rgba(0,0,0,0.12)] min-h-0 flex flex-col max-h-[min(720px,calc(100vh-2rem))] sm:max-h-[min(760px,calc(100vh-3rem))]"
+      >
+        <CardHeader className="border-b border-white/20 px-4 py-4 sm:px-5">
           <div className="flex items-center gap-3">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl border border-border">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl border border-white/25 bg-white/10 shadow-inner">
               <Search className="size-4" />
             </div>
             <Input
@@ -314,29 +325,29 @@ export function WorkspaceCommandPalette({
               }}
               onKeyDown={handleKeyDown}
               placeholder="Tìm kiếm công việc, dự án, thao tác..."
-              className="h-12 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0"
+              className="h-12 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 placeholder:text-neutral-500"
             />
             <Button
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="rounded-xl"
+              className="rounded-xl hover:bg-white/20"
               aria-label="Close"
               onClick={closePalette}
             >
               <X className="size-4" />
             </Button>
           </div>
-        </div>
+        </CardHeader>
 
-        <div className="max-h-[420px] overflow-y-auto p-3">
+        <CardContent className="overflow-y-auto p-3 no-scrollbar">
           {groupedEntries.length > 0 ? (
             <div className="space-y-3">
               {groupedEntries.map((entry) => {
                 if (entry.type === "group") {
                   return (
                     <div key={entry.id} className="px-2 pt-2">
-                      <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500/80">
                         {entry.label}
                       </p>
                     </div>
@@ -352,19 +363,26 @@ export function WorkspaceCommandPalette({
                     key={entry.item.id}
                     type="button"
                     className={cn(
-                      "flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition-colors",
-                      isActive && "bg-accent text-accent-foreground",
+                      "group flex w-full items-center gap-3 rounded-[22px] px-3 py-3 text-left transition-all duration-200",
+                      isActive 
+                        ? "bg-white/40 shadow-[0_8px_20px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.8)] scale-[1.01]" 
+                        : "hover:bg-white/20",
                     )}
                     onMouseEnter={() => setActiveIndex(itemIndex)}
                     onClick={() => handleSelect(entry.item)}
                   >
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl border border-border">
-                      <Icon className="size-4" />
+                    <div className={cn(
+                      "flex size-10 shrink-0 items-center justify-center rounded-2xl border transition-colors",
+                      isActive ? "border-white/50 bg-white/60 shadow-sm" : "border-white/20 bg-white/10"
+                    )}>
+                      <Icon className={cn("size-4", isActive ? "text-primary" : "text-neutral-600")} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium">{entry.item.label}</p>
+                      <p className={cn("truncate text-sm font-semibold", isActive ? "text-neutral-900" : "text-neutral-700")}>
+                        {entry.item.label}
+                      </p>
                       {entry.item.description ? (
-                        <p className="truncate text-xs text-muted-foreground">
+                        <p className={cn("truncate text-xs", isActive ? "text-neutral-600" : "text-neutral-500")}>
                           {entry.item.description}
                         </p>
                       ) : null}
@@ -374,23 +392,32 @@ export function WorkspaceCommandPalette({
               })}
             </div>
           ) : (
-            <div className="flex min-h-48 items-center justify-center rounded-3xl border border-dashed border-border px-6 text-center">
+            <div className="flex min-h-48 items-center justify-center rounded-3xl border border-dashed border-white/30 bg-white/5 px-6 text-center">
               <div className="space-y-2">
-                <p className="text-sm font-medium">Không tìm thấy kết quả phù hợp</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm font-semibold text-neutral-800">Không tìm thấy kết quả phù hợp</p>
+                <p className="text-xs text-neutral-500">
                   Hãy thử một từ khóa khác hoặc mở rộng phạm vi tìm kiếm.
                 </p>
               </div>
             </div>
           )}
-        </div>
+        </CardContent>
 
-        <div className="flex flex-wrap items-center gap-3 border-t border-border px-4 py-3 text-xs text-muted-foreground sm:px-5">
-          <span>↑ ↓ Navigate</span>
-          <span>Enter Select</span>
-          <span>Esc Close</span>
-        </div>
-      </div>
+        <CardFooter className="flex flex-wrap items-center gap-4 border-t border-white/20 px-4 py-3 text-[11px] font-medium text-neutral-500 sm:px-5">
+          <div className="flex items-center gap-1.5">
+            <kbd className="rounded-md border border-white/30 bg-white/10 px-1.5 py-0.5 font-sans text-[10px]">↑↓</kbd>
+            <span>Navigate</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <kbd className="rounded-md border border-white/30 bg-white/10 px-1.5 py-0.5 font-sans text-[10px]">Enter</kbd>
+            <span>Select</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <kbd className="rounded-md border border-white/30 bg-white/10 px-1.5 py-0.5 font-sans text-[10px]">Esc</kbd>
+            <span>Close</span>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

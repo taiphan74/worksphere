@@ -5,7 +5,6 @@ import { Play } from "lucide-react";
 import { motion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 type HeroCtaProps = {
   visible: boolean;
@@ -23,11 +22,9 @@ export function HeroCta({ visible }: HeroCtaProps) {
       >
         <Button
           asChild
-          variant="glass"
+          variant="glassLight"
           size="lg"
-          className={cn(
-            "h-14 rounded-full border-white/30 bg-white/10 px-7 text-[15px] font-semibold text-neutral-900 shadow-[0_20px_48px_rgba(86,110,148,0.18),inset_0_1px_0_rgba(255,255,255,0.6)] before:from-white/70 before:via-white/30 before:to-transparent after:opacity-40 hover:bg-white/26 sm:px-8",
-          )}
+          className="h-14 rounded-full px-7 sm:px-8"
         >
           <Link href="/register">Bắt đầu miễn phí</Link>
         </Button>
@@ -42,9 +39,7 @@ export function HeroCta({ visible }: HeroCtaProps) {
           asChild
           variant="glass"
           size="lg"
-          className={cn(
-            "h-14 rounded-full border-white/18 bg-black/48 px-7 text-[15px] font-medium text-white shadow-[0_20px_46px_rgba(42,47,60,0.24),inset_0_1px_0_rgba(255,255,255,0.18)] before:from-white/28 before:via-white/10 before:to-transparent after:opacity-18 hover:bg-black/40 sm:px-8",
-          )}
+          className="h-14 rounded-full px-7 sm:px-8"
         >
           <Link href="/demo" className="flex items-center gap-2">
             <Play className="size-[15px] fill-current" />

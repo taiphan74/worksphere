@@ -121,8 +121,8 @@ export function SocialLogin({
 
       <Button
         type="button"
-        variant="glass"
-        className="h-12 w-full rounded-xl border-white/30 bg-white/10 px-7 text-[15px] font-semibold text-neutral-900 shadow-[0_20px_48px_rgba(86,110,148,0.18),inset_0_1px_0_rgba(255,255,255,0.6)] before:from-white/70 before:via-white/30 before:to-transparent after:opacity-40 hover:bg-white/26"
+        variant="glassLight"
+        className="h-12 w-full rounded-xl px-7"
         onClick={loginWithGoogle}
         disabled={!isReady || isLoading}
       >

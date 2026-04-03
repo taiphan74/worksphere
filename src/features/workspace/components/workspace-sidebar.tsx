@@ -70,7 +70,10 @@ export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
           <SidebarMenuButton
             asChild
             isActive={isActive}
-            className={cn(isCollapsed && "size-11")}
+            className={cn(
+              isCollapsed && "size-11",
+              isActive && "border-white/20 bg-white/15 text-neutral-900 shadow-[0_8px_20px_rgba(82,99,132,0.12)] backdrop-blur-md",
+            )}
           >
             <Link href={item.href} onClick={() => setOpenMobile(false)}>
               <Icon className="size-4 shrink-0" />
@@ -97,7 +100,7 @@ export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
   return (
     <Sidebar
       collapsible="icon"
-      className="self-stretch lg:rounded-[26px] lg:border lg:border-border lg:shadow-xs"
+      className="self-stretch lg:rounded-[26px] lg:border lg:border-white/30 lg:bg-white/20 lg:shadow-[0_20px_48px_rgba(86,110,148,0.12)] lg:backdrop-blur-xl"
     >
       <SidebarContent className="gap-3 px-3 py-2">
         <SidebarGroup>
