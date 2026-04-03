@@ -13,7 +13,7 @@ function AuthShellWithState({ children }: { children: ReactNode }) {
   return <AuthShell title={title} subtitle={subtitle}>{children}</AuthShell>;
 }
 
-export default function AuthRouteLayout({ children }: { children: ReactNode }) {
+export function AuthRouteFrame({ children }: { children: ReactNode }) {
   return (
     <AuthPageProvider>
       <AuthShellWithState>{children}</AuthShellWithState>

@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { Play } from "lucide-react";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 type HeroCtaProps = {
   visible: boolean;
@@ -13,6 +14,8 @@ type HeroCtaProps = {
 const itemTransition = { duration: 0.48, ease: "easeOut" as const };
 
 export function HeroCta({ visible }: HeroCtaProps) {
+  const t = useTranslations("home");
+
   return (
     <div className="mt-2 flex flex-wrap items-center justify-center gap-4 sm:gap-5">
       <motion.div
@@ -26,7 +29,7 @@ export function HeroCta({ visible }: HeroCtaProps) {
           size="lg"
           className="h-14 rounded-full px-7 sm:px-8"
         >
-          <Link href="/register">Bắt đầu miễn phí</Link>
+          <Link href="/register">{t("getStarted")}</Link>
         </Button>
       </motion.div>
 
@@ -43,7 +46,7 @@ export function HeroCta({ visible }: HeroCtaProps) {
         >
           <Link href="/demo" className="flex items-center gap-2">
             <Play className="size-[15px] fill-current" />
-            <span>Xem bản demo</span>
+            <span>{t("watchDemo")}</span>
           </Link>
         </Button>
       </motion.div>

@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,10 +10,12 @@ import { ResendVerificationButton } from "@/features/auth/components/ResendVerif
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
+import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { glassEffect } from "@/styles/glass";
 
 export function LoginForm() {
+  const t = useTranslations("auth");
   const router = useRouter();
   const { form, errors, globalError, errorCode, updateField, isPending, login } =
     useAuth();
@@ -87,7 +88,7 @@ export function LoginForm() {
       <div className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-neutral-800">
-            Email
+            {t("emailLabel")}
           </label>
           <Input
             id="email"
@@ -95,7 +96,7 @@ export function LoginForm() {
             type="email"
             inputMode="email"
             autoComplete="email"
-            placeholder="Email"
+            placeholder={t("emailPlaceholder")}
             className={cn(
               "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
               glassEffect,
@@ -117,13 +118,13 @@ export function LoginForm() {
             htmlFor="password"
             className="text-sm font-medium text-neutral-800"
           >
-            Mật khẩu
+            {t("passwordLabel")}
           </label>
           <PasswordInput
             id="password"
             name="password"
             autoComplete="current-password"
-            placeholder="Mật khẩu"
+            placeholder={t("passwordPlaceholder")}
             className={cn(
               "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
               glassEffect,
@@ -146,13 +147,13 @@ export function LoginForm() {
           href="/forgot-password"
           className="text-neutral-600 transition-colors hover:text-neutral-900"
         >
-          Quên mật khẩu?
+          {t("forgotPasswordLink")}
         </Link>
         <Link
           href="/register"
           className="text-neutral-600 transition-colors hover:text-neutral-900"
         >
-          Đăng ký
+          {t("registerAction")}
         </Link>
       </div>
 
@@ -162,7 +163,7 @@ export function LoginForm() {
         className="h-12 w-full rounded-xl"
         disabled={isPending}
       >
-        Đăng nhập
+        {t("login")}
       </Button>
 
       <SocialLogin />

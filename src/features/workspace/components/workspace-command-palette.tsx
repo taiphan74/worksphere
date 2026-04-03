@@ -11,7 +11,6 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -22,8 +21,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { glassEffect } from "@/styles/glass";
 import { useWorkspaceUiStore } from "@/features/workspace";
 
 type WorkspaceCommandPaletteProps = {
@@ -174,7 +173,7 @@ export function WorkspaceCommandPalette({
         },
       },
     ],
-    [closeCommandPalette, router, workspaceSlug],
+    [closeCommandPalette, openWorkspacePanel, router, workspaceSlug],
   );
 
   const filteredItems = useMemo(() => {

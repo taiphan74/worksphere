@@ -10,13 +10,14 @@ import {
   UserRoundPlus,
   X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { useWorkspaceUiStore } from "@/features/workspace";
+import { cn } from "@/lib/utils";
 
 type MetaChipProps = {
   icon: React.ComponentType<{ className?: string }>;
@@ -43,6 +44,7 @@ export function TaskCreatePanel() {
   const closeWorkspacePanel = useWorkspaceUiStore((state) => state.closeWorkspacePanel);
   const toggleWorkspacePanel = useWorkspaceUiStore((state) => state.toggleWorkspacePanel);
   const [title, setTitle] = useState("");
+  const t = useTranslations("taskCreate");
 
   useEffect(() => {
     function handleShortcut(event: KeyboardEvent) {
@@ -132,7 +134,7 @@ export function TaskCreatePanel() {
               variant="ghost"
               size="icon-sm"
               className="rounded-full hover:bg-white/20"
-              aria-label="Đóng tạo công việc"
+              aria-label={t("closeAriaLabel")}
               onClick={closeWorkspacePanel}
             >
               <X className="size-4" />
@@ -145,7 +147,7 @@ export function TaskCreatePanel() {
             <Input
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="Task Name or type '/' for commands"
+              placeholder={t("taskNamePlaceholder")}
               className="h-14 rounded-none border-0 bg-transparent px-0 text-2xl font-bold text-neutral-900 shadow-none focus-visible:ring-0 md:text-3xl placeholder:text-neutral-400"
             />
 
@@ -156,7 +158,7 @@ export function TaskCreatePanel() {
                 size="sm" 
                 className="rounded-full bg-white/10 px-4 text-xs font-semibold text-neutral-600 hover:bg-white/20"
               >
-                Add description
+                {t("addDescription")}
               </Button>
               <Button 
                 type="button" 
@@ -165,28 +167,28 @@ export function TaskCreatePanel() {
                 className="rounded-full bg-primary/10 px-4 text-xs font-semibold text-primary hover:bg-primary/20"
               >
                 <Sparkles className="size-3.5" />
-                Write with AI
+                {t("writeWithAi")}
               </Button>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <MetaChip icon={CircleEllipsis} label="TO DO" className="bg-white/15" />
-            <MetaChip icon={UserRoundPlus} label="Assignee" className="bg-white/15" />
-            <MetaChip icon={CalendarDays} label="Due date" className="bg-white/15" />
-            <MetaChip icon={Sparkles} label="Priority" className="bg-white/15" />
-            <MetaChip icon={Tag} label="Tags" className="bg-white/15" />
-            <MetaChip icon={CircleEllipsis} label="More" className="bg-white/15 cursor-default" />
+            <MetaChip icon={CircleEllipsis} label={t("todo")} className="bg-white/15" />
+            <MetaChip icon={UserRoundPlus} label={t("assignee")} className="bg-white/15" />
+            <MetaChip icon={CalendarDays} label={t("dueDate")} className="bg-white/15" />
+            <MetaChip icon={Sparkles} label={t("priority")} className="bg-white/15" />
+            <MetaChip icon={Tag} label={t("tags")} className="bg-white/15" />
+            <MetaChip icon={CircleEllipsis} label={t("more")} className="bg-white/15 cursor-default" />
           </div>
 
           <div className="space-y-4 rounded-[24px] border border-dashed border-white/40 bg-white/5 p-5 sm:p-6 transition-all hover:bg-white/10">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-                  Custom Fields
+                  {t("customFields")}
                 </h2>
                 <p className="mt-1.5 text-xs font-medium text-neutral-500">
-                  Add structured details to enrich this task with specific data.
+                  {t("customFieldsDescription")}
                 </p>
               </div>
             </div>
@@ -197,7 +199,7 @@ export function TaskCreatePanel() {
               size="sm" 
               className="h-8 rounded-full border border-white/20 bg-white/10 px-4 text-[10px] font-bold uppercase tracking-wider text-neutral-600 hover:bg-white/20"
             >
-              + Create new field
+              {t("createNewField")}
             </Button>
           </div>
         </CardContent>
@@ -210,7 +212,7 @@ export function TaskCreatePanel() {
               size="sm" 
               className="rounded-full border-white/30 bg-white/10 px-4 font-semibold text-neutral-700 hover:bg-white/20"
             >
-              Templates
+              {t("templates")}
             </Button>
 
             <div className="flex items-center gap-1">
@@ -221,7 +223,7 @@ export function TaskCreatePanel() {
                 <CalendarDays className="size-4" />
               </Button>
               <Button type="button" variant="ghost" size="sm" className="rounded-full px-3 text-xs font-medium text-neutral-500 hover:bg-white/20">
-                0 Activity
+                {t("activityCount", { count: 0 })}
               </Button>
             </div>
           </div>
@@ -232,7 +234,7 @@ export function TaskCreatePanel() {
               className="h-11 rounded-full bg-primary px-7 text-sm font-bold text-white shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98]" 
               onClick={handleCreateTask}
             >
-              Create Task
+              {t("createTask")}
             </Button>
             <Button 
               type="button" 

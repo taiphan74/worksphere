@@ -1,27 +1,30 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 import { PasswordInput } from "@/features/auth/components/PasswordInput";
 import { Button } from "@/components/ui/button";
 import { AuthPage } from "@/features/auth/components/auth-page";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { glassEffect } from "@/styles/glass";
 
-export default function ResetPasswordFeaturePage() {
+export default async function ResetPasswordFeaturePage() {
+  const t = await getTranslations("auth");
+
   return (
     <AuthPage
-      title="Đặt lại mật khẩu"
-      subtitle="Khung trang đã sẵn sàng để nối token reset và API sau."
+      title={t("resetPassword")}
+      subtitle={t("resetPasswordSubtitle")}
     >
       <form className="space-y-4">
         <PasswordInput
-          placeholder="Mật khẩu mới"
+          placeholder={t("newPasswordPlaceholder")}
           className={cn(
             "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
             glassEffect,
           )}
         />
         <PasswordInput
-          placeholder="Nhập lại mật khẩu"
+          placeholder={t("confirmPasswordPlaceholder")}
           className={cn(
             "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
             glassEffect,
@@ -32,7 +35,7 @@ export default function ResetPasswordFeaturePage() {
           variant="glass"
           className="h-12 w-full rounded-xl"
         >
-          Cập nhật mật khẩu
+          {t("updatePassword")}
         </Button>
       </form>
 
@@ -41,7 +44,7 @@ export default function ResetPasswordFeaturePage() {
           href="/login"
           className="text-neutral-600 transition-colors hover:text-neutral-900"
         >
-          Quay lại đăng nhập
+          {t("backToLogin")}
         </Link>
       </div>
     </AuthPage>

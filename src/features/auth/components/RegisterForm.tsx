@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import type { FormEvent } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,10 +10,12 @@ import { ResendVerificationButton } from "@/features/auth/components/ResendVerif
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
 import { useRegisterForm } from "@/features/auth/hooks/useRegisterForm";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { glassEffect } from "@/styles/glass";
 
 export function RegisterForm() {
+  const t = useTranslations("auth");
   const { form, errors, globalError, isPending, updateField, register, response } =
     useRegisterForm();
   const {
@@ -44,11 +46,11 @@ export function RegisterForm() {
             glassEffect,
           )}
         >
-          <p className="font-medium">Đăng ký thành công.</p>
+          <p className="font-medium">{t("registerSuccessTitle")}</p>
           <p className="mt-1">
             {verificationWasSent
-              ? `Đã gửi email xác thực đến ${response.user.email}. Vui lòng kiểm tra hộp thư.`
-              : "Đăng ký thành công nhưng chưa gửi được email xác thực. Vui lòng thử gửi lại."}
+              ? t("registerSuccessWithEmail", { email: response.user.email })
+              : t("registerSuccessWithoutEmail")}
           </p>
         </div>
 
@@ -84,7 +86,7 @@ export function RegisterForm() {
             href="/login"
             className="text-sm font-medium text-neutral-900 transition-colors hover:text-primary"
           >
-            Đi tới đăng nhập
+            {t("goToLogin")}
           </Link>
         </div>
       </div>
@@ -108,7 +110,7 @@ export function RegisterForm() {
       <div className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-neutral-800">
-            Email
+            {t("emailLabel")}
           </label>
           <Input
             id="email"
@@ -116,7 +118,7 @@ export function RegisterForm() {
             type="email"
             inputMode="email"
             autoComplete="email"
-            placeholder="Email"
+            placeholder={t("emailPlaceholder")}
             className={cn(
               "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
               glassEffect,
@@ -138,13 +140,13 @@ export function RegisterForm() {
             htmlFor="password"
             className="text-sm font-medium text-neutral-800"
           >
-            Mật khẩu
+            {t("passwordLabel")}
           </label>
           <PasswordInput
             id="password"
             name="password"
             autoComplete="new-password"
-            placeholder="Mật khẩu"
+            placeholder={t("passwordPlaceholder")}
             className={cn(
               "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
               glassEffect,
@@ -162,12 +164,12 @@ export function RegisterForm() {
         </div>
 
         <p className="text-sm text-neutral-700/80">
-          Đã có tài khoản?{" "}
+          {t("alreadyHaveAccount")}{" "}
           <Link
             href="/login"
             className="font-medium text-neutral-900 transition-colors hover:text-primary"
           >
-            Đăng nhập
+            {t("login")}
           </Link>
         </p>
       </div>
@@ -178,10 +180,10 @@ export function RegisterForm() {
         className="h-12 w-full rounded-xl"
         disabled={isPending}
       >
-        Đăng ký
+        {t("registerAction")}
       </Button>
 
-      <SocialLogin label="Đăng ký với Google" />
+      <SocialLogin label={t("registerWithGoogle")} />
     </form>
   );
 }

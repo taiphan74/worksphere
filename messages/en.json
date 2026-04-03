@@ -1,0 +1,103 @@
+{
+  "common": {
+    "localeVi": "VI",
+    "localeEn": "EN"
+  },
+  "home": {
+    "headline": "Bring your team, tasks, and progress into one shared workspace",
+    "login": "Login",
+    "getStarted": "Start for free",
+    "watchDemo": "Watch demo"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Create account",
+    "forgotPassword": "Forgot password",
+    "forgotPasswordSubtitle": "Enter your email to continue the password reset flow.",
+    "resetPassword": "Reset password",
+    "resetPasswordSubtitle": "This screen is ready to be wired to the reset token and API next.",
+    "resendVerification": "Resend verification email",
+    "resendVerificationSubtitle": "Enter your email to receive a new account verification link.",
+    "verifyEmail": "Verify email",
+    "verifyEmailSubtitle": "WorkSphere is checking your verification link.",
+    "loading": "Loading...",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Password",
+    "newPasswordPlaceholder": "New password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "forgotPasswordLink": "Forgot password?",
+    "backToLogin": "Back to login",
+    "goToLogin": "Go to login",
+    "alreadyHaveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?",
+    "registerAction": "Register",
+    "loginWithGoogle": "Continue with Google",
+    "registerWithGoogle": "Sign up with Google",
+    "or": "Or",
+    "sendRequest": "Send request",
+    "updatePassword": "Update password",
+    "resendVerificationAction": "Resend verification email",
+    "goToResendVerification": "Go to resend verification",
+    "homeAriaLabel": "Go to homepage",
+    "loginPending": "Logging in...",
+    "registerSuccessTitle": "Registration successful.",
+    "registerSuccessWithEmail": "A verification email has been sent to {email}. Please check your inbox.",
+    "registerSuccessWithoutEmail": "Registration succeeded, but the verification email could not be sent yet. Please try again.",
+    "verifyLoadingMessage": "Verifying your email...",
+    "verifySuccessMessage": "Email verified successfully. You can now log in.",
+    "verifyFailedMessage": "We couldn't verify your email. Please try again.",
+    "verifyInvalidToken": "The verification link is invalid.",
+    "verifyExpiredToken": "The verification link is expired or invalid. Please request a new one.",
+    "verifyUserNotFound": "Account not found.",
+    "verifySystemError": "A system error occurred. Please try again."
+  },
+  "notFound": {
+    "eyebrow": "404 Not Found",
+    "title": "Oops! Page Not Found",
+    "description": "The page you are looking for doesn't exist. Click the button below to return to the homepage.",
+    "backHome": "Back to Homepage"
+  },
+  "workspace": {
+    "sidebar": {
+      "navigation": "Navigation",
+      "home": "Home",
+      "projects": "Projects",
+      "tasks": "Tasks",
+      "members": "Members",
+      "workspace": "Workspace",
+      "activity": "Activity",
+      "files": "Files",
+      "calendar": "Calendar",
+      "settings": "Settings",
+      "account": "Account",
+      "logout": "Logout"
+    },
+    "header": {
+      "searchPlaceholder": "Search tasks here...",
+      "searchAriaLabel": "Open quick search",
+      "notificationsAriaLabel": "Notifications",
+      "calendarAriaLabel": "Calendar",
+      "quickActionAriaLabel": "Quick action"
+    }
+  },
+  "taskCreate": {
+    "closeAriaLabel": "Close task creation",
+    "taskNamePlaceholder": "Task name or type '/' for commands",
+    "addDescription": "Add description",
+    "writeWithAi": "Write with AI",
+    "todo": "To Do",
+    "assignee": "Assignee",
+    "dueDate": "Due date",
+    "priority": "Priority",
+    "tags": "Tags",
+    "more": "More",
+    "customFields": "Custom Fields",
+    "customFieldsDescription": "Add structured details to enrich this task with specific data.",
+    "createNewField": "+ Create new field",
+    "templates": "Templates",
+    "activityCount": "{count, plural, =0 {0 Activity} other {# Activity}}",
+    "createTask": "Create Task"
+  }
+}

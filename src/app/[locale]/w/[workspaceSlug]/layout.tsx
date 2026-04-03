@@ -8,7 +8,7 @@ export default async function WorkspaceLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ workspaceSlug: string }>;
+  params: Promise<{ locale: string; workspaceSlug: string }>;
 }>) {
   const { workspaceSlug } = await params;
 

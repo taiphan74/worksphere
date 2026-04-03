@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { Button } from "@/components/ui/button";
 
 type ResendVerificationButtonProps = {
@@ -11,8 +13,10 @@ type ResendVerificationButtonProps = {
 export function ResendVerificationButton({
   onClick,
   disabled,
-  children = "Gửi lại email xác thực",
+  children,
 }: ResendVerificationButtonProps) {
+  const t = useTranslations("auth");
+
   return (
     <Button
       type="button"
@@ -21,7 +25,7 @@ export function ResendVerificationButton({
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      {children ?? t("resendVerificationAction")}
     </Button>
   );
 }

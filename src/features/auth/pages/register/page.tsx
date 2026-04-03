@@ -1,9 +1,13 @@
+import { getTranslations } from "next-intl/server";
+
 import { RegisterForm } from "@/features/auth/components/RegisterForm";
 import { AuthPage } from "@/features/auth/components/auth-page";
 
-export default function RegisterFeaturePage() {
+export default async function RegisterFeaturePage() {
+  const t = await getTranslations("auth");
+
   return (
-    <AuthPage title="Tạo tài khoản">
+    <AuthPage title={t("register")}>
       <RegisterForm />
     </AuthPage>
   );

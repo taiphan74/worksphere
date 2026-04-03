@@ -10,8 +10,7 @@ import {
   User2,
   Users,
 } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import {
   Sidebar,
@@ -25,6 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type WorkspaceSidebarProps = {
@@ -38,27 +38,29 @@ type NavItem = {
   disabled?: boolean;
 };
 
-const navigationItems = (workspaceSlug: string): NavItem[] => [
-  { title: "Trang chủ", href: `/w/${workspaceSlug}/home`, icon: Home },
-  { title: "Dự án", href: `/w/${workspaceSlug}/projects`, icon: FolderKanban },
-  { title: "Công việc", href: `/w/${workspaceSlug}/tasks`, icon: CheckSquare },
-  { title: "Thành viên", href: `/w/${workspaceSlug}/members`, icon: Users },
-];
-
-const workspaceItems: NavItem[] = [
-  { title: "Hoạt động", icon: CheckSquare, disabled: true },
-  { title: "Tệp", icon: FolderKanban, disabled: true },
-  { title: "Lịch", icon: CalendarDays, disabled: true },
-];
-
-const settingItems = (workspaceSlug: string): NavItem[] => [
-  { title: "Cài đặt", href: `/w/${workspaceSlug}/settings`, icon: Settings },
-];
-
 export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
   const pathname = usePathname();
   const { state, setOpenMobile } = useSidebar();
   const isCollapsed = state === "collapsed";
+  const t = useTranslations("workspace");
+  const tSidebar = useTranslations("workspace.sidebar");
+
+  const navigationItems: NavItem[] = [
+    { title: tSidebar("home"), href: `/w/${workspaceSlug}/home`, icon: Home },
+    { title: tSidebar("projects"), href: `/w/${workspaceSlug}/projects`, icon: FolderKanban },
+    { title: tSidebar("tasks"), href: `/w/${workspaceSlug}/tasks`, icon: CheckSquare },
+    { title: tSidebar("members"), href: `/w/${workspaceSlug}/members`, icon: Users },
+  ];
+
+  const workspaceItems: NavItem[] = [
+    { title: tSidebar("activity"), icon: CheckSquare, disabled: true },
+    { title: tSidebar("files"), icon: FolderKanban, disabled: true },
+    { title: tSidebar("calendar"), icon: CalendarDays, disabled: true },
+  ];
+
+  const settingItems: NavItem[] = [
+    { title: tSidebar("settings"), href: `/w/${workspaceSlug}/settings`, icon: Settings },
+  ];
 
   function renderItem(item: NavItem) {
     const isActive = item.href ? pathname === item.href : false;
@@ -105,16 +107,16 @@ export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
       <SidebarContent className="gap-3 px-3 py-2">
         <SidebarGroup>
           <SidebarGroupLabel className={cn(isCollapsed && "sr-only")}>
-            Điều hướng
+            {tSidebar("navigation")}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>{navigationItems(workspaceSlug).map(renderItem)}</SidebarMenu>
+            <SidebarMenu>{navigationItems.map(renderItem)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarGroup>
           <SidebarGroupLabel className={cn(isCollapsed && "sr-only")}>
-            Không gian làm việc
+            {tSidebar("workspace")}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>{workspaceItems.map(renderItem)}</SidebarMenu>
@@ -123,10 +125,10 @@ export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
 
         <SidebarGroup>
           <SidebarGroupLabel className={cn(isCollapsed && "sr-only")}>
-            Cài đặt
+            {tSidebar("settings")}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>{settingItems(workspaceSlug).map(renderItem)}</SidebarMenu>
+            <SidebarMenu>{settingItems.map(renderItem)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
@@ -136,13 +138,13 @@ export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton className={cn(isCollapsed && "size-11")}>
               <User2 className="size-4 shrink-0" />
-              <span className={cn(isCollapsed && "hidden")}>Tài khoản</span>
+              <span className={cn(isCollapsed && "hidden")}>{tSidebar("account")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton className={cn(isCollapsed && "size-11")}>
               <LogOut className="size-4 shrink-0" />
-              <span className={cn(isCollapsed && "hidden")}>Đăng xuất</span>
+              <span className={cn(isCollapsed && "hidden")}>{tSidebar("logout")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

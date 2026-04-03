@@ -1,13 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { AuthPage } from "@/features/auth/components/auth-page";
 import { authService } from "@/features/auth/services/auth.service";
 import { logAuthError } from "@/features/auth/utils/auth-error";
+import { Link } from "@/i18n/navigation";
 import { normalizeHttpError } from "@/lib/http/errors";
 import { cn } from "@/lib/utils";
 import { glassEffect } from "@/styles/glass";
@@ -15,10 +16,11 @@ import { glassEffect } from "@/styles/glass";
 type VerifyState = "loading" | "success" | "error";
 
 function VerifyEmailContent() {
+  const t = useTranslations("auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [status, setStatus] = useState<VerifyState>("loading");
-  const [message, setMessage] = useState("Đang xác thực email của bạn...");
+  const [message, setMessage] = useState(t("verifyLoadingMessage"));
   const [errorCode, setErrorCode] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,10 +40,10 @@ function VerifyEmailContent() {
 
         if (response.verified) {
           setStatus("success");
-          setMessage("Xác thực email thành công! Bạn có thể đăng nhập.");
+          setMessage(t("verifySuccessMessage"));
         } else {
           setStatus("error");
-          setMessage("Không thể xác thực email. Vui lòng thử lại.");
+          setMessage(t("verifyFailedMessage"));
         }
       } catch (error) {
         logAuthError("verify-email", error);
@@ -58,18 +60,16 @@ function VerifyEmailContent() {
 
         switch (code) {
           case "INVALID_TOKEN":
-            setMessage("Link xác thực không hợp lệ.");
+            setMessage(t("verifyInvalidToken"));
             break;
           case "INVALID_OR_EXPIRED_TOKEN":
-            setMessage(
-              "Link xác thực đã hết hạn hoặc không hợp lệ. Vui lòng yêu cầu gửi lại.",
-            );
+            setMessage(t("verifyExpiredToken"));
             break;
           case "USER_NOT_FOUND":
-            setMessage("Không tìm thấy tài khoản.");
+            setMessage(t("verifyUserNotFound"));
             break;
           default:
-            setMessage("Lỗi hệ thống, vui lòng thử lại.");
+            setMessage(t("verifySystemError"));
             break;
         }
       }
@@ -78,16 +78,16 @@ function VerifyEmailContent() {
     return () => {
       isMounted = false;
     };
-  }, [token]);
+  }, [t, token]);
 
   const resolvedStatus = token ? status : "error";
-  const resolvedMessage = token ? message : "Link xác thực không hợp lệ.";
+  const resolvedMessage = token ? message : t("verifyInvalidToken");
   const resolvedErrorCode = token ? errorCode : "INVALID_TOKEN";
 
   return (
     <AuthPage
-      title="Xác thực email"
-      subtitle="WorkSphere đang kiểm tra liên kết xác thực của bạn."
+      title={t("verifyEmail")}
+      subtitle={t("verifyEmailSubtitle")}
     >
       <div className="space-y-6">
         <div
@@ -107,11 +107,11 @@ function VerifyEmailContent() {
         <div className="flex flex-col items-start gap-3">
           {resolvedErrorCode === "INVALID_OR_EXPIRED_TOKEN" ? (
             <Link
-              href="/resend-verification"
-              className="text-sm font-medium text-neutral-900 transition-colors hover:text-primary"
-            >
-              Đi tới gửi lại email xác thực
-            </Link>
+            href="/resend-verification"
+            className="text-sm font-medium text-neutral-900 transition-colors hover:text-primary"
+          >
+            {t("goToResendVerification")}
+          </Link>
           ) : null}
 
           <Button
@@ -119,7 +119,7 @@ function VerifyEmailContent() {
             variant="glass"
             className="h-11 rounded-xl px-5"
           >
-            <Link href="/login">Đăng nhập</Link>
+            <Link href="/login">{t("login")}</Link>
           </Button>
         </div>
       </div>
@@ -128,16 +128,18 @@ function VerifyEmailContent() {
 }
 
 export default function VerifyEmailFeaturePage() {
+  const t = useTranslations("auth");
+
   return (
     <Suspense fallback={
-      <AuthPage title="Xác thực email" subtitle="Đang tải...">
+      <AuthPage title={t("verifyEmail")} subtitle={t("loading")}>
         <div
           className={cn(
             "rounded-2xl border border-white/20 bg-white/10 px-4 py-4 text-sm text-neutral-700 backdrop-blur-md",
             glassEffect,
           )}
         >
-          Đang xác thực email của bạn...
+          {t("verifyLoadingMessage")}
         </div>
       </AuthPage>
     }>

@@ -1,17 +1,19 @@
 "use client";
 
-import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AuthPage } from "@/features/auth/components/auth-page";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { glassEffect } from "@/styles/glass";
 
 export default function ResendVerificationFeaturePage() {
+  const t = useTranslations("auth");
   const [email, setEmail] = useState("");
   const { resend, message, error, isPending, clearFeedback } =
     useResendVerification();
@@ -23,8 +25,8 @@ export default function ResendVerificationFeaturePage() {
 
   return (
     <AuthPage
-      title="Gửi lại email xác thực"
-      subtitle="Nhập email để nhận lại liên kết xác thực tài khoản."
+      title={t("resendVerification")}
+      subtitle={t("resendVerificationSubtitle")}
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         {message ? (
@@ -52,7 +54,7 @@ export default function ResendVerificationFeaturePage() {
 
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-neutral-800">
-            Email
+            {t("emailLabel")}
           </label>
           <Input
             id="email"
@@ -60,7 +62,7 @@ export default function ResendVerificationFeaturePage() {
             type="email"
             inputMode="email"
             autoComplete="email"
-            placeholder="Email"
+            placeholder={t("emailPlaceholder")}
             className={cn(
               "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
               glassEffect,
@@ -79,14 +81,14 @@ export default function ResendVerificationFeaturePage() {
           className="h-12 w-full rounded-xl"
           disabled={isPending}
         >
-          Gửi lại email xác thực
+          {t("resendVerificationAction")}
         </Button>
 
         <Link
           href="/login"
           className="block text-sm text-neutral-600 transition-colors hover:text-neutral-900"
         >
-          Quay lại đăng nhập
+          {t("backToLogin")}
         </Link>
       </form>
     </AuthPage>

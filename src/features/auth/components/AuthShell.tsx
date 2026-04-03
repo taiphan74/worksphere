@@ -1,8 +1,9 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 
 import { BrandBadge } from "@/components/brand/brand-badge";
 import { FogOverlay } from "@/components/landing/fog-overlay";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { glassEffect } from "@/styles/glass";
 
@@ -13,6 +14,8 @@ type AuthShellProps = {
 };
 
 export function AuthShell({ children, title, subtitle }: AuthShellProps) {
+  const t = useTranslations("auth");
+
   return (
     <main
       className={cn(
@@ -29,9 +32,11 @@ export function AuthShell({ children, title, subtitle }: AuthShellProps) {
           )}
         >
           <div className="relative z-10 flex flex-col items-center gap-8">
-            <Link href="/" aria-label="Về trang chủ">
-              <BrandBadge />
-            </Link>
+            <div className="flex w-full items-center justify-center">
+              <Link href="/" aria-label={t("homeAriaLabel")}>
+                <BrandBadge />
+              </Link>
+            </div>
             <div className="w-full space-y-6">
               {(title || subtitle) && (
                 <header className="space-y-2 text-center">

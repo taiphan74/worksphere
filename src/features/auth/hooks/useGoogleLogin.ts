@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { useGoogleLoginReady } from "@/features/auth/hooks/useGoogleLoginReady";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
 import { authService } from "@/features/auth/services/auth.service";
+import { useRouter } from "@/i18n/navigation";
 import { logAuthError } from "@/features/auth/utils/auth-error";
 import { normalizeHttpError } from "@/lib/http/errors";
 

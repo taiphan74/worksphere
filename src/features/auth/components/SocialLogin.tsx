@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { Button } from "@/components/ui/button";
 import { ResendVerificationButton } from "@/features/auth/components/ResendVerificationButton";
 import { useGoogleLogin } from "@/features/auth/hooks/useGoogleLogin";
@@ -39,8 +41,9 @@ type SocialLoginProps = {
 };
 
 export function SocialLogin({
-  label = "Đăng nhập với Google",
+  label,
 }: SocialLoginProps) {
+  const t = useTranslations("auth");
   const {
     buttonContainerRef,
     isReady,
@@ -53,14 +56,14 @@ export function SocialLogin({
     canResendVerification,
     isLoading,
     isResending,
-  } = useGoogleLogin({ label });
+  } = useGoogleLogin({ label: label ?? t("loginWithGoogle") });
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
         <div className="h-px flex-1 bg-border" />
         <span className="text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
-          Hoặc
+          {t("or")}
         </span>
         <div className="h-px flex-1 bg-border" />
       </div>
@@ -127,7 +130,7 @@ export function SocialLogin({
         disabled={!isReady || isLoading}
       >
         <GoogleIcon />
-        {isLoading ? "Đang đăng nhập..." : label}
+        {isLoading ? t("loginPending") : label ?? t("loginWithGoogle")}
       </Button>
     </div>
   );

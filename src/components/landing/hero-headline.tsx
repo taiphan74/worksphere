@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 
 import { HeroCta } from "@/components/landing/hero-cta";
 
-const headline = "Đưa đội ngũ, công việc và tiến độ về cùng một không gian làm việc";
-
 export function HeroHeadline() {
+  const t = useTranslations("home");
+  return <AnimatedHeroHeadline key={t("headline")} headline={t("headline")} />;
+}
+
+function AnimatedHeroHeadline({ headline }: { headline: string }) {
   const [displayedText, setDisplayedText] = useState("");
   const [showCta, setShowCta] = useState(false);
 
@@ -29,7 +33,7 @@ export function HeroHeadline() {
       window.clearInterval(interval);
       if (ctaTimeout) window.clearTimeout(ctaTimeout);
     };
-  }, []);
+  }, [headline]);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col items-center gap-8">

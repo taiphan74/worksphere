@@ -1,0 +1,103 @@
+{
+  "common": {
+    "localeVi": "VI",
+    "localeEn": "EN"
+  },
+  "home": {
+    "headline": "Đưa đội ngũ, công việc và tiến độ về cùng một không gian làm việc",
+    "login": "Đăng nhập",
+    "getStarted": "Bắt đầu miễn phí",
+    "watchDemo": "Xem bản demo"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "register": "Tạo tài khoản",
+    "forgotPassword": "Quên mật khẩu",
+    "forgotPasswordSubtitle": "Nhập email để tiếp tục quy trình đặt lại mật khẩu.",
+    "resetPassword": "Đặt lại mật khẩu",
+    "resetPasswordSubtitle": "Khung trang đã sẵn sàng để nối token reset và API sau.",
+    "resendVerification": "Gửi lại email xác thực",
+    "resendVerificationSubtitle": "Nhập email để nhận lại liên kết xác thực tài khoản.",
+    "verifyEmail": "Xác thực email",
+    "verifyEmailSubtitle": "WorkSphere đang kiểm tra liên kết xác thực của bạn.",
+    "loading": "Đang tải...",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "passwordLabel": "Mật khẩu",
+    "passwordPlaceholder": "Mật khẩu",
+    "newPasswordPlaceholder": "Mật khẩu mới",
+    "confirmPasswordPlaceholder": "Nhập lại mật khẩu",
+    "forgotPasswordLink": "Quên mật khẩu?",
+    "backToLogin": "Quay lại đăng nhập",
+    "goToLogin": "Đi tới đăng nhập",
+    "alreadyHaveAccount": "Đã có tài khoản?",
+    "noAccount": "Chưa có tài khoản?",
+    "registerAction": "Đăng ký",
+    "loginWithGoogle": "Đăng nhập với Google",
+    "registerWithGoogle": "Đăng ký với Google",
+    "or": "Hoặc",
+    "sendRequest": "Gửi yêu cầu",
+    "updatePassword": "Cập nhật mật khẩu",
+    "resendVerificationAction": "Gửi lại email xác thực",
+    "goToResendVerification": "Đi tới gửi lại email xác thực",
+    "homeAriaLabel": "Về trang chủ",
+    "loginPending": "Đang đăng nhập...",
+    "registerSuccessTitle": "Đăng ký thành công.",
+    "registerSuccessWithEmail": "Đã gửi email xác thực đến {email}. Vui lòng kiểm tra hộp thư.",
+    "registerSuccessWithoutEmail": "Đăng ký thành công nhưng chưa gửi được email xác thực. Vui lòng thử gửi lại.",
+    "verifyLoadingMessage": "Đang xác thực email của bạn...",
+    "verifySuccessMessage": "Xác thực email thành công! Bạn có thể đăng nhập.",
+    "verifyFailedMessage": "Không thể xác thực email. Vui lòng thử lại.",
+    "verifyInvalidToken": "Link xác thực không hợp lệ.",
+    "verifyExpiredToken": "Link xác thực đã hết hạn hoặc không hợp lệ. Vui lòng yêu cầu gửi lại.",
+    "verifyUserNotFound": "Không tìm thấy tài khoản.",
+    "verifySystemError": "Lỗi hệ thống, vui lòng thử lại."
+  },
+  "notFound": {
+    "eyebrow": "404 Không Tìm Thấy",
+    "title": "Oops! Không Tìm Thấy Trang",
+    "description": "Trang bạn đang tìm kiếm không tồn tại. Nhấn nút bên dưới để quay lại trang chủ.",
+    "backHome": "Về Trang Chủ"
+  },
+  "workspace": {
+    "sidebar": {
+      "navigation": "Điều hướng",
+      "home": "Trang chủ",
+      "projects": "Dự án",
+      "tasks": "Công việc",
+      "members": "Thành viên",
+      "workspace": "Không gian làm việc",
+      "activity": "Hoạt động",
+      "files": "Tệp",
+      "calendar": "Lịch",
+      "settings": "Cài đặt",
+      "account": "Tài khoản",
+      "logout": "Đăng xuất"
+    },
+    "header": {
+      "searchPlaceholder": "Tìm kiếm công việc tại đây...",
+      "searchAriaLabel": "Mở tìm kiếm nhanh",
+      "notificationsAriaLabel": "Thông báo",
+      "calendarAriaLabel": "Lịch",
+      "quickActionAriaLabel": "Thao tác nhanh"
+    }
+  },
+  "taskCreate": {
+    "closeAriaLabel": "Đóng tạo công việc",
+    "taskNamePlaceholder": "Tên công việc hoặc gõ '/' để xem lệnh",
+    "addDescription": "Thêm mô tả",
+    "writeWithAi": "Viết với AI",
+    "todo": "Cần làm",
+    "assignee": "Người thực hiện",
+    "dueDate": "Hạn chót",
+    "priority": "Mức ưu tiên",
+    "tags": "Thẻ",
+    "more": "Thêm",
+    "customFields": "Trường tùy chỉnh",
+    "customFieldsDescription": "Thêm thông tin chi tiết có cấu trúc để làm phong phú công việc này.",
+    "createNewField": "+ Tạo trường mới",
+    "templates": "Mẫu",
+    "activityCount": "{count, plural, =0 {0 Hoạt động} other {# Hoạt động}}",
+    "createTask": "Tạo công việc"
+  }
+}

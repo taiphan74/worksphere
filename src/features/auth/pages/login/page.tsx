@@ -1,9 +1,13 @@
+import { getTranslations } from "next-intl/server";
+
 import { LoginForm } from "@/features/auth/components/LoginForm";
 import { AuthPage } from "@/features/auth/components/auth-page";
 
-export default function LoginFeaturePage() {
+export default async function LoginFeaturePage() {
+  const t = await getTranslations("auth");
+
   return (
-    <AuthPage title="Đăng nhập">
+    <AuthPage title={t("login")}>
       <LoginForm />
     </AuthPage>
   );
