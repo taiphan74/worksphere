@@ -26,7 +26,6 @@
     "passwordLabel": "Password",
     "passwordPlaceholder": "Password",
     "newPasswordPlaceholder": "New password",
-    "confirmPasswordPlaceholder": "Confirm password",
     "forgotPasswordLink": "Forgot password?",
     "backToLogin": "Back to login",
     "goToLogin": "Go to login",

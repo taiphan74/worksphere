@@ -1,5 +1,9 @@
-import { WorkspaceCommandPalette, WorkspaceHeader, WorkspaceSidebar } from "@/features/workspace";
-import { TaskCreatePanel } from "@/features/task";
+import {
+  TaskCreatePanel,
+  WorkspaceCommandPalette,
+  WorkspaceHeader,
+  WorkspaceSidebar,
+} from "@/features/workspace";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 

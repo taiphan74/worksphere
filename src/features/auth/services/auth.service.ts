@@ -22,6 +22,10 @@ type AuthPayload = {
 type ApiUser = {
   id: string;
   email: string;
+  full_name?: string;
+  avatar_url?: string;
+  status?: string;
+  roles?: string[];
   isVerified?: boolean;
   is_verified?: boolean;
   createdAt?: string;
@@ -40,13 +44,12 @@ type ApiLoginData = {
   refresh_token?: string;
   isNewUser?: boolean;
   is_new_user?: boolean;
+  verificationEmailSent?: boolean;
+  verification_email_sent?: boolean;
   user?: ApiUser;
 };
 
-type ApiRegisterData = ApiLoginData & {
-  verificationEmailSent?: boolean;
-  verification_email_sent?: boolean;
-};
+type ApiRegisterData = ApiLoginData;
 
 function isApiEnvelope<T>(payload: T | ApiEnvelope<T>): payload is ApiEnvelope<T> {
   return Boolean(payload && typeof payload === "object" && "data" in payload);
@@ -60,6 +63,10 @@ function normalizeUser(user?: ApiUser): AuthUser | undefined {
   return {
     id: user.id,
     email: user.email,
+    fullName: user.full_name,
+    avatarUrl: user.avatar_url,
+    status: user.status,
+    roles: user.roles,
     isVerified: user.isVerified ?? user.is_verified,
     createdAt: user.createdAt ?? user.created_at,
     updatedAt: user.updatedAt ?? user.updated_at,
@@ -129,7 +136,8 @@ export const authService = {
       "/auth/login",
       payload,
     );
-    const normalized = normalizeLoginResponse(extractPayload(data).data as ApiLoginData);
+    const extracted = extractPayload(data);
+    const normalized = normalizeLoginResponse(extracted.data as ApiLoginData);
     const response = assertSuccessfulAuth(normalized);
 
     if (response.accessToken) {
@@ -143,9 +151,8 @@ export const authService = {
     const { data } = await apiClient.post<
       RegisterResponse | ApiEnvelope<ApiRegisterData>
     >("/auth/register", payload);
-    const normalized = normalizeRegisterResponse(
-      extractPayload(data).data as ApiRegisterData,
-    );
+    const extracted = extractPayload(data);
+    const normalized = normalizeRegisterResponse(extracted.data as ApiRegisterData);
     const response = assertSuccessfulAuth(normalized);
 
     if (response.accessToken) {
@@ -160,7 +167,8 @@ export const authService = {
       "/auth/google",
       payload,
     );
-    const normalized = normalizeLoginResponse(extractPayload(data).data as ApiLoginData);
+    const extracted = extractPayload(data);
+    const normalized = normalizeLoginResponse(extracted.data as ApiLoginData);
     const response = assertSuccessfulAuth(normalized);
 
     if (response.accessToken) {

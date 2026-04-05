@@ -1,24 +1,23 @@
-"use client";
-
 import { useState, useTransition } from "react";
 import type { ZodFormattedError } from "zod";
 
 import {
+  registerSchema,
+  type RegisterForm as RegisterSchema,
   registerRequestSchema,
-  type RegisterRequestSchema,
 } from "@/features/auth/schemas/register.schema";
 import { authService } from "@/features/auth/services/auth.service";
 import type { RegisterResponse } from "@/features/auth/types/auth.types";
 import { logAuthError, mapAuthError } from "@/features/auth/utils/auth-error";
 
-const initialForm: RegisterRequestSchema = {
+const initialForm: RegisterSchema = {
   email: "",
   password: "",
 };
 
-type RegisterFormErrors = Partial<Record<keyof RegisterRequestSchema, string>>;
+type RegisterFormErrors = Partial<Record<keyof RegisterSchema, string>>;
 
-function getFieldErrors(error: ZodFormattedError<RegisterRequestSchema>) {
+function getFieldErrors(error: ZodFormattedError<RegisterSchema>) {
   return {
     email: error.email?._errors[0],
     password: error.password?._errors[0],
@@ -26,16 +25,16 @@ function getFieldErrors(error: ZodFormattedError<RegisterRequestSchema>) {
 }
 
 export function useRegisterForm() {
-  const [form, setForm] = useState<RegisterRequestSchema>(initialForm);
+  const [form, setForm] = useState<RegisterSchema>(initialForm);
   const [errors, setErrors] = useState<RegisterFormErrors>({});
   const [globalError, setGlobalError] = useState<string | null>(null);
   const [errorCode, setErrorCode] = useState<string | null>(null);
   const [response, setResponse] = useState<RegisterResponse | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  function updateField<K extends keyof RegisterRequestSchema>(
+  function updateField<K extends keyof RegisterSchema>(
     field: K,
-    value: RegisterRequestSchema[K],
+    value: RegisterSchema[K],
   ) {
     setForm((current) => ({
       ...current,
@@ -49,13 +48,11 @@ export function useRegisterForm() {
     setErrorCode(null);
   }
 
-  function validate(payload: RegisterRequestSchema) {
-    const result = registerRequestSchema.safeParse(payload);
-
+  function validate(payload: RegisterSchema) {
+    const result = registerSchema.safeParse(payload);
     if (result.success) {
       return null;
     }
-
     return getFieldErrors(result.error.format());
   }
 

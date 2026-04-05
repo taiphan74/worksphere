@@ -4,12 +4,13 @@ export const loginSchema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, "Email là bắt buộc")
-    .email("Email không đúng định dạng"),
+    .min(1, { message: "Email là bắt buộc" })
+    .email({ message: "Email không đúng định dạng" })
+    .max(255, { message: "Email không được vượt quá 255 ký tự" }),
+
   password: z
     .string()
-    .min(1, "Mật khẩu là bắt buộc")
-    .min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
+    .min(1, { message: "Mật khẩu là bắt buộc" }),
 });
 
-export type LoginSchema = z.infer<typeof loginSchema>;
+export type LoginForm = z.infer<typeof loginSchema>;

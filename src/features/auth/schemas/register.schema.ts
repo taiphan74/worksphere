@@ -1,31 +1,21 @@
 import { z } from "zod";
 
-const registerFieldsSchema = z.object({
+export const registerSchema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, "Email lÃ  báº¯t buá»™c")
-    .email("Email khÃ´ng Ä‘Ãºng Ä‘á»‹nh dáº¡ng"),
+    .min(1, { message: "Email là bắt buộc" })
+    .email({ message: "Email không đúng định dạng" })
+    .max(255, { message: "Email không được vượt quá 255 ký tự" }),
+
   password: z
     .string()
-    .min(1, "Máº­t kháº©u lÃ  báº¯t buá»™c")
-    .min(8, "Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 8 kÃ½ tá»±"),
-  confirmPassword: z
-    .string()
-    .min(1, "XÃ¡c nháº­n máº­t kháº©u lÃ  báº¯t buá»™c"),
+    .min(1, { message: "Mật khẩu là bắt buộc" })
+    .max(100, { message: "Mật khẩu không được vượt quá 100 ký tự" }),
 });
 
-export const registerSchema = registerFieldsSchema.refine(
-  (value) => value.password === value.confirmPassword,
-  {
-    message: "Máº­t kháº©u xÃ¡c nháº­n khÃ´ng khá»›p",
-    path: ["confirmPassword"],
-  },
-);
+// Schema dùng để gửi request lên API
+export const registerRequestSchema = registerSchema;
 
-export const registerRequestSchema = registerFieldsSchema.omit({
-  confirmPassword: true,
-});
-
-export type RegisterSchema = z.infer<typeof registerSchema>;
-export type RegisterRequestSchema = z.infer<typeof registerRequestSchema>;
+export type RegisterForm = z.infer<typeof registerSchema>;
+export type RegisterRequest = z.infer<typeof registerRequestSchema>;

@@ -40,12 +40,10 @@ export function RegisterForm() {
 
     return (
       <div className="space-y-6">
-        <div
-          className={cn(
-            "rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-700 backdrop-blur-md",
-            glassEffect,
-          )}
-        >
+        <div className={cn(
+          "rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-700 backdrop-blur-md",
+          glassEffect
+        )}>
           <p className="font-medium">{t("registerSuccessTitle")}</p>
           <p className="mt-1">
             {verificationWasSent
@@ -54,28 +52,17 @@ export function RegisterForm() {
           </p>
         </div>
 
-        {resendMessage ? (
-          <div
-            className={cn(
-              "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
-              glassEffect,
-            )}
-          >
+        {resendMessage && (
+          <div className={cn("rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md", glassEffect)}>
             {resendMessage}
           </div>
-        ) : null}
+        )}
 
-        {resendError ? (
-          <div
-            role="alert"
-            className={cn(
-              "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
-              glassEffect,
-            )}
-          >
+        {resendError && (
+          <div role="alert" className={cn("rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md", glassEffect)}>
             {resendError}
           </div>
-        ) : null}
+        )}
 
         <div className="flex flex-col items-start gap-3">
           <ResendVerificationButton
@@ -95,17 +82,17 @@ export function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {globalError ? (
+      {globalError && (
         <div
           role="alert"
           className={cn(
             "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
-            glassEffect,
+            glassEffect
           )}
         >
           {globalError}
         </div>
-      ) : null}
+      )}
 
       <div className="space-y-4">
         <div className="space-y-2">
@@ -114,53 +101,44 @@ export function RegisterForm() {
           </label>
           <Input
             id="email"
-            name="email"
             type="email"
             inputMode="email"
             autoComplete="email"
             placeholder={t("emailPlaceholder")}
             className={cn(
               "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
-              glassEffect,
+              glassEffect
             )}
             value={form.email}
-            onChange={(event) => {
+            onChange={(e) => {
               clearFeedback();
-              updateField("email", event.target.value);
+              updateField("email", e.target.value);
             }}
-            aria-invalid={errors.email ? "true" : "false"}
+            aria-invalid={!!errors.email}
           />
-          {errors.email ? (
-            <p className="text-sm text-destructive">{errors.email}</p>
-          ) : null}
+          {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
         </div>
 
         <div className="space-y-2">
-          <label
-            htmlFor="password"
-            className="text-sm font-medium text-neutral-800"
-          >
+          <label htmlFor="password" className="text-sm font-medium text-neutral-800">
             {t("passwordLabel")}
           </label>
           <PasswordInput
             id="password"
-            name="password"
             autoComplete="new-password"
             placeholder={t("passwordPlaceholder")}
             className={cn(
               "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
-              glassEffect,
+              glassEffect
             )}
             value={form.password}
-            onChange={(event) => {
+            onChange={(e) => {
               clearFeedback();
-              updateField("password", event.target.value);
+              updateField("password", e.target.value);
             }}
-            aria-invalid={errors.password ? "true" : "false"}
+            aria-invalid={!!errors.password}
           />
-          {errors.password ? (
-            <p className="text-sm text-destructive">{errors.password}</p>
-          ) : null}
+          {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
         </div>
 
         <p className="text-sm text-neutral-700/80">

@@ -1,6 +1,10 @@
 export type AuthUser = {
   id: string;
   email: string;
+  fullName?: string;
+  avatarUrl?: string;
+  status?: string;
+  roles?: string[];
   isVerified?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -41,6 +45,7 @@ export type ResendVerificationResponse = {
 };
 
 export type ApiEnvelope<T> = {
+  status?: string;
   data: T;
   message?: string;
   success?: boolean;
