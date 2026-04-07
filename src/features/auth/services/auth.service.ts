@@ -1,8 +1,8 @@
 import { apiClient } from "@/lib/http/api-client";
 import { removeAccessToken, setAccessToken } from "@/lib/http/auth-token";
 import { createAuthFailureError } from "@/features/auth/utils/auth-error";
-import type { LoginSchema } from "@/features/auth/schemas/login.schema";
-import type { RegisterRequestSchema } from "@/features/auth/schemas/register.schema";
+import type { LoginForm } from "@/features/auth/schemas/login.schema";
+import type { RegisterRequest } from "@/features/auth/schemas/register.schema";
 import type {
   ApiEnvelope,
   AuthUser,
@@ -131,7 +131,7 @@ function assertSuccessfulAuth<T extends AuthPayload>(response: T) {
 }
 
 export const authService = {
-  async login(payload: LoginSchema) {
+  async login(payload: LoginForm) {
     const { data } = await apiClient.post<LoginResponse | ApiEnvelope<ApiLoginData>>(
       "/auth/login",
       payload,
@@ -147,7 +147,7 @@ export const authService = {
     return response;
   },
 
-  async register(payload: RegisterRequestSchema) {
+  async register(payload: RegisterRequest) {
     const { data } = await apiClient.post<
       RegisterResponse | ApiEnvelope<ApiRegisterData>
     >("/auth/register", payload);

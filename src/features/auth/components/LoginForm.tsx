@@ -1,6 +1,5 @@
 "use client";
 
-import type { FormEvent } from "react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -8,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/features/auth/components/PasswordInput";
 import { ResendVerificationButton } from "@/features/auth/components/ResendVerificationButton";
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
-import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useLoginMutation } from "@/features/auth/hooks/useLoginMutation";
 import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
 import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -17,8 +16,9 @@ import { glassEffect } from "@/styles/glass";
 export function LoginForm() {
   const t = useTranslations("auth");
   const router = useRouter();
-  const { form, errors, globalError, errorCode, updateField, isPending, login } =
-    useAuth();
+
+  const { form, mutation, handleSubmit } = useLoginMutation();
+
   const {
     resend,
     message: resendMessage,
@@ -26,25 +26,34 @@ export function LoginForm() {
     isPending: isResending,
     clearFeedback,
   } = useResendVerification();
+
+  const errors = form.formState.errors;
+  const rootError = errors.root;
   const canResendVerification =
-    errorCode === "EMAIL_NOT_VERIFIED" && form.email.trim().length > 0;
+    rootError?.type === "EMAIL_NOT_VERIFIED" && form.getValues("email").trim().length > 0;
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const response = await login();
-
-    if (response) {
-      router.push("/");
+  async function onFormSubmit(values: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+    try {
+      const response = await handleSubmit(values);
+      if (response) {
+        router.push("/");
+      }
+    } catch {
+      // Error handled by mutation onError
     }
   }
 
   async function handleResendVerification() {
-    await resend(form.email);
+    await resend(form.getValues("email"));
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {globalError ? (
+    <form
+      onSubmit={form.handleSubmit(onFormSubmit)}
+      className="space-y-6"
+      noValidate
+    >
+      {rootError && (
         <div
           role="alert"
           className={cn(
@@ -52,7 +61,7 @@ export function LoginForm() {
             glassEffect,
           )}
         >
-          <p>{globalError}</p>
+          <p>{rootError.message}</p>
           {canResendVerification ? (
             <ResendVerificationButton
               onClick={handleResendVerification}
@@ -60,9 +69,9 @@ export function LoginForm() {
             />
           ) : null}
         </div>
-      ) : null}
+      )}
 
-      {resendMessage ? (
+      {resendMessage && (
         <div
           className={cn(
             "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
@@ -71,9 +80,9 @@ export function LoginForm() {
         >
           {resendMessage}
         </div>
-      ) : null}
+      )}
 
-      {resendError ? (
+      {resendError && (
         <div
           role="alert"
           className={cn(
@@ -83,16 +92,19 @@ export function LoginForm() {
         >
           {resendError}
         </div>
-      ) : null}
+      )}
 
       <div className="space-y-4">
+        {/* Email field */}
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-neutral-800">
+          <label
+            htmlFor="email"
+            className="text-sm font-medium text-neutral-800"
+          >
             {t("emailLabel")}
           </label>
           <Input
             id="email"
-            name="email"
             type="email"
             inputMode="email"
             autoComplete="email"
@@ -101,18 +113,21 @@ export function LoginForm() {
               "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
               glassEffect,
             )}
-            value={form.email}
-            onChange={(event) => {
-              clearFeedback();
-              updateField("email", event.target.value);
-            }}
-            aria-invalid={errors.email ? "true" : "false"}
+            aria-invalid={!!errors.email}
+            {...form.register("email", {
+              onChange: () => {
+                clearFeedback();
+                form.clearErrors("email");
+                if (rootError) form.clearErrors("root");
+              },
+            })}
           />
-          {errors.email ? (
-            <p className="text-sm text-destructive">{errors.email}</p>
-          ) : null}
+          {errors.email && (
+            <p className="text-sm text-destructive">{errors.email.message}</p>
+          )}
         </div>
 
+        {/* Password field */}
         <div className="space-y-2">
           <label
             htmlFor="password"
@@ -122,23 +137,24 @@ export function LoginForm() {
           </label>
           <PasswordInput
             id="password"
-            name="password"
             autoComplete="current-password"
             placeholder={t("passwordPlaceholder")}
             className={cn(
               "border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
               glassEffect,
             )}
-            value={form.password}
-            onChange={(event) => {
-              clearFeedback();
-              updateField("password", event.target.value);
-            }}
-            aria-invalid={errors.password ? "true" : "false"}
+            aria-invalid={!!errors.password}
+            {...form.register("password", {
+              onChange: () => {
+                clearFeedback();
+                form.clearErrors("password");
+                if (rootError) form.clearErrors("root");
+              },
+            })}
           />
-          {errors.password ? (
-            <p className="text-sm text-destructive">{errors.password}</p>
-          ) : null}
+          {errors.password && (
+            <p className="text-sm text-destructive">{errors.password.message}</p>
+          )}
         </div>
       </div>
 
@@ -161,7 +177,7 @@ export function LoginForm() {
         type="submit"
         variant="glass"
         className="h-12 w-full rounded-xl"
-        disabled={isPending}
+        disabled={mutation.isPending}
       >
         {t("login")}
       </Button>
@@ -170,3 +186,4 @@ export function LoginForm() {
     </form>
   );
 }
+

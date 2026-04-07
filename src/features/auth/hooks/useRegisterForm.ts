@@ -4,7 +4,6 @@ import type { ZodFormattedError } from "zod";
 import {
   registerSchema,
   type RegisterForm as RegisterSchema,
-  registerRequestSchema,
 } from "@/features/auth/schemas/register.schema";
 import { authService } from "@/features/auth/services/auth.service";
 import type { RegisterResponse } from "@/features/auth/types/auth.types";

@@ -6,12 +6,11 @@ export { ResendVerificationButton } from "@/features/auth/components/ResendVerif
 export { SocialLogin } from "@/features/auth/components/SocialLogin";
 export { loginSchema } from "@/features/auth/schemas/login.schema";
 export { registerRequestSchema, registerSchema } from "@/features/auth/schemas/register.schema";
-export type { LoginSchema } from "@/features/auth/schemas/login.schema";
+export type { LoginForm as LoginFormValues } from "@/features/auth/schemas/login.schema";
 export type {
-  RegisterRequestSchema,
-  RegisterSchema,
+  RegisterRequest,
+  RegisterForm as RegisterSchema,
 } from "@/features/auth/schemas/register.schema";
-export { useAuth } from "@/features/auth/hooks/useAuth";
 export { useGoogleLogin } from "@/features/auth/hooks/useGoogleLogin";
 export { useGoogleLoginReady } from "@/features/auth/hooks/useGoogleLoginReady";
 export { useRegisterForm } from "@/features/auth/hooks/useRegisterForm";

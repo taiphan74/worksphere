@@ -42,7 +42,6 @@ export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
   const pathname = usePathname();
   const { state, setOpenMobile } = useSidebar();
   const isCollapsed = state === "collapsed";
-  const t = useTranslations("workspace");
   const tSidebar = useTranslations("workspace.sidebar");
 
   const navigationItems: NavItem[] = [
