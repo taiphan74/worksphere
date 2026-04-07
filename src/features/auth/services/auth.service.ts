@@ -1,6 +1,4 @@
-import { apiClient } from "@/lib/http/api-client";
-import { removeAccessToken, setAccessToken } from "@/lib/http/auth-token";
-import { createAuthFailureError } from "@/features/auth/utils/auth-error";
+import { apiClient, apiClientWithAuth } from "@/lib/http/api-client";
 import type { LoginForm } from "@/features/auth/schemas/login.schema";
 import type { RegisterRequest } from "@/features/auth/schemas/register.schema";
 import type {
@@ -13,43 +11,24 @@ import type {
   VerifyEmailResponse,
 } from "@/features/auth/types/auth.types";
 
-type AuthPayload = {
-  success?: boolean;
-  message?: string;
-  error?: { code?: string; message?: string };
-};
 
 type ApiUser = {
   id: string;
   email: string;
   full_name?: string;
-  avatar_url?: string;
-  status?: string;
-  roles?: string[];
-  isVerified?: boolean;
-  is_verified?: boolean;
-  createdAt?: string;
-  created_at?: string;
-  updatedAt?: string;
-  updated_at?: string;
+  is_verified: boolean;
+  created_at: string;
+  updated_at: string;
 };
 
 type ApiLoginData = {
-  success?: boolean;
-  message?: string;
-  error?: { code?: string; message?: string };
-  accessToken?: string;
-  access_token?: string;
-  refreshToken?: string;
-  refresh_token?: string;
-  isNewUser?: boolean;
-  is_new_user?: boolean;
-  verificationEmailSent?: boolean;
-  verification_email_sent?: boolean;
-  user?: ApiUser;
+  user: ApiUser;
 };
 
-type ApiRegisterData = ApiLoginData;
+type ApiRegisterData = {
+  verification_email_sent: boolean;
+  user: ApiUser;
+};
 
 function isApiEnvelope<T>(payload: T | ApiEnvelope<T>): payload is ApiEnvelope<T> {
   return Boolean(payload && typeof payload === "object" && "data" in payload);
@@ -64,37 +43,9 @@ function normalizeUser(user?: ApiUser): AuthUser | undefined {
     id: user.id,
     email: user.email,
     fullName: user.full_name,
-    avatarUrl: user.avatar_url,
-    status: user.status,
-    roles: user.roles,
-    isVerified: user.isVerified ?? user.is_verified,
-    createdAt: user.createdAt ?? user.created_at,
-    updatedAt: user.updatedAt ?? user.updated_at,
-  };
-}
-
-function normalizeLoginResponse(payload: ApiLoginData): LoginResponse {
-  return {
-    success: payload.success ?? true,
-    message: payload.message,
-    error: payload.error
-      ? {
-          code: payload.error.code || "",
-          message: payload.error.message || payload.message || "",
-        }
-      : undefined,
-    accessToken: payload.accessToken ?? payload.access_token,
-    refreshToken: payload.refreshToken ?? payload.refresh_token,
-    isNewUser: payload.isNewUser ?? payload.is_new_user,
-    user: normalizeUser(payload.user),
-  };
-}
-
-function normalizeRegisterResponse(payload: ApiRegisterData): RegisterResponse {
-  return {
-    ...normalizeLoginResponse(payload),
-    verificationEmailSent:
-      payload.verificationEmailSent ?? payload.verification_email_sent,
+    isVerified: user.is_verified,
+    createdAt: user.created_at,
+    updatedAt: user.updated_at,
   };
 }
 
@@ -116,67 +67,46 @@ function extractPayload<T>(payload: T | ApiEnvelope<T>) {
   };
 }
 
-function assertSuccessfulAuth<T extends AuthPayload>(response: T) {
-  if (response.success ?? true) {
-    return response;
-  }
-
-  throw createAuthFailureError({
-    code: response.error?.code,
-    message:
-      response.error?.message ||
-      response.message ||
-      "Đã có lỗi xảy ra. Vui lòng thử lại.",
-  });
-}
-
 export const authService = {
-  async login(payload: LoginForm) {
-    const { data } = await apiClient.post<LoginResponse | ApiEnvelope<ApiLoginData>>(
+  async login(payload: LoginForm): Promise<LoginResponse> {
+    const { data } = await apiClient.post<ApiLoginData | ApiEnvelope<ApiLoginData>>(
       "/auth/login",
       payload,
     );
     const extracted = extractPayload(data);
-    const normalized = normalizeLoginResponse(extracted.data as ApiLoginData);
-    const response = assertSuccessfulAuth(normalized);
+    const apiData = extracted.data;
 
-    if (response.accessToken) {
-      setAccessToken(response.accessToken);
-    }
-
-    return response;
+    return {
+      user: normalizeUser(apiData.user)!,
+    };
   },
 
-  async register(payload: RegisterRequest) {
+  async register(payload: RegisterRequest): Promise<RegisterResponse> {
     const { data } = await apiClient.post<
-      RegisterResponse | ApiEnvelope<ApiRegisterData>
+      ApiRegisterData | ApiEnvelope<ApiRegisterData>
     >("/auth/register", payload);
     const extracted = extractPayload(data);
-    const normalized = normalizeRegisterResponse(extracted.data as ApiRegisterData);
-    const response = assertSuccessfulAuth(normalized);
+    const apiData = extracted.data;
 
-    if (response.accessToken) {
-      setAccessToken(response.accessToken);
-    }
-
-    return response;
+    return {
+      verificationEmailSent: apiData.verification_email_sent,
+      user: normalizeUser(apiData.user)!,
+    };
   },
 
-  async googleLogin(payload: GoogleLoginRequest) {
-    const { data } = await apiClient.post<LoginResponse | ApiEnvelope<ApiLoginData>>(
+  async googleLogin(payload: GoogleLoginRequest): Promise<LoginResponse> {
+    const { data } = await apiClient.post<ApiLoginData | ApiEnvelope<ApiLoginData>>(
       "/auth/google",
       payload,
     );
     const extracted = extractPayload(data);
-    const normalized = normalizeLoginResponse(extracted.data as ApiLoginData);
-    const response = assertSuccessfulAuth(normalized);
+    const apiData = extracted.data;
 
-    if (response.accessToken) {
-      setAccessToken(response.accessToken);
-    }
-
-    return response;
+    return {
+      user: normalizeUser(apiData.user)!,
+    };
   },
+
 
   async verifyEmail(token: string) {
     const { data } = await apiClient.get<
@@ -206,7 +136,7 @@ export const authService = {
   },
 
   async getMe() {
-    const { data } = await apiClient.get<AuthUser | ApiEnvelope<ApiUser>>(
+    const { data } = await apiClientWithAuth.get<AuthUser | ApiEnvelope<ApiUser>>(
       "/auth/me",
     );
     const extracted = extractPayload(data);
@@ -216,9 +146,10 @@ export const authService = {
 
   async logout() {
     try {
-      await apiClient.post("/auth/logout");
+      await apiClientWithAuth.post("/auth/logout");
     } finally {
-      removeAccessToken();
+      // With HttpOnly cookies, we can't directly remove them from JS
+      // The backend handles invalidating the session/refresh token
     }
   },
 };

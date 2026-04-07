@@ -1,38 +1,24 @@
-export type AuthUser = {
-  id: string;
-  email: string;
-  fullName?: string;
-  avatarUrl?: string;
-  status?: string;
-  roles?: string[];
-  isVerified?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-};
-
 export type AuthErrorPayload = {
   code: string;
   message: string;
 };
 
-type AuthResponseBase = {
-  success: boolean;
-  message?: string;
-  error?: AuthErrorPayload;
+export type AuthUser = {
+  id: string;
+  email: string;
+  fullName?: string;
+  isVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type LoginResponse = AuthResponseBase & {
-  accessToken?: string;
-  refreshToken?: string;
-  user?: AuthUser;
-  isNewUser?: boolean;
+export type LoginResponse = {
+  user: AuthUser;
 };
 
-export type RegisterResponse = AuthResponseBase & {
-  accessToken?: string;
-  refreshToken?: string;
-  user?: AuthUser;
-  verificationEmailSent?: boolean;
+export type RegisterResponse = {
+  verificationEmailSent: boolean;
+  user: AuthUser;
 };
 
 export type VerifyEmailResponse = {
