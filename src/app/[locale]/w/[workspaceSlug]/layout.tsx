@@ -1,3 +1,4 @@
+import { checkAuth } from "@/lib/auth/auth-checker";
 import {
   TaskCreatePanel,
   WorkspaceCommandPalette,
@@ -14,7 +15,10 @@ export default async function WorkspaceLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string; workspaceSlug: string }>;
 }>) {
-  const { workspaceSlug } = await params;
+  const { locale, workspaceSlug } = await params;
+
+  // Second layer authentication check
+  await checkAuth(true, locale); // Verify with backend and pass locale for redirect
 
   return (
     <SidebarProvider defaultOpen className="flex-col">

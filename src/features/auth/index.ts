@@ -11,6 +11,7 @@ export type {
   RegisterRequest,
   RegisterForm as RegisterSchema,
 } from "@/features/auth/schemas/register.schema";
+export { useGetCurrentUser } from "@/features/auth/hooks/useGetCurrentUser";
 export { useGoogleLogin } from "@/features/auth/hooks/useGoogleLogin";
 export { useGoogleLoginReady } from "@/features/auth/hooks/useGoogleLoginReady";
 export { useRegisterForm } from "@/features/auth/hooks/useRegisterForm";
