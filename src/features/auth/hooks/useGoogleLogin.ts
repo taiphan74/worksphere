@@ -78,7 +78,7 @@ export function useGoogleLogin({ label }: UseGoogleLoginOptions) {
         setSuccessMessage(flashMessage);
       }
 
-      router.push("/");
+      router.push("/w");
     } catch (unknownError) {
       logAuthError("google-login", unknownError);
       const appError = normalizeHttpError(unknownError);

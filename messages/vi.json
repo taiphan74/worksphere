@@ -58,6 +58,23 @@
     "description": "Trang bạn đang tìm kiếm không tồn tại. Nhấn nút bên dưới để quay lại trang chủ.",
     "backHome": "Về Trang Chủ"
   },
+  "onboarding": {
+    "loading": "Đang tải dữ liệu...",
+    "profileTitle": "Tạo hồ sơ của bạn",
+    "profileSubtitle": "Giúp đồng nghiệp dễ dàng nhận ra bạn.",
+    "fullNameLabel": "Họ và Tên",
+    "fullNamePlaceholder": "Ví dụ: Nguyễn Văn A",
+    "saving": "Đang lưu...",
+    "continue": "Tiếp tục",
+    "workspaceTitle": "Tạo không gian làm việc",
+    "workspaceSubtitle": "Nơi đội ngũ của bạn sẽ cộng tác và chia sẻ công việc.",
+    "workspaceNameLabel": "Tên không gian làm việc",
+    "workspaceNamePlaceholder": "Ví dụ: Acme Corp",
+    "creating": "Đang tạo...",
+    "successTitle": "Mọi thứ đã sẵn sàng!",
+    "successSubtitle": "Hồ sơ và không gian làm việc của bạn đã được thiết lập thành công.",
+    "getStarted": "Bắt đầu làm việc"
+  },
   "workspace": {
     "sidebar": {
       "navigation": "Điều hướng",

@@ -16,6 +16,7 @@ type ApiUser = {
   id: string;
   email: string;
   full_name?: string;
+  avatar_key?: string;
   is_verified: boolean;
   created_at: string;
   updated_at: string;
@@ -43,6 +44,7 @@ function normalizeUser(user?: ApiUser): AuthUser | undefined {
     id: user.id,
     email: user.email,
     fullName: user.full_name,
+    avatarKey: user.avatar_key,
     isVerified: user.is_verified,
     createdAt: user.created_at,
     updatedAt: user.updated_at,
@@ -117,11 +119,12 @@ export const authService = {
     return extracted.data as VerifyEmailResponse;
   },
 
-  async resendVerification(email: string) {
+  async resendVerification(email: string, verificationUrl?: string) {
     const { data } = await apiClientWithAuth.post<
       ResendVerificationResponse | ApiEnvelope<null>
     >("/auth/resend-verification", {
       email,
+      verificationUrl,
     });
     const extracted = extractPayload(data);
 
@@ -149,5 +152,21 @@ export const authService = {
       // With HttpOnly cookies, we can't directly remove them from JS
       // The backend handles invalidating the session/refresh token
     }
+  },
+
+  async forgotPassword(email: string, resetUrl?: string) {
+    const { data } = await apiClientWithAuth.post<ApiEnvelope<null>>(
+      "/auth/forgot-password",
+      {
+        email,
+        resetUrl,
+      },
+    );
+    const extracted = extractPayload(data);
+
+    return {
+      success: extracted.success ?? true,
+      message: extracted.message || "Đã gửi email khôi phục mật khẩu.",
+    };
   },
 };

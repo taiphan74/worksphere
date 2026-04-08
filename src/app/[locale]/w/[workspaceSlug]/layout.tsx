@@ -1,4 +1,6 @@
 import { checkAuth } from "@/lib/auth/auth-checker";
+import { isUserOnboarded } from "@/lib/auth/server-onboarding";
+import { redirect } from "next/navigation";
 import {
   TaskCreatePanel,
   WorkspaceCommandPalette,
@@ -19,6 +21,12 @@ export default async function WorkspaceLayout({
 
   // Second layer authentication check
   await checkAuth(true, locale); // Verify with backend and pass locale for redirect
+
+  // Onboarding check
+  const onboarded = await isUserOnboarded();
+  if (!onboarded) {
+    redirect(`/${locale}/onboarding`);
+  }
 
   return (
     <SidebarProvider defaultOpen className="flex-col">

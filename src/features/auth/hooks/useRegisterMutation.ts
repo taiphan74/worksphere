@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { usePathname } from "next/navigation";
 
 import {
   registerSchema,
@@ -11,6 +12,7 @@ import {
 import { authService } from "@/features/auth/services/auth.service";
 import type { RegisterResponse } from "@/features/auth/types/auth.types";
 import { logAuthError, mapAuthError } from "@/features/auth/utils/auth-error";
+import { getVerificationUrl } from "@/features/auth/utils/verification-url";
 
 /**
  * Hook quản lý toàn bộ logic đăng ký:
@@ -21,6 +23,9 @@ import { logAuthError, mapAuthError } from "@/features/auth/utils/auth-error";
  * Trả về object gọn để RegisterForm chỉ lo phần UI.
  */
 export function useRegisterMutation() {
+  const pathname = usePathname(); // vd: /vi/register hoặc /en/register
+  const locale = pathname.split("/")[1] || "en";
+
   // ─── React Hook Form setup ───────────────────────────────────────
   const form = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
@@ -34,7 +39,14 @@ export function useRegisterMutation() {
 
   // ─── TanStack Query mutation ─────────────────────────────────────
   const mutation = useMutation<RegisterResponse, unknown, RegisterForm>({
-    mutationFn: (payload) => authService.register(payload),
+    mutationFn: (payload) => {
+      const verificationUrl = getVerificationUrl(locale, "verify-email");
+
+      return authService.register({
+        ...payload,
+        verificationUrl,
+      });
+    },
     onError: (error) => {
       // Log để debug
       logAuthError("register", error);

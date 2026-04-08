@@ -24,7 +24,7 @@ export function LoginForm() {
     try {
       const response = await handleSubmit(values);
       if (response) {
-        router.push("/");
+        router.push("/w");
       }
     } catch {
       // Error handled by mutation onError

@@ -15,7 +15,9 @@ export const registerSchema = z.object({
 });
 
 // Schema dùng để gửi request lên API
-export const registerRequestSchema = registerSchema;
+export const registerRequestSchema = registerSchema.extend({
+  verificationUrl: z.string().url().optional(),
+});
 
 export type RegisterForm = z.infer<typeof registerSchema>;
 export type RegisterRequest = z.infer<typeof registerRequestSchema>;

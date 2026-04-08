@@ -58,6 +58,23 @@
     "description": "The page you are looking for doesn't exist. Click the button below to return to the homepage.",
     "backHome": "Back to Homepage"
   },
+  "onboarding": {
+    "loading": "Loading data...",
+    "profileTitle": "Create your profile",
+    "profileSubtitle": "Help your team members recognize you.",
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "E.g., John Doe",
+    "saving": "Saving...",
+    "continue": "Continue",
+    "workspaceTitle": "Create a workspace",
+    "workspaceSubtitle": "Where your team will collaborate and share work.",
+    "workspaceNameLabel": "Workspace Name",
+    "workspaceNamePlaceholder": "E.g., Acme Corp",
+    "creating": "Creating...",
+    "successTitle": "You're all set!",
+    "successSubtitle": "Your profile and workspace have been set up successfully.",
+    "getStarted": "Get Started"
+  },
   "workspace": {
     "sidebar": {
       "navigation": "Navigation",

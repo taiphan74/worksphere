@@ -7,6 +7,7 @@ export type AuthUser = {
   id: string;
   email: string;
   fullName?: string;
+  avatarKey?: string;
   isVerified: boolean;
   createdAt: string;
   updatedAt: string;

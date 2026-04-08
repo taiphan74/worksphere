@@ -33,6 +33,10 @@ const isWorkspaceRoute = (path: string): boolean => {
   return path.startsWith('/w');
 };
 
+const isOnboardingRoute = (path: string): boolean => {
+  return path.startsWith('/onboarding');
+};
+
 // Extract the basePath without locale prefix
 const getBasePath = (pathname: string, locale: string): string => {
   if (pathname.startsWith(`/${locale}/`)) {
@@ -61,12 +65,13 @@ const createAuthMiddleware = () => {
     const isPublic = isPublicRoute(basePath);
     const isAuth = isAuthRoute(basePath);
     const isWorkspace = isWorkspaceRoute(basePath);
+    const isOnboarding = isOnboardingRoute(basePath);
 
     // Step 3: Get access token from cookies
     const accessToken = request.cookies.get('access_token')?.value;
 
     // Step 4: Apply business rules
-    if (!accessToken && (isWorkspace || !isPublic)) {
+    if (!accessToken && (isWorkspace || isOnboarding || (!isPublic && !isAuth))) {
       // Redirect to login if no token and trying to access protected routes
       const loginUrl = new URL(`/${locale}/login`, request.url);
       loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search);
@@ -75,7 +80,7 @@ const createAuthMiddleware = () => {
 
     if (accessToken && isAuth) {
       // Redirect to home/workspace if already logged in and trying to access auth routes
-      const homeUrl = new URL(`/${locale}`, request.url);
+      const homeUrl = new URL(`/${locale}/w`, request.url);
       return NextResponse.redirect(homeUrl);
     }
 
