@@ -1,4 +1,4 @@
-import { apiClient, apiClientWithAuth } from "@/lib/http/api-client";
+import { apiClientWithAuth } from "@/lib/http/api-client";
 import type { LoginForm } from "@/features/auth/schemas/login.schema";
 import type { RegisterRequest } from "@/features/auth/schemas/register.schema";
 import type {
@@ -69,10 +69,9 @@ function extractPayload<T>(payload: T | ApiEnvelope<T>) {
 
 export const authService = {
   async login(payload: LoginForm): Promise<LoginResponse> {
-    const { data } = await apiClient.post<ApiLoginData | ApiEnvelope<ApiLoginData>>(
-      "/auth/login",
-      payload,
-    );
+    const { data } = await apiClientWithAuth.post<
+      ApiLoginData | ApiEnvelope<ApiLoginData>
+    >("/auth/login", payload);
     const extracted = extractPayload(data);
     const apiData = extracted.data;
 
@@ -82,7 +81,7 @@ export const authService = {
   },
 
   async register(payload: RegisterRequest): Promise<RegisterResponse> {
-    const { data } = await apiClient.post<
+    const { data } = await apiClientWithAuth.post<
       ApiRegisterData | ApiEnvelope<ApiRegisterData>
     >("/auth/register", payload);
     const extracted = extractPayload(data);
@@ -95,10 +94,9 @@ export const authService = {
   },
 
   async googleLogin(payload: GoogleLoginRequest): Promise<LoginResponse> {
-    const { data } = await apiClient.post<ApiLoginData | ApiEnvelope<ApiLoginData>>(
-      "/auth/google",
-      payload,
-    );
+    const { data } = await apiClientWithAuth.post<
+      ApiLoginData | ApiEnvelope<ApiLoginData>
+    >("/auth/google", payload);
     const extracted = extractPayload(data);
     const apiData = extracted.data;
 
@@ -109,7 +107,7 @@ export const authService = {
 
 
   async verifyEmail(token: string) {
-    const { data } = await apiClient.get<
+    const { data } = await apiClientWithAuth.get<
       VerifyEmailResponse | ApiEnvelope<VerifyEmailResponse>
     >("/auth/verify-email", {
       params: { token },
@@ -120,7 +118,7 @@ export const authService = {
   },
 
   async resendVerification(email: string) {
-    const { data } = await apiClient.post<
+    const { data } = await apiClientWithAuth.post<
       ResendVerificationResponse | ApiEnvelope<null>
     >("/auth/resend-verification", {
       email,
