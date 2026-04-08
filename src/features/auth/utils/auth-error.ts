@@ -14,7 +14,8 @@ export type AuthErrorState = {
 };
 
 const INVALID_CREDENTIALS_MESSAGE = "Email hoặc mật khẩu không đúng";
-const EMAIL_NOT_VERIFIED_MESSAGE = "Email chưa được xác thực.";
+const EMAIL_NOT_VERIFIED_MESSAGE =
+  "Email chưa được xác thực. Vui lòng kiểm tra hộp thư và bấm link xác thực.";
 
 const EMAIL_ERROR_CODES = [
   "EMAIL_REQUIRED",

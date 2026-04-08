@@ -48,5 +48,6 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+.playwright-mcp/
 AGENTS.md
 CLAUDE.md

@@ -5,10 +5,8 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/features/auth/components/PasswordInput";
-import { ResendVerificationButton } from "@/features/auth/components/ResendVerificationButton";
 import { SocialLogin } from "@/features/auth/components/SocialLogin";
 import { useLoginMutation } from "@/features/auth/hooks/useLoginMutation";
-import { useResendVerification } from "@/features/auth/hooks/useResendVerification";
 import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { glassEffect } from "@/styles/glass";
@@ -19,18 +17,8 @@ export function LoginForm() {
 
   const { form, mutation, handleSubmit } = useLoginMutation();
 
-  const {
-    resend,
-    message: resendMessage,
-    error: resendError,
-    isPending: isResending,
-    clearFeedback,
-  } = useResendVerification();
-
   const errors = form.formState.errors;
   const rootError = errors.root;
-  const canResendVerification =
-    rootError?.type === "EMAIL_NOT_VERIFIED" && form.getValues("email").trim().length > 0;
 
   async function onFormSubmit(values: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
     try {
@@ -41,10 +29,6 @@ export function LoginForm() {
     } catch {
       // Error handled by mutation onError
     }
-  }
-
-  async function handleResendVerification() {
-    await resend(form.getValues("email"));
   }
 
   return (
@@ -62,35 +46,6 @@ export function LoginForm() {
           )}
         >
           <p>{rootError.message}</p>
-          {canResendVerification ? (
-            <ResendVerificationButton
-              onClick={handleResendVerification}
-              disabled={isResending}
-            />
-          ) : null}
-        </div>
-      )}
-
-      {resendMessage && (
-        <div
-          className={cn(
-            "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 backdrop-blur-md",
-            glassEffect,
-          )}
-        >
-          {resendMessage}
-        </div>
-      )}
-
-      {resendError && (
-        <div
-          role="alert"
-          className={cn(
-            "rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive backdrop-blur-md",
-            glassEffect,
-          )}
-        >
-          {resendError}
         </div>
       )}
 
@@ -116,7 +71,6 @@ export function LoginForm() {
             aria-invalid={!!errors.email}
             {...form.register("email", {
               onChange: () => {
-                clearFeedback();
                 form.clearErrors("email");
                 if (rootError) form.clearErrors("root");
               },
@@ -146,7 +100,6 @@ export function LoginForm() {
             aria-invalid={!!errors.password}
             {...form.register("password", {
               onChange: () => {
-                clearFeedback();
                 form.clearErrors("password");
                 if (rootError) form.clearErrors("root");
               },
