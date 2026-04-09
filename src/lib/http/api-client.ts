@@ -70,7 +70,7 @@ const setupResponseInterceptor = (instance: typeof apiClient) => {
     (response) => response,
     async (error: unknown) => {
       const normalizedError = normalizeHttpError(error);
-      const originalRequest = (error as { config: unknown }).config;
+      const originalRequest = axios.isAxiosError(error) ? error.config : undefined;
 
       // Nếu không phải lỗi 401 hoặc không có originalRequest, reject luôn
       if (normalizedError.status !== 401 || !originalRequest) {

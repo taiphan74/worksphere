@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
+import { LoadingSplash } from "@/components/loading/LoadingSplash";
+
 const steps = [
   { id: "profile", component: <StepProfile /> },
   { id: "workspace", component: <StepWorkspace /> },
@@ -45,11 +47,7 @@ export function OnboardingWizard() {
   }, [isLoading, isOnboardingComplete, currentUser, currentStep, setStep, router]);
 
   if (isLoading) {
-    return (
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-4">
-        <div className="text-center">{t("loading")}</div>
-      </main>
-    );
+    return <LoadingSplash title={t("loading")} />;
   }
 
   // Nếu đã complete thì không render gì cả vì useEffect sẽ redirect
