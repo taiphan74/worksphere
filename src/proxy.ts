@@ -55,7 +55,7 @@ const createAuthMiddleware = () => {
     // Get the pathname without locale prefix
     const locale = request.nextUrl.pathname.split('/')[1];
     const supportedLocales = routing.locales;
-    const hasLocalePrefix = supportedLocales.includes(locale as any);
+    const hasLocalePrefix = (supportedLocales as string[]).includes(locale);
 
     const basePath = hasLocalePrefix
       ? getBasePath(request.nextUrl.pathname, locale)

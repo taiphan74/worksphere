@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useGetCurrentUser } from "@/features/auth/hooks/useGetCurrentUser";
 import { useWorkspaces } from "@/features/workspace/hooks";
 

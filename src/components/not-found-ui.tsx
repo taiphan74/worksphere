@@ -7,7 +7,6 @@ import { FogOverlay } from "@/components/landing/fog-overlay";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { routing } from "@/i18n/routing";
 
 export default function NotFound() {
   const t = useTranslations("notFound");

@@ -1,7 +1,12 @@
 import { z } from "zod";
 
 export const profileSchema = z.object({
-  fullName: z.string().min(2, "Tên phải có ít nhất 2 ký tự").max(100, "Tên không quá 100 ký tự"),
+  fullName: z
+    .string()
+    .trim()
+    .min(2, "Tên phải có ít nhất 2 ký tự")
+    .max(40, "Tên không quá 40 ký tự")
+    .regex(/^[\p{L} ]+$/u, "Tên chỉ được chứa chữ và dấu cách"),
 });
 
 export type ProfileForm = z.infer<typeof profileSchema>;

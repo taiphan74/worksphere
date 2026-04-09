@@ -9,8 +9,11 @@ import { profileSchema, ProfileForm } from "../../schemas/onboarding.schema";
 import { useOnboarding } from "../../hooks/useOnboarding";
 import { useOnboardingStore } from "../../store/use-onboarding-store";
 import { cn } from "@/lib/utils";
-import { glassEffect } from "@/styles/glass";
 
+/**
+ * Quản lý form nhập tên người dùng, validate bằng Zod và submit lên profile API.
+ * @side-effect Cập nhật store để giữ fullName giữa các bước.
+ */
 export function StepProfile() {
   const t = useTranslations("onboarding");
   const { handleProfileSubmit, updateProfileMutation } = useOnboarding();
@@ -46,8 +49,7 @@ export function StepProfile() {
             id="fullName"
             placeholder={t("fullNamePlaceholder")}
             className={cn(
-              "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
-              glassEffect,
+              "h-12 rounded-xl border-input bg-background text-foreground placeholder:text-muted-foreground",
             )}
             aria-invalid={!!errors.fullName}
             {...form.register("fullName")}

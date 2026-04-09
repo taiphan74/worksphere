@@ -12,7 +12,7 @@ export function useGetCurrentUser() {
       try {
         const user = await authService.getMe();
         return user;
-      } catch (error) {
+      } catch {
         // Nếu không lấy được thông tin người dùng, trả về null
         // Điều này sẽ khiến component biết rằng người dùng chưa xác thực
         return null;

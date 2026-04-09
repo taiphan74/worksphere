@@ -8,7 +8,7 @@ import { workspaceKeys } from "@/features/workspace/hooks";
 export function useOnboarding() {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { nextStep, fullName, workspaceName, reset } = useOnboardingStore();
+  const { nextStep, reset } = useOnboardingStore();
   const createWorkspaceMutation = useCreateWorkspace();
 
   const updateProfileMutation = useMutation({

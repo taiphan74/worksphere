@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { useOnboarding } from "../../hooks/useOnboarding";
 import { CheckCircle2 } from "lucide-react";
 
+/**
+ * Hiển thị màn hình thành công, cung cấp nút hoàn tất để reset wizard và về home.
+ */
 export function StepSuccess() {
   const t = useTranslations("onboarding");
   const { finishOnboarding } = useOnboarding();
@@ -16,7 +19,7 @@ export function StepSuccess() {
           <CheckCircle2 className="size-12 text-emerald-600" />
         </div>
       </div>
-      
+
       <div>
         <h2 className="text-2xl font-bold text-neutral-900">{t("successTitle")}</h2>
         <p className="mt-2 text-neutral-600">{t("successSubtitle")}</p>

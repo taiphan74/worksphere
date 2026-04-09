@@ -9,8 +9,11 @@ import { workspaceSchema, WorkspaceForm } from "../../schemas/onboarding.schema"
 import { useOnboarding } from "../../hooks/useOnboarding";
 import { useOnboardingStore } from "../../store/use-onboarding-store";
 import { cn } from "@/lib/utils";
-import { glassEffect } from "@/styles/glass";
 
+/**
+ * Quản lý form tạo workspace, gửi yêu cầu lên API và cập nhật store sau khi thành công.
+ * @side-effect Cập nhật workspaceName để giữ lại giữa các lần quay lại step.
+ */
 export function StepWorkspace() {
   const t = useTranslations("onboarding");
   const { handleWorkspaceSubmit, createWorkspaceMutation } = useOnboarding();
@@ -46,8 +49,7 @@ export function StepWorkspace() {
             id="workspaceName"
             placeholder={t("workspaceNamePlaceholder")}
             className={cn(
-              "h-12 rounded-xl border-white/20 bg-white/10 text-foreground placeholder:text-muted-foreground backdrop-blur-md",
-              glassEffect,
+              "h-12 rounded-xl border-input bg-background text-foreground placeholder:text-muted-foreground",
             )}
             aria-invalid={!!errors.workspaceName}
             {...form.register("workspaceName")}

@@ -26,7 +26,7 @@ export async function checkAuth(verifyWithBackend: boolean = true, locale?: stri
           Authorization: `Bearer ${accessToken}`,
         },
       });
-    } catch (error) {
+    } catch {
       // If verification fails, redirect to login
       const loginPath = locale ? `/${locale}/login` : "/login";
       redirect(loginPath);
@@ -41,7 +41,7 @@ export async function getCurrentUser() {
   try {
     const { data } = await apiClientWithAuth.get("/auth/me");
     return data;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
