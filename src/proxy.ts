@@ -79,8 +79,9 @@ const createAuthMiddleware = () => {
     }
 
     if (accessToken && isAuth) {
-      // Redirect to home/workspace if already logged in and trying to access auth routes
-      const homeUrl = new URL(`/${locale}/w`, request.url);
+      // Redirect to landing page if already logged in and trying to access auth routes
+      // Landing page will handle further routing (workspace or onboarding)
+      const homeUrl = new URL(`/${locale}`, request.url);
       return NextResponse.redirect(homeUrl);
     }
 
