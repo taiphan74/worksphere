@@ -3,7 +3,7 @@ import { getLandingAuthState } from "@/lib/auth/landing-auth-checker";
 import { isUserOnboarded } from "@/lib/auth/server-onboarding";
 import OnboardingPage from "@/features/onboarding/pages/onboarding/page";
 
-async function OnboardingGuard({ locale }: { locale: string }) {
+async function OnboardingGuard({ locale }: { locale: string }): Promise<React.ReactNode> {
   const auth = await getLandingAuthState();
 
   if (auth.status === "not_authenticated") {
@@ -15,6 +15,8 @@ async function OnboardingGuard({ locale }: { locale: string }) {
   if (onboarded && auth.workspaces.length > 0) {
     redirect(`/${locale}/w/${auth.workspaces[0].slug}`);
   }
+
+  return null;
 }
 
 export default async function OnboardingRoutePage({
