@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { checkAuth } from "@/lib/auth/auth-checker";
 import { isUserOnboarded } from "@/lib/auth/server-onboarding";
 import { redirect } from "next/navigation";
@@ -7,8 +8,10 @@ import {
   WorkspaceHeader,
   WorkspaceSidebar,
 } from "@/features/workspace";
+import { WorkspaceContentSkeleton, WorkspaceHeaderSkeleton, WorkspaceSidebarSkeleton } from "@/components/loading/workspace-skeletons";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { workspaceBackgroundGradient } from "@/styles/glass";
 
 export default async function WorkspaceLayout({
   children,
@@ -19,10 +22,8 @@ export default async function WorkspaceLayout({
 }>) {
   const { locale, workspaceSlug } = await params;
 
-  // Second layer authentication check
-  await checkAuth(true, locale); // Verify with backend and pass locale for redirect
+  await checkAuth(true, locale);
 
-  // Onboarding check
   const onboarded = await isUserOnboarded();
   if (!onboarded) {
     redirect(`/${locale}/onboarding`);
@@ -33,21 +34,29 @@ export default async function WorkspaceLayout({
       <div
         className={cn(
           "flex h-screen flex-col overflow-hidden",
-          "bg-[radial-gradient(circle_at_top_left,rgba(104,151,255,0.25),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(255,180,120,0.25),transparent_45%),radial-gradient(circle_at_center,rgba(255,255,255,0.15),transparent_60%),linear-gradient(135deg,#f5f7fb_0%,#e9eef8_42%,#eef2ff_100%)]",
+          workspaceBackgroundGradient,
         )}
       >
         <div className="px-4 pt-4 pb-3 sm:px-5 sm:pt-5 sm:pb-4 xl:px-6">
-          <WorkspaceHeader />
+          <Suspense fallback={<WorkspaceHeaderSkeleton />}>
+            <WorkspaceHeader />
+          </Suspense>
         </div>
 
         <WorkspaceCommandPalette workspaceSlug={workspaceSlug} />
         <TaskCreatePanel />
         <div className="flex min-h-0 flex-1 flex-col gap-3 px-4 pb-4 sm:gap-4 sm:px-5 sm:pb-5 xl:px-6 xl:pb-6">
           <div className="flex min-h-0 flex-1 items-stretch gap-3">
-            <WorkspaceSidebar workspaceSlug={workspaceSlug} />
+            <Suspense fallback={<WorkspaceSidebarSkeleton />}>
+              <WorkspaceSidebar workspaceSlug={workspaceSlug} />
+            </Suspense>
             <SidebarInset className="min-h-0 self-stretch">
               <div className="flex h-full min-h-0 flex-col rounded-[26px] border border-white/30 bg-white/10 px-4 py-4 shadow-[0_20px_48px_rgba(86,110,148,0.18),inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-xl sm:px-5 sm:py-5">
-                <main className="min-h-0 flex-1">{children}</main>
+                <main className="min-h-0 flex-1">
+                  <Suspense fallback={<WorkspaceContentSkeleton />}>
+                    {children}
+                  </Suspense>
+                </main>
               </div>
             </SidebarInset>
           </div>

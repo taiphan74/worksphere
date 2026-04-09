@@ -7,12 +7,13 @@ import { FogOverlay } from "@/components/landing/fog-overlay";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { workspaceBackgroundGradient } from "@/styles/glass";
 
 export default function NotFound() {
   const t = useTranslations("notFound");
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(104,151,255,0.25),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(255,180,120,0.25),transparent_45%),radial-gradient(circle_at_center,rgba(255,255,255,0.15),transparent_60%),linear-gradient(135deg,#f5f7fb_0%,#e9eef8_42%,#eef2ff_100%)]">
+    <main className={`relative flex min-h-screen flex-col items-center justify-center overflow-hidden ${workspaceBackgroundGradient}`}>
       <div className="pointer-events-none absolute inset-0 opacity-[0.03] mix-blend-overlay">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
           <filter id="noiseFilter">

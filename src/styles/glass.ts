@@ -1,5 +1,8 @@
 import { cn } from "@/lib/utils";
 
+export const workspaceBackgroundGradient =
+  "bg-[radial-gradient(circle_at_top_left,rgba(104,151,255,0.25),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(255,180,120,0.25),transparent_45%),radial-gradient(circle_at_center,rgba(255,255,255,0.15),transparent_60%),linear-gradient(135deg,#f5f7fb_0%,#e9eef8_42%,#eef2ff_100%)]";
+
 export const glassBase =
   "relative isolate overflow-hidden border backdrop-blur-xl backdrop-saturate-[180%] transition-all duration-300";
 

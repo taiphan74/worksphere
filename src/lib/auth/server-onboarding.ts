@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 /**
  * Checks if the current user has completed onboarding.
  * This is used server-side to gate access to the app.
- * 
+ *
  * Criteria for complete onboarding:
  * 1. User has a fullName
  * 2. User belongs to at least 1 workspace
@@ -19,18 +19,19 @@ export async function isUserOnboarded(): Promise<boolean> {
   }
 
   try {
-    // 1. Get current user to check for fullName
-    const user = await getCurrentUser();
+    // Chạy song song: kiểm tra user + lấy workspaces
+    const [user, { data: workspacesResponse }] = await Promise.all([
+      getCurrentUser(),
+      apiClientWithAuth.get("/workspaces", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    ]);
+
     if (!user || !user.data || !user.data.full_name) {
       return false;
     }
-
-    // 2. Check if user has workspaces
-    const { data: workspacesResponse } = await apiClientWithAuth.get("/workspaces", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
 
     const workspaces = workspacesResponse?.data;
     if (!workspaces || workspaces.length === 0) {

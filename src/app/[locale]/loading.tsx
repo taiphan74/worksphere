@@ -1,1 +1,5 @@
-export { default } from "../loading";
+import { LoadingSplash } from "@/components/loading/LoadingSplash";
+
+export default function LoadingPage() {
+  return <LoadingSplash />;
+}

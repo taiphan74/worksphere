@@ -4,10 +4,7 @@ import { motion } from "motion/react";
 
 import { BrandBadge } from "@/components/brand/brand-badge";
 import { FogOverlay } from "@/components/landing/fog-overlay";
-import { glass, glassLift } from "@/styles/glass";
-
-const backgroundGradient =
-  "bg-[radial-gradient(circle_at_top_left,rgba(104,151,255,0.25),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(255,180,120,0.25),transparent_45%),radial-gradient(circle_at_center,rgba(255,255,255,0.15),transparent_60%),linear-gradient(135deg,#f5f7fb_0%,#e9eef8_42%,#eef2ff_100%)]";
+import { glass, glassLift, workspaceBackgroundGradient } from "@/styles/glass";
 
 const dotTransition = {
   duration: 1.2,
@@ -35,7 +32,7 @@ interface LoadingSplashProps {
 export function LoadingSplash({ title, subtitle }: LoadingSplashProps) {
   return (
     <main
-      className={`relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 py-8 ${backgroundGradient}`}
+      className={`relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 py-8 ${workspaceBackgroundGradient}`}
     >
       <FogOverlay />
 
