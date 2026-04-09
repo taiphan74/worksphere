@@ -41,6 +41,10 @@ function VerifyEmailContent() {
         if (response.verified) {
           setStatus("success");
           setMessage(t("verifySuccessMessage"));
+          // Redirect sau 1.5s để user thấy thông báo thành công
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1500);
         } else {
           setStatus("error");
           setMessage(t("verifyFailedMessage"));
