@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { checkAuth } from "@/lib/auth/auth-checker";
 import { isUserOnboarded } from "@/lib/auth/server-onboarding";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import {
   TaskCreatePanel,
   WorkspaceCommandPalette,
@@ -12,6 +12,7 @@ import { WorkspaceContentSkeleton, WorkspaceHeaderSkeleton, WorkspaceSidebarSkel
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { workspaceBackgroundGradient } from "@/styles/glass";
+import { workspaceService } from "@/features/workspace/services/workspace-service";
 
 export default async function WorkspaceLayout({
   children,
@@ -27,6 +28,23 @@ export default async function WorkspaceLayout({
   const onboarded = await isUserOnboarded();
   if (!onboarded) {
     redirect(`/${locale}/onboarding`);
+  }
+
+  // Validate workspace slug
+  try {
+    const workspace = await workspaceService.getWorkspaceBySlug(workspaceSlug);
+    if (!workspace) {
+      notFound();
+    }
+  } catch (error: unknown) {
+    // If API returns 404 or 403, show 404 page
+    const status = (error as { status?: number })?.status;
+    if (status === 404 || status === 403) {
+      notFound();
+    }
+
+    // For other errors, notFound is the safest for invalid slugs
+    notFound();
   }
 
   return (
