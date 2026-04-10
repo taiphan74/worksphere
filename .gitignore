@@ -41,7 +41,8 @@ yarn-error.log*
 next-env.d.ts
 repomix-output.xml
 
-# Playwright
+# local docs & plans
+/docs/
 node_modules/
 /test-results/
 /playwright-report/
@@ -51,3 +52,4 @@ node_modules/
 .playwright-mcp/
 AGENTS.md
 CLAUDE.md
+.worktrees/
