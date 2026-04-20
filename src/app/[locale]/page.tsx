@@ -1,32 +1,33 @@
 import { redirect } from "next/navigation";
-import { getLandingAuthState } from "@/lib/auth/landing-auth-checker";
+
 import { AuthFlashNotice } from "@/components/auth/auth-flash-notice";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { FogOverlay } from "@/components/landing/fog-overlay";
 import { HeroHeadline } from "@/components/landing/hero-headline";
+import { resolveNavigationDecision, resolveWorkspaceEntry } from "@/lib/auth/navigation-resolver";
+import { resolveSessionState } from "@/lib/auth/session-resolver";
 import { workspaceBackgroundGradient } from "@/styles/glass";
 
 async function LandingRedirect({ locale }: { locale: string }) {
-  const auth = await getLandingAuthState();
+  const state = await resolveSessionState();
 
-  if (auth.status === "not_authenticated") {
-    return null;
+  const decision = resolveNavigationDecision(state, {
+    locale,
+    isAuthRoute: false,
+    isOnboardingRoute: false,
+    isProtectedRoute: false,
+  });
+
+  if (decision.type === "redirect") {
+    redirect(decision.to);
   }
 
-  // Đã có user → kiểm tra đã onboard chưa
-  const hasName = !!auth.user.fullName;
-  const hasWorkspace = auth.workspaces.length > 0;
-
-  if (hasName && hasWorkspace) {
-    redirect(`/${locale}/w/${auth.workspaces[0].slug}`);
+  if (state.type === "authed_onboarded") {
+    const workspaceDecision = resolveWorkspaceEntry(locale, state);
+    if (workspaceDecision.type === "redirect") {
+      redirect(workspaceDecision.to);
+    }
   }
-
-  if (hasName && !hasWorkspace) {
-    redirect(`/${locale}/onboarding`);
-  }
-
-  // Không có name → cần onboarding
-  redirect(`/${locale}/onboarding`);
 }
 
 export default async function Home({

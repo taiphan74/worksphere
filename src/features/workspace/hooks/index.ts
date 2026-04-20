@@ -26,7 +26,7 @@ export const workspaceKeys = {
 export const useWorkspaces = () => {
   return useQuery({
     queryKey: workspaceKeys.lists(),
-    queryFn: workspaceService.getWorkspaces,
+    queryFn: () => workspaceService.getWorkspaces(),
   });
 };
 

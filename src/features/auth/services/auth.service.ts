@@ -137,12 +137,13 @@ export const authService = {
   },
 
   async getMe() {
-    const { data } = await apiClientWithAuth.get<AuthUser | ApiEnvelope<ApiUser>>(
+    type ApiMeResponse = { user: ApiUser };
+    const { data } = await apiClientWithAuth.get<ApiMeResponse | ApiEnvelope<ApiMeResponse>>(
       "/auth/me",
     );
     const extracted = extractPayload(data);
 
-    return normalizeUser(extracted.data as ApiUser) as AuthUser;
+    return normalizeUser(extracted.data.user) as AuthUser;
   },
 
   async logout() {

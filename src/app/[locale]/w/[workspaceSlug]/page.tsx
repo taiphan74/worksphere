@@ -1,3 +1,11 @@
-export default function WorkspacePage() {
-  return null;
+import { redirect } from "next/navigation";
+
+export default async function WorkspacePage({
+  params,
+}: {
+  params: Promise<{ locale: string; workspaceSlug: string }>;
+}) {
+  const { locale, workspaceSlug } = await params;
+
+  redirect(`/${locale}/w/${workspaceSlug}/home`);
 }

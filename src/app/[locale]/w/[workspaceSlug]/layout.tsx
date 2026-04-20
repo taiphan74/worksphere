@@ -1,7 +1,5 @@
 import { Suspense } from "react";
-import { checkAuth } from "@/lib/auth/auth-checker";
-import { isUserOnboarded } from "@/lib/auth/server-onboarding";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import {
   TaskCreatePanel,
   WorkspaceCommandPalette,
@@ -21,29 +19,16 @@ export default async function WorkspaceLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string; workspaceSlug: string }>;
 }>) {
-  const { locale, workspaceSlug } = await params;
+  const { workspaceSlug } = await params;
 
-  await checkAuth(true, locale);
-
-  const onboarded = await isUserOnboarded();
-  if (!onboarded) {
-    redirect(`/${locale}/onboarding`);
-  }
-
-  // Validate workspace slug
   try {
-    const workspace = await workspaceService.getWorkspaceBySlug(workspaceSlug);
-    if (!workspace) {
-      notFound();
-    }
+    await workspaceService.getWorkspaceBySlug(workspaceSlug);
   } catch (error: unknown) {
-    // If API returns 404 or 403, show 404 page
     const status = (error as { status?: number })?.status;
     if (status === 404 || status === 403) {
       notFound();
     }
 
-    // For other errors, notFound is the safest for invalid slugs
     notFound();
   }
 
