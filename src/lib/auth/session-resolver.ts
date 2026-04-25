@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import type { AuthUser, ApiEnvelope } from "@/features/auth/types/auth.types";
 import type { Workspace } from "@/features/workspace/types";
 
-import type { SessionState } from "@/lib/auth/navigation-resolver";
+import type { SessionState } from "@/lib/auth/session-state";
 import type { BaseResponse } from "@/lib/http/types";
 import { createServerApiClient } from "@/lib/http/server-api";
 
@@ -37,13 +37,16 @@ function unwrapData<T>(payload: T | BaseResponse<T> | ApiEnvelope<T>): T {
   return payload as T;
 }
 
+/**
+ * Tải trạng thái phiên hiện tại từ cookie và dữ liệu hồ sơ/workspace của server.
+ */
 export async function resolveSessionState(): Promise<SessionState> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("access_token")?.value;
   const refreshToken = cookieStore.get("refresh_token")?.value;
 
   if (!accessToken && !refreshToken) {
-    return { type: "guest" };
+    return { kind: "guest" };
   }
 
   try {
@@ -54,7 +57,7 @@ export async function resolveSessionState(): Promise<SessionState> {
     ]);
 
     if (userResult.status !== "fulfilled" || workspaceResult.status !== "fulfilled") {
-      return { type: "guest" };
+      return { kind: "guest" };
     }
 
     const user = normalizeUser(unwrapData(userResult.value.data).user);
@@ -63,11 +66,11 @@ export async function resolveSessionState(): Promise<SessionState> {
     const hasWorkspace = workspaces.length > 0;
 
     if (!hasFullName || !hasWorkspace) {
-      return { type: "authed_not_onboarded", user };
+      return { kind: "authed_not_onboarded", user };
     }
 
-    return { type: "authed_onboarded", user, workspaces };
+    return { kind: "authed_onboarded", user, workspaces };
   } catch {
-    return { type: "guest" };
+    return { kind: "guest" };
   }
 }

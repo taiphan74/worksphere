@@ -1,50 +1,106 @@
-import type { AuthUser } from "@/features/auth/types/auth.types";
-import type { Workspace } from "@/features/workspace/types";
-
-export type SessionState =
-  | { type: "guest" }
-  | { type: "authed_not_onboarded"; user: AuthUser }
-  | { type: "authed_onboarded"; user: AuthUser; workspaces: Workspace[] };
-
-export type RouteContext = {
-  locale: string;
-  isAuthRoute: boolean;
-  isOnboardingRoute: boolean;
-  isProtectedRoute: boolean;
-};
+import type { RoutePolicy } from "./route-policy.ts";
+import type { SessionState } from "./session-state.ts";
 
 export type NavigationDecision =
   | { type: "allow" }
-  | { type: "redirect"; to: string };
+  | { type: "redirect"; href: string };
 
-export function resolveNavigationDecision(
-  state: SessionState,
-  route: RouteContext,
-): NavigationDecision {
-  if (state.type === "guest" && route.isProtectedRoute) {
-    return { type: "redirect", to: `/${route.locale}` };
+export type ResolveNavigationInput = {
+  locale: string;
+  currentPath: string;
+  policy: RoutePolicy;
+  session: SessionState;
+};
+
+/**
+ * Xác định hướng điều hướng theo policy route và trạng thái phiên hiện tại.
+ */
+export function resolveNavigation({
+  locale,
+  currentPath,
+  policy,
+  session,
+}: ResolveNavigationInput): NavigationDecision {
+  if (policy === "public") {
+    return { type: "allow" };
   }
 
-  if (state.type === "authed_not_onboarded" && !route.isOnboardingRoute) {
-    return { type: "redirect", to: `/${route.locale}/onboarding` };
+  if (policy === "guest_only") {
+    if (session.kind === "guest") {
+      return { type: "allow" };
+    }
+
+    if (session.kind === "authed_not_onboarded") {
+      return redirect(`/${locale}/onboarding`);
+    }
+
+    return redirect(`/${locale}/w`);
   }
 
-  if (state.type === "authed_onboarded" && (route.isAuthRoute || route.isOnboardingRoute)) {
-    return { type: "redirect", to: `/${route.locale}/w` };
+  if (policy === "onboarding") {
+    if (session.kind === "guest") {
+      return redirect(buildLoginHref(locale, currentPath));
+    }
+
+    if (session.kind === "authed_not_onboarded") {
+      return { type: "allow" };
+    }
+
+    return redirect(`/${locale}/w`);
   }
 
-  return { type: "allow" };
+  if (policy === "protected") {
+    if (session.kind === "guest") {
+      return redirect(buildLoginHref(locale, currentPath));
+    }
+
+    if (session.kind === "authed_not_onboarded") {
+      return redirect(`/${locale}/onboarding`);
+    }
+
+    return { type: "allow" };
+  }
+
+  if (policy === "locale_entry") {
+    if (session.kind === "guest") {
+      return { type: "allow" };
+    }
+
+    if (session.kind === "authed_not_onboarded") {
+      return redirect(`/${locale}/onboarding`);
+    }
+
+    return redirect(`/${locale}/w`);
+  }
+
+  if (session.kind === "guest") {
+    return redirect(buildLoginHref(locale, currentPath));
+  }
+
+  if (session.kind === "authed_not_onboarded") {
+    return redirect(`/${locale}/onboarding`);
+  }
+
+  return resolveWorkspaceEntry(locale, session);
 }
 
-export function resolveWorkspaceEntry(
+function resolveWorkspaceEntry(
   locale: string,
-  state: Extract<SessionState, { type: "authed_onboarded" }>,
+  session: Extract<SessionState, { kind: "authed_onboarded" }>,
 ): NavigationDecision {
-  const firstWorkspace = state.workspaces[0];
+  const firstWorkspace = session.workspaces[0];
 
   if (!firstWorkspace) {
-    return { type: "redirect", to: `/${locale}/onboarding` };
+    return redirect(`/${locale}/onboarding`);
   }
 
-  return { type: "redirect", to: `/${locale}/w/${firstWorkspace.slug}` };
+  return redirect(`/${locale}/w/${firstWorkspace.slug}`);
+}
+
+function buildLoginHref(locale: string, currentPath: string): string {
+  return `/${locale}/login?redirect=${encodeURIComponent(currentPath)}`;
+}
+
+function redirect(href: string): NavigationDecision {
+  return { type: "redirect", href };
 }

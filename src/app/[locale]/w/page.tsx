@@ -1,7 +1,4 @@
-import { redirect } from "next/navigation";
-
-import { resolveWorkspaceEntry } from "@/lib/auth/navigation-resolver";
-import { resolveSessionState } from "@/lib/auth/session-resolver";
+import { applyRoutePolicy } from "@/lib/auth/server-route-guards";
 
 export default async function WorkspacesRoutePage({
   params,
@@ -9,18 +6,12 @@ export default async function WorkspacesRoutePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const state = await resolveSessionState();
 
-  if (state.type === "guest") {
-    redirect(`/${locale}`);
-  }
+  await applyRoutePolicy({
+    locale,
+    policy: "workspace_entry",
+    currentPath: `/${locale}/w`,
+  });
 
-  if (state.type === "authed_not_onboarded") {
-    redirect(`/${locale}/onboarding`);
-  }
-
-  const workspaceDecision = resolveWorkspaceEntry(locale, state);
-  if (workspaceDecision.type === "redirect") {
-    redirect(workspaceDecision.to);
-  }
+  return null;
 }
