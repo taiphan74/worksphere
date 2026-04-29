@@ -114,6 +114,8 @@
     "createNewField": "+ Tạo trường mới",
     "templates": "Mẫu",
     "activityCount": "{count, plural, =0 {0 Hoạt động} other {# Hoạt động}}",
+    "cancel": "Huỷ",
+    "create": "Tạo",
     "createTask": "Tạo công việc"
   }
 }

@@ -114,6 +114,8 @@
     "createNewField": "+ Create new field",
     "templates": "Templates",
     "activityCount": "{count, plural, =0 {0 Activity} other {# Activity}}",
+    "cancel": "Cancel",
+    "create": "Create",
     "createTask": "Create Task"
   }
 }

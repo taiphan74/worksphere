@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import {
   TaskCreatePanel,
   WorkspaceCommandPalette,
@@ -10,7 +10,9 @@ import { WorkspaceContentSkeleton, WorkspaceHeaderSkeleton, WorkspaceSidebarSkel
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { workspaceBackgroundGradient } from "@/styles/glass";
-import { workspaceService } from "@/features/workspace/services/workspace-service";
+import { createServerApiClient } from "@/lib/http/server-api";
+import { BaseResponse } from "@/lib/http/types";
+import type { Workspace } from "@/features/workspace/types";
 
 export default async function WorkspaceLayout({
   children,
@@ -19,14 +21,16 @@ export default async function WorkspaceLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string; workspaceSlug: string }>;
 }>) {
-  const { workspaceSlug } = await params;
+  const { locale, workspaceSlug } = await params;
 
   try {
-    await workspaceService.getWorkspaceBySlug(workspaceSlug);
+    const api = await createServerApiClient();
+    await api.get<BaseResponse<Workspace>>(`/workspaces/slug/${workspaceSlug}`);
   } catch (error: unknown) {
     const status = (error as { status?: number })?.status;
-    if (status === 404 || status === 403) {
-      notFound();
+
+    if (status === 401) {
+      redirect(`/${locale}/login?redirect=/${locale}/w/${workspaceSlug}`);
     }
 
     notFound();
