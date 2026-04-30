@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import {
   TaskCreatePanel,
   WorkspaceCommandPalette,
@@ -21,18 +21,12 @@ export default async function WorkspaceLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string; workspaceSlug: string }>;
 }>) {
-  const { locale, workspaceSlug } = await params;
+  const { workspaceSlug } = await params;
 
   try {
     const api = await createServerApiClient();
     await api.get<BaseResponse<Workspace>>(`/workspaces/slug/${workspaceSlug}`);
-  } catch (error: unknown) {
-    const status = (error as { status?: number })?.status;
-
-    if (status === 401) {
-      redirect(`/${locale}/login?redirect=/${locale}/w/${workspaceSlug}`);
-    }
-
+  } catch {
     notFound();
   }
 
