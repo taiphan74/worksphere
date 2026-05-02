@@ -40,7 +40,7 @@ export default async function WorkspaceLayout({
       >
         <div className="px-4 pt-4 pb-3 sm:px-5 sm:pt-5 sm:pb-4 xl:px-6">
           <Suspense fallback={<WorkspaceHeaderSkeleton />}>
-            <WorkspaceHeader />
+            <WorkspaceHeader workspaceSlug={workspaceSlug} />
           </Suspense>
         </div>
 

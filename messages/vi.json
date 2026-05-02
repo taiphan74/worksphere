@@ -96,6 +96,16 @@
       "notificationsAriaLabel": "Thông báo",
       "calendarAriaLabel": "Lịch",
       "quickActionAriaLabel": "Thao tác nhanh"
+    },
+    "switcher": {
+      "triggerAriaLabel": "Chuyển không gian làm việc. Không gian hiện tại: {workspace}",
+      "loading": "Đang tải...",
+      "planLabel": "Không gian miễn phí",
+      "settings": "Cài đặt",
+      "people": "Thành viên",
+      "workspacesLabel": "Không gian làm việc",
+      "empty": "Chưa có không gian làm việc",
+      "createWorkspace": "Tạo không gian làm việc"
     }
   },
   "taskCreate": {

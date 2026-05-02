@@ -3,14 +3,19 @@
 import { Bell, CalendarDays, Plus, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { BrandBadge } from "@/components/brand/brand-badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useWorkspaceUiStore } from "@/features/workspace";
 import { cn } from "@/lib/utils";
 import { glass, glassEffect } from "@/styles/glass";
 
-export function WorkspaceHeader() {
+import { WorkspaceSwitcher } from "./workspace-switcher";
+
+type WorkspaceHeaderProps = {
+  workspaceSlug: string;
+};
+
+export function WorkspaceHeader({ workspaceSlug }: WorkspaceHeaderProps) {
   const openCommandPalette = useWorkspaceUiStore((state) => state.openCommandPalette);
   const openWorkspacePanel = useWorkspaceUiStore((state) => state.openWorkspacePanel);
   const t = useTranslations("workspace.header");
@@ -19,9 +24,9 @@ export function WorkspaceHeader() {
     <header className="w-full rounded-[24px] border border-white/30 bg-white/14 px-4 py-4 shadow-[0_16px_40px_rgba(82,99,132,0.16),inset_0_1px_0_rgba(255,255,255,0.45)] backdrop-blur-xl sm:px-5 lg:px-6">
       <div className={cn(glassEffect)}>
         <div className="relative z-10 flex flex-wrap items-center gap-3 lg:flex-nowrap lg:gap-6">
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex min-w-0 shrink-0 items-center gap-3">
             <SidebarTrigger />
-            <BrandBadge />
+            <WorkspaceSwitcher workspaceSlug={workspaceSlug} />
           </div>
 
           <div className="order-3 w-full min-w-0 lg:order-none lg:flex-1">

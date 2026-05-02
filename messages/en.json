@@ -96,6 +96,16 @@
       "notificationsAriaLabel": "Notifications",
       "calendarAriaLabel": "Calendar",
       "quickActionAriaLabel": "Quick action"
+    },
+    "switcher": {
+      "triggerAriaLabel": "Switch workspace. Current workspace: {workspace}",
+      "loading": "Loading...",
+      "planLabel": "Free workspace",
+      "settings": "Settings",
+      "people": "People",
+      "workspacesLabel": "Workspaces",
+      "empty": "No workspaces found",
+      "createWorkspace": "Create Workspace"
     }
   },
   "taskCreate": {
