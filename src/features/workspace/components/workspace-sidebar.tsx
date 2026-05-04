@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { glassSidebar } from "@/styles/glass";
+import { glassSurface } from "@/styles/glass";
 
 type WorkspaceSidebarProps = {
   workspaceSlug: string;
@@ -102,7 +102,7 @@ export function WorkspaceSidebar({ workspaceSlug }: WorkspaceSidebarProps) {
   return (
     <Sidebar
       collapsible="icon"
-      className={cn("self-stretch", glassSidebar)}
+      className={cn("self-stretch rounded-[26px]", glassSurface)}
     >
       <SidebarContent className="gap-3 px-3 py-2">
         <SidebarGroup>

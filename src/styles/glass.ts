@@ -33,18 +33,13 @@ export const glassLift = "hover:-translate-y-1";
 
 export const glass = cn(glassBase, glassEffect);
 
-// Glass utilities for workspace components
-export const glassCard = cn(
-  "border border-white/30 bg-white/14 backdrop-blur-xl",
-  "shadow-[0_16px_40px_rgba(82,99,132,0.16),inset_0_1px_0_rgba(255,255,255,0.45)]"
-);
-
-export const glassElevated = cn(
-  "border border-white/30 bg-white/14 backdrop-blur-xl",
-  "shadow-[0_28px_72px_rgba(82,99,132,0.24),0_8px_24px_rgba(255,255,255,0.28),inset_0_1px_0_rgba(255,255,255,0.55),inset_0_-1px_0_rgba(82,99,132,0.08)]"
-);
-
-export const glassSidebar = cn(
+// Unified glass surface background (reusable across components)
+export const glassSurface = cn(
   "border border-white/30 bg-white/20 backdrop-blur-xl",
   "shadow-[0_20px_48px_rgba(86,110,148,0.12)]"
 );
+
+// Deprecated aliases (kept for backward compatibility)
+export const glassCard = glassSurface;
+export const glassElevated = glassSurface;
+export const glassSidebar = glassSurface;

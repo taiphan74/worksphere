@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Input } from "@/components/ui/input";
 import { workspaceService } from "@/features/workspace/services/workspace-service";
 import { useCreateWorkspace } from "@/features/workspace/hooks";
-import { glassElevated } from "@/styles/glass";
+import { glassSurface } from "@/styles/glass";
 import { cn } from "@/lib/utils";
 
 type WorkspaceCreateDialogProps = {
@@ -124,7 +124,11 @@ export function WorkspaceCreateDialog({ open, onOpenChange }: WorkspaceCreateDia
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="w-full max-w-lg border-0 bg-transparent p-0 shadow-none"
+        overlayClassName="bg-white/10 backdrop-blur-sm"
+        className={cn(
+          "w-full max-w-lg border-0 p-0 shadow-none",
+          glassSurface
+        )}
       >
         <DialogTitle className="sr-only">Tạo workspace</DialogTitle>
         <DialogDescription className="sr-only">
@@ -139,7 +143,7 @@ export function WorkspaceCreateDialog({ open, onOpenChange }: WorkspaceCreateDia
           transition={{ duration: 0.5, ease: "easeOut" }}
           className={cn(
             "relative isolate overflow-hidden rounded-[26px] p-8 sm:p-10",
-            glassElevated,
+            // Nền glass đã được cung cấp bởi DialogContent, form chỉ cần layout
           )}
         >
           <div className="mb-10 flex items-center justify-between gap-2">

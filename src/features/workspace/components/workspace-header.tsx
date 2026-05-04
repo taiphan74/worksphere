@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useWorkspaceUiStore } from "@/features/workspace";
 import { cn } from "@/lib/utils";
-import { glass, glassCard } from "@/styles/glass";
+import { glass, glassSurface } from "@/styles/glass";
 
 import { WorkspaceSwitcher } from "./workspace-switcher";
 
@@ -21,7 +21,7 @@ export function WorkspaceHeader({ workspaceSlug }: WorkspaceHeaderProps) {
   const t = useTranslations("workspace.header");
 
   return (
-    <header className={cn("w-full rounded-[24px] px-4 py-4 sm:px-5 lg:px-6", glassCard)}>
+    <header className={cn("w-full rounded-[24px] px-4 py-4 sm:px-5 lg:px-6", glassSurface)}>
       <div className="relative z-10 flex flex-wrap items-center gap-3 lg:flex-nowrap lg:gap-6">
         <div className="flex min-w-0 shrink-0 items-center gap-3">
           <SidebarTrigger />
