@@ -1,4 +1,6 @@
 export type WorkspaceRole = "OWNER" | "MEMBER";
+export type TaskStatus = "TODO" | "IN_PROGRESS" | "IN_REVIEW" | "DONE";
+export type TaskPriority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
 
 export interface Workspace {
   id: string;
@@ -33,6 +35,30 @@ export interface WorkspaceInvitationWithDetails extends WorkspaceInvitation {
   workspace_name: string;
   workspace_slug: string;
   inviter_name: string;
+}
+
+export interface TaskAssignee {
+  id: string;
+  full_name: string | null;
+  avatar_key: string | null;
+}
+
+export interface Task {
+  id: string;
+  workspace_id: string;
+  creator_id: string;
+  assignee_id?: string;
+  assignee?: TaskAssignee;
+  title: string;
+  description?: string | null;
+  status: TaskStatus;
+  priority: TaskPriority;
+  due_at?: string | null;
+  sprint_points?: number | null;
+  parent_id?: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string | null;
 }
 
 // ─── Requests ─────────────────────────────────────────────────────────────

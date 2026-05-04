@@ -55,3 +55,7 @@ node_modules/
 AGENTS.md
 CLAUDE.md
 .worktrees/
+# Added by code-review-graph
+.code-review-graph/
+.claude/
+.mcp.json

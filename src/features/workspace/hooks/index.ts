@@ -17,6 +17,7 @@ export const workspaceKeys = {
   detail: (id: string) => [...workspaceKeys.details(), id] as const,
   detailBySlug: (slug: string) => [...workspaceKeys.details(), "slug", slug] as const,
   members: (workspaceId: string) => [...workspaceKeys.detail(workspaceId), "members"] as const,
+  tasks: (workspaceId: string) => [...workspaceKeys.detail(workspaceId), "tasks"] as const,
   invitations: (workspaceId: string) => [...workspaceKeys.detail(workspaceId), "invitations"] as const,
   invitationDetail: (invitationId: string) => ["invitations", invitationId] as const,
 };
@@ -123,6 +124,16 @@ export const useRemoveMember = (workspaceId: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: workspaceKeys.members(workspaceId) });
     },
+  });
+};
+
+// ─── Tasks ───────────────────────────────────────────────────────────────
+
+export const useWorkspaceTasks = (workspaceId: string) => {
+  return useQuery({
+    queryKey: workspaceKeys.tasks(workspaceId),
+    queryFn: () => workspaceService.getTasks(workspaceId),
+    enabled: !!workspaceId,
   });
 };
 

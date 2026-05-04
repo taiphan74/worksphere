@@ -10,6 +10,7 @@ import {
   WorkspaceInvitationWithDetails,
   SendInvitationRequest,
   AcceptInvitationRequest,
+  Task,
 } from "../types";
 import { BaseResponse } from "@/lib/http/types";
 
@@ -86,6 +87,15 @@ export const workspaceService = {
 
   async removeMember(workspaceId: string, userId: string): Promise<void> {
     await apiClientWithAuth.delete(`/workspaces/${workspaceId}/members/${userId}`);
+  },
+
+  // ─── Tasks ───────────────────────────────────────────────────────────────
+
+  async getTasks(workspaceId: string): Promise<Task[]> {
+    const response = await apiClientWithAuth.get<BaseResponse<Task[]>>(
+      `/workspaces/${workspaceId}/tasks`,
+    );
+    return response.data.data;
   },
 
   // ─── Invitations ────────────────────────────────────────────────────────

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Check, ChevronDown, Plus, Settings, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -19,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 import { useWorkspaces } from "../hooks";
 import type { Workspace } from "../types";
-import { useWorkspaceUiStore } from "../store/use-ui-store";
+import { WorkspaceCreateDialog } from "./workspace-create-dialog";
 
 type WorkspaceSwitcherProps = {
   workspaceSlug: string;
@@ -32,8 +33,8 @@ function getWorkspaceAvatarSeed(workspace?: Workspace, fallback = "workspace") {
 export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
   const t = useTranslations("workspace.switcher");
   const router = useRouter();
-  const openWorkspacePanel = useWorkspaceUiStore((state) => state.openWorkspacePanel);
   const { data: workspaces = [], isLoading } = useWorkspaces();
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const activeWorkspace = workspaces.find((workspace) => workspace.slug === workspaceSlug);
   const activeName = activeWorkspace?.name || workspaceSlug;
 
@@ -46,7 +47,8 @@ export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
   }
 
   return (
-    <DropdownMenu>
+    <>
+      <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
@@ -134,7 +136,7 @@ export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onClick={openWorkspacePanel}
+          onSelect={() => setIsCreateDialogOpen(true)}
           className="justify-center border border-neutral-900/10 bg-white/40 font-medium"
         >
           <Plus className="size-4" />
@@ -142,5 +144,8 @@ export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+
+        <WorkspaceCreateDialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen} />
+    </>
   );
 }
