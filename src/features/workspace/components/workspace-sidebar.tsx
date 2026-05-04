@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { glassSidebar } from "@/styles/glass";
 
 type WorkspaceSidebarProps = {
   workspaceSlug: string;
