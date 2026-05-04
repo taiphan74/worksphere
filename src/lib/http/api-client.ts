@@ -60,7 +60,7 @@ async function refreshAccessToken(): Promise<void> {
     withCredentials: true,
   });
 
-  await refreshClient.post("/auth/refresh");
+  await refreshClient.post("/auth/refresh-token");
 }
 
 // ─── Setup Response Interceptor ────────────────────────────────────────
@@ -86,7 +86,7 @@ const setupResponseInterceptor = (instance: typeof apiClient) => {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        });
+        }).then(() => instance(originalRequest));
       }
 
       // Chưa có request refresh nào đang chạy → bắt đầu refresh
