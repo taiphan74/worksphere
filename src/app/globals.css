@@ -35,6 +35,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --avatar-ocean-1: #ecfeff;
+  --avatar-ocean-2: #cffafe;
+  --avatar-ocean-3: #bae6fd;
+  --avatar-ocean-4: #7dd3fc;
+  --avatar-ocean-5: #38bdf8;
+  --avatar-ocean-foreground: #075985;
   --radius: 0.75rem;
 }
 
@@ -70,6 +76,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-avatar-ocean-1: var(--avatar-ocean-1);
+  --color-avatar-ocean-2: var(--avatar-ocean-2);
+  --color-avatar-ocean-3: var(--avatar-ocean-3);
+  --color-avatar-ocean-4: var(--avatar-ocean-4);
+  --color-avatar-ocean-5: var(--avatar-ocean-5);
+  --color-avatar-ocean-foreground: var(--avatar-ocean-foreground);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

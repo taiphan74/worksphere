@@ -69,7 +69,7 @@ export function resolveNavigation({
     if (session.kind === "authed_not_onboarded") {
       return redirect(`/${locale}/onboarding`);
     }
-
+ 
     return redirect(`/${locale}/w`);
   }
 

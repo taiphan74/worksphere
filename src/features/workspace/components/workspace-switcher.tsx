@@ -3,6 +3,7 @@
 import { Check, ChevronDown, Plus, Settings, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { AppAvatar } from "@/components/ui/app-avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,8 +25,8 @@ type WorkspaceSwitcherProps = {
   workspaceSlug: string;
 };
 
-function getWorkspaceInitial(workspace?: Workspace) {
-  return workspace?.name.trim().charAt(0).toUpperCase() || "W";
+function getWorkspaceAvatarSeed(workspace?: Workspace, fallback = "workspace") {
+  return workspace?.slug || workspace?.name || fallback;
 }
 
 export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
@@ -49,13 +50,16 @@ export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
-          variant="glass"
+          variant="glassLight"
           className="h-11 max-w-[220px] justify-start gap-2 rounded-2xl px-2.5 text-neutral-900 sm:max-w-[260px]"
           aria-label={t("triggerAriaLabel", { workspace: activeName })}
         >
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-violet-500 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(86,110,148,0.18)]">
-            {getWorkspaceInitial(activeWorkspace)}
-          </span>
+          <AppAvatar
+            name={getWorkspaceAvatarSeed(activeWorkspace, workspaceSlug)}
+            size={32}
+            variant="solid"
+            className="rounded-xl bg-avatar-ocean-1 shadow-[0_8px_20px_rgba(14,165,233,0.22)]"
+          />
           <span className="min-w-0 flex-1 truncate text-left text-sm font-semibold">
             {isLoading ? t("loading") : activeName}
           </span>
@@ -65,9 +69,12 @@ export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
 
       <DropdownMenuContent align="start" className="w-80 rounded-2xl p-2">
         <div className="flex items-center gap-3 px-2 py-2.5">
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-violet-500 text-base font-semibold text-white shadow-[0_8px_20px_rgba(86,110,148,0.18)]">
-            {getWorkspaceInitial(activeWorkspace)}
-          </span>
+          <AppAvatar
+            name={getWorkspaceAvatarSeed(activeWorkspace, workspaceSlug)}
+            size={40}
+            variant="solid"
+            className="rounded-xl bg-avatar-ocean-1 shadow-[0_8px_20px_rgba(14,165,233,0.22)]"
+          />
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-neutral-950">
               {isLoading ? t("loading") : activeName}
@@ -111,9 +118,12 @@ export function WorkspaceSwitcher({ workspaceSlug }: WorkspaceSwitcherProps) {
                 onClick={() => handleWorkspaceSelect(workspace)}
                 className={cn("gap-3 py-2", isActive && "bg-neutral-900/6")}
               >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-neutral-900 text-xs font-semibold text-white">
-                  {getWorkspaceInitial(workspace)}
-                </span>
+                <AppAvatar
+                  name={getWorkspaceAvatarSeed(workspace)}
+                  size={32}
+                  variant="solid"
+                  className="rounded-lg bg-avatar-ocean-1"
+                />
                 <span className="min-w-0 flex-1 truncate font-medium">{workspace.name}</span>
                 {isActive ? <Check className="size-4 text-neutral-700" /> : null}
               </DropdownMenuItem>
